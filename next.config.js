@@ -6,12 +6,17 @@ const nextConfig = {
     formats: ['image/webp'],
   },
   webpack: (config, { buildId, dev, isServer, defaultLoaders, nextRuntime, webpack }) => {
-    // Important: return the modified config
+    // source-map-loader лише для нашого коду; node_modules часто без валідних .map
     config.module.rules.push({
       test: /\.mjs$/,
       enforce: 'pre',
       use: ['source-map-loader'],
+      exclude: /node_modules/,
     });
+    // Приховати попередження про відсутні source map у залежностях
+    if (!config.ignoreWarnings) config.ignoreWarnings = [];
+    config.ignoreWarnings.push({ module: /node_modules\/@mediapipe/ });
+    config.ignoreWarnings.push({ message: /Failed to parse source map/ });
 
     return config;
   },

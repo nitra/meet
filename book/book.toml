@@ -1,0 +1,23 @@
+# MdBook — конфігурація книги
+# Документація: https://rust-lang.github.io/mdBook/
+
+[book]
+title = "Книга функціональності"
+language = "uk"
+authors = []
+
+# Джерела тут же (поточна директорія)
+src = "."
+
+# Результат збірки — статичні HTML у піддиректорії
+[build]
+build-dir = "html"
+create-missing = false
+
+[output.html]
+default-theme = "light"
+preferred-dark-theme = "navy"
+smart-punctuation = true
+mathjax-support = false
+no-section-label = false
+search = { enable = true }

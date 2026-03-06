@@ -7,6 +7,7 @@ import {
   Room,
   RoomConnectOptions,
   RoomOptions,
+  RoomEvent,
   VideoPresets,
   type VideoCodec,
 } from 'livekit-client';
@@ -69,17 +70,58 @@ export function VideoConferenceClientImpl(props: {
   }, [e2eeEnabled, e2eePassphrase, keyProvider, room, setE2eeSetupComplete]);
 
   useEffect(() => {
-    if (e2eeSetupComplete) {
-      room.connect(props.liveKitUrl, props.token, connectOptions).catch((error) => {
-        console.error(error);
+    const onMediaDevicesError = (error: Error) => {
+      console.warn(
+        'Помилка доступу до камери/мікрофона:',
+        error?.message ?? error,
+        '— перевірте дозволи браузера та що пристрій не використовується іншою програмою.',
+      );
+    };
+    room.on(RoomEvent.MediaDevicesError, onMediaDevicesError);
+    return () => {
+      room.off(RoomEvent.MediaDevicesError, onMediaDevicesError);
+    };
+  }, [room]);
+
+  useEffect(() => {
+    if (!e2eeSetupComplete) return;
+
+    room
+      .connect(props.liveKitUrl, props.token, connectOptions)
+      .then(() => {
+        return room.localParticipant.enableCameraAndMicrophone();
+      })
+      .catch((error) => {
+        if (error?.name === 'NotFoundError' || error?.message?.includes('Requested device not found')) {
+          // Вмикаємо камеру та мікрофон окремо, щоб список пристроїв у налаштуваннях був доступний
+          room.localParticipant.setCameraEnabled(true).catch((err: unknown) => {
+            console.warn('Камера недоступна:', err);
+          });
+          room.localParticipant.setMicrophoneEnabled(true).catch((micError: unknown) => {
+            console.warn('Мікрофон недоступний:', micError);
+          });
+          return;
+        }
+        console.error('Помилка підключення або медіа:', error);
       });
-      room.localParticipant.enableCameraAndMicrophone().catch((error) => {
-        console.error(error);
-      });
-    }
   }, [room, props.liveKitUrl, props.token, connectOptions, e2eeSetupComplete]);
 
   useLowCPUOptimizer(room);
+
+  // Уникаємо hydration mismatch: LiveKit VideoConference рендерить різний HTML на сервері
+  // (room не підключено) і на клієнті. Рендеримо конференцію лише після монтування.
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!mounted) {
+    return (
+      <div className="lk-room-container" style={{ minHeight: '100%', display: 'grid', placeItems: 'center' }}>
+        <span>Завантаження…</span>
+      </div>
+    );
+  }
 
   return (
     <div className="lk-room-container">

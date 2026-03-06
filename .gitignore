@@ -15,6 +15,12 @@
 # production
 /build
 
+# mdbook output
+/book/html/
+
+test-results/
+playwright-report/
+
 # misc
 .DS_Store
 *.pem
