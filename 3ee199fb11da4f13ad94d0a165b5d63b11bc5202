@@ -1,0 +1,137 @@
+site/tsconfig.json
+  a82038c5cda7d841 15,19,22
+site/src/styles/Home.module.css
+  a82038c5cda7d841 1-40
+site/.env
+  a82038c5cda7d841 4,6,8-9
+site/src/pages/Home.tsx
+  1f4a61457b435fcc 6,16,27,36,42-43,58-59
+  a82038c5cda7d841 1-5,7-15,17-26,28-35,37-41,44-57,60-141
+site/src/lib/CameraSettings.tsx
+  a82038c5cda7d841 1-171
+site/src/lib/usePerfomanceOptimiser.ts
+  a82038c5cda7d841 1-71
+site/src/lib/Debug.tsx
+  1f4a61457b435fcc 4,15,19
+  a82038c5cda7d841 1-3,5-14,16-18,20-203
+site/src/lib/types.ts
+  a82038c5cda7d841 1-23
+site/src/lib/MicrophoneSettings.tsx
+  a82038c5cda7d841 1-55
+site/vite.config.ts
+  8483b30b3f835bee 16
+  a82038c5cda7d841 1-15,17-35
+site/src/lib/getLiveKitURL.ts
+  1f4a61457b435fcc 4-6
+  a82038c5cda7d841 1-3,7-14
+book/06-апі/test/spec.spec.ts
+  8483b30b3f835bee 6
+site/src/styles/globals.css
+  a82038c5cda7d841 1-67
+site/src/pages/Custom.tsx
+  a82038c5cda7d841 1-26
+site/src/styles/Debug.module.css
+  a82038c5cda7d841 1-16
+site/src/main.tsx
+  a82038c5cda7d841 1-17
+site/src/lib/RecordingIndicator.tsx
+  a82038c5cda7d841 1-40
+site/index.html
+  a82038c5cda7d841 1-26
+next/eslint.config.js
+  1f4a61457b435fcc 1,3-6,8-11,14-17
+  8483b30b3f835bee 2,7,12-13
+site/src/vite-env.d.ts
+  a82038c5cda7d841 1-11
+site/eslint.config.js
+  a82038c5cda7d841 1-30
+site/src/pages/custom/VideoConferenceClientImpl.tsx
+  a82038c5cda7d841 1-113
+site/package.json
+  a82038c5cda7d841 5,7-11,23,27,31,33-34,36-37
+site/src/lib/SettingsMenu.tsx
+  a82038c5cda7d841 1-14,16-60,62-84,86-150
+  1f4a61457b435fcc 15,61,85
+site/src/pages/PageClientImpl.tsx
+  a82038c5cda7d841 1-29,31-57,59-178
+playwright.config.ts
+  8483b30b3f835bee 17,26
+site/src/lib/client-utils.ts
+  a82038c5cda7d841 1-21
+package.json
+  daa23d05cdd5d9b6 18-19,22-23,28-29
+site/src/styles/SettingsMenu.module.css
+  a82038c5cda7d841 1-17
+site/src/lib/KeyboardShortcuts.tsx
+  a82038c5cda7d841 1-29
+site/src/pages/Room.tsx
+  a82038c5cda7d841 1-13,15
+README.md
+  8483b30b3f835bee 41
+site/src/App.tsx
+  a82038c5cda7d841 1-14
+site/src/lib/getLiveKitURL.test.ts
+  a82038c5cda7d841 1-35
+next/package.json
+  8483b30b3f835bee 18-19
+  1f4a61457b435fcc 15-17
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.8",
+  "base_commit_sha": "3ee199fb11da4f13ad94d0a165b5d63b11bc5202",
+  "prompts": {
+    "1f4a61457b435fcc": {
+      "agent_id": {
+        "tool": "cursor",
+        "id": "2f4ea818-110b-44b8-a944-ca24adade459",
+        "model": "default"
+      },
+      "human_author": "vitaliytv <v@nitra.ai>",
+      "messages": [],
+      "total_additions": 45,
+      "total_deletions": 40,
+      "accepted_lines": 34,
+      "overriden_lines": 0
+    },
+    "8483b30b3f835bee": {
+      "agent_id": {
+        "tool": "cursor",
+        "id": "12e9a8f6-ae78-4de3-86a0-87b55c35cb0c",
+        "model": "default"
+      },
+      "human_author": "vitaliytv <v@nitra.ai>",
+      "messages": [],
+      "total_additions": 15,
+      "total_deletions": 11,
+      "accepted_lines": 11,
+      "overriden_lines": 0
+    },
+    "a82038c5cda7d841": {
+      "agent_id": {
+        "tool": "cursor",
+        "id": "70040d0d-1eb4-4bd4-877f-af25f0e01962",
+        "model": "default"
+      },
+      "human_author": "vitaliytv <v@nitra.ai>",
+      "messages": [],
+      "total_additions": 3,
+      "total_deletions": 4,
+      "accepted_lines": 1566,
+      "overriden_lines": 3
+    },
+    "daa23d05cdd5d9b6": {
+      "agent_id": {
+        "tool": "cursor",
+        "id": "aaf5a584-2c5e-45a5-a060-632bc48541ec",
+        "model": "default"
+      },
+      "human_author": "vitaliytv <v@nitra.ai>",
+      "messages": [],
+      "total_additions": 0,
+      "total_deletions": 0,
+      "accepted_lines": 6,
+      "overriden_lines": 0
+    }
+  }
+}
