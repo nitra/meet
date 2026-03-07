@@ -15,11 +15,5 @@ export default async function Page({
   const _searchParams = await searchParams;
   const hq = _searchParams.hq === 'true' ? true : false;
 
-  return (
-    <PageClientImpl
-      roomName={_params.roomName}
-      region={_searchParams.region}
-      hq={hq}
-    />
-  );
+  return <PageClientImpl roomName={_params.roomName} region={_searchParams.region} hq={hq} />;
 }

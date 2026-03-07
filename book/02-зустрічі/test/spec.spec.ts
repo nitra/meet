@@ -14,14 +14,11 @@ test.describe('02-zustrilia: Зустрічі та кімнати', () => {
     await page.goto('/');
     const startBtn = page.getByRole('button', { name: 'Start Meeting' });
     await expect(startBtn).toBeVisible();
-    await Promise.all([
-      page.waitForURL(/\/rooms\/[^/]+$/, { timeout: 15_000 }),
-      startBtn.click(),
-    ]);
+    await Promise.all([page.waitForURL(/\/rooms\/[^/]+$/, { timeout: 15_000 }), startBtn.click()]);
     await expect(page).toHaveURL(/\/rooms\/[^/]+$/);
   });
 
-  test('ім\'я кімнати в URL унікальне при кожному Start Meeting', async ({ page }) => {
+  test("ім'я кімнати в URL унікальне при кожному Start Meeting", async ({ page }) => {
     await page.goto('/');
     await Promise.all([
       page.waitForURL(/\/rooms\/[^/]+$/, { timeout: 15_000 }),

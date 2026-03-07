@@ -10,9 +10,9 @@ test.describe('03-media: Медіа та пристрої', () => {
   });
 
   test('PreJoin містить поле для імені учасника', async ({ page }) => {
-    const nameInput = page.getByRole('textbox', { name: /name|ім'я|username/i }).or(
-      page.locator('input[type="text"]').first()
-    );
+    const nameInput = page
+      .getByRole('textbox', { name: /name|ім'я|username/i })
+      .or(page.locator('input[type="text"]').first());
     await expect(nameInput.first()).toBeVisible({ timeout: 15_000 });
   });
 

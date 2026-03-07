@@ -1,5 +1,3 @@
-'use client';
-
 import { formatChatMessageLinks, RoomContext, VideoConference } from '@livekit/components-react';
 import {
   LogLevel,
@@ -98,15 +96,15 @@ export function VideoConferenceClientImpl(props: {
     );
   }
 
+  const showSettingsMenu = import.meta.env.VITE_SHOW_SETTINGS_MENU === 'true';
+
   return (
     <div className="lk-room-container">
       <RoomContext.Provider value={room}>
         <KeyboardShortcuts />
         <VideoConference
           chatMessageFormatter={formatChatMessageLinks}
-          SettingsComponent={
-            process.env.NEXT_PUBLIC_SHOW_SETTINGS_MENU === 'true' ? SettingsMenu : undefined
-          }
+          SettingsComponent={showSettingsMenu ? SettingsMenu : undefined}
         />
         <DebugMode logLevel={LogLevel.debug} />
       </RoomContext.Provider>

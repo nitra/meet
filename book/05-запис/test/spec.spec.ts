@@ -5,7 +5,9 @@ import { test, expect } from '@playwright/test';
 
 // ANCHOR: recording_tests
 test.describe('05-zapis: Запис зустрічей', () => {
-  test('головна та кімната завантажуються (базова перевірка для контексту запису)', async ({ page }) => {
+  test('головна та кімната завантажуються (базова перевірка для контексту запису)', async ({
+    page,
+  }) => {
     await page.goto('/');
     await page.getByRole('button', { name: 'Start Meeting' }).click();
     await expect(page).toHaveURL(/\/rooms\//);

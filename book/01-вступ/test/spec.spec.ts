@@ -8,7 +8,9 @@ import { test, expect } from '@playwright/test';
 test.describe('01-вступ: Вступ', () => {
   test('головна сторінка завантажується та показує заголовок', async ({ page }) => {
     await page.goto('/');
-    await expect(page.getByRole('heading', { name: /Open source video conferencing/i })).toBeVisible();
+    await expect(
+      page.getByRole('heading', { name: /Open source video conferencing/i }),
+    ).toBeVisible();
   });
 
   test('на головній є вкладки Demo та Custom', async ({ page }) => {

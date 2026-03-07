@@ -1,5 +1,3 @@
-'use client';
-
 import React from 'react';
 import { DebugMode } from '@/lib/Debug';
 import { KeyboardShortcuts } from '@/lib/KeyboardShortcuts';
@@ -22,12 +20,12 @@ import {
   TrackPublishDefaults,
   VideoCaptureOptions,
 } from 'livekit-client';
-import { useRouter } from 'next/navigation';
+import { useNavigate } from 'react-router-dom';
 import { useLowCPUOptimizer } from '@/lib/usePerfomanceOptimiser';
 
 const CONN_DETAILS_ENDPOINT =
-  process.env.NEXT_PUBLIC_CONN_DETAILS_ENDPOINT ?? '/api/connection-details';
-const SHOW_SETTINGS_MENU = process.env.NEXT_PUBLIC_SHOW_SETTINGS_MENU == 'true';
+  import.meta.env.VITE_CONN_DETAILS_ENDPOINT ?? '/api/connection-details';
+const SHOW_SETTINGS_MENU = import.meta.env.VITE_SHOW_SETTINGS_MENU === 'true';
 
 export function PageClientImpl(props: { roomName: string; region?: string; hq: boolean }) {
   const [preJoinChoices, setPreJoinChoices] = React.useState<LocalUserChoices | undefined>(
@@ -44,19 +42,22 @@ export function PageClientImpl(props: { roomName: string; region?: string; hq: b
     undefined,
   );
 
-  const handlePreJoinSubmit = React.useCallback(async (values: LocalUserChoices) => {
-    setPreJoinChoices(values);
-    const url = new URL(CONN_DETAILS_ENDPOINT, window.location.origin);
-    url.searchParams.append('roomName', props.roomName);
-    url.searchParams.append('participantName', values.username);
-    if (props.region) {
-      url.searchParams.append('region', props.region);
-    }
-    const connectionDetailsResp = await fetch(url.toString());
-    const connectionDetailsData = await connectionDetailsResp.json();
-    setConnectionDetails(connectionDetailsData);
-  }, []);
-  const handlePreJoinError = React.useCallback((e: any) => console.error(e), []);
+  const handlePreJoinSubmit = React.useCallback(
+    async (values: LocalUserChoices) => {
+      setPreJoinChoices(values);
+      const url = new URL(CONN_DETAILS_ENDPOINT, window.location.origin);
+      url.searchParams.append('roomName', props.roomName);
+      url.searchParams.append('participantName', values.username);
+      if (props.region) {
+        url.searchParams.append('region', props.region);
+      }
+      const connectionDetailsResp = await fetch(url.toString());
+      const connectionDetailsData = await connectionDetailsResp.json();
+      setConnectionDetails(connectionDetailsData);
+    },
+    [props.roomName, props.region],
+  );
+  const handlePreJoinError = React.useCallback((e: unknown) => console.error(e), []);
 
   return (
     <main data-lk-theme="default" style={{ height: '100%' }}>
@@ -148,8 +149,8 @@ function VideoConferenceComponent(props: {
 
   const lowPowerMode = useLowCPUOptimizer(room);
 
-  const router = useRouter();
-  const handleOnLeave = React.useCallback(() => router.push('/'), [router]);
+  const navigate = useNavigate();
+  const handleOnLeave = React.useCallback(() => navigate('/'), [navigate]);
   const handleError = React.useCallback((error: Error) => {
     console.error(error);
     alert(`Encountered an unexpected error, check the console logs for details: ${error.message}`);
