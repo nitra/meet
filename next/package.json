@@ -6,7 +6,9 @@
   "scripts": {
     "dev": "bun --watch src/index.js",
     "start": "bun run src/index.js",
-    "lint": "eslint src"
+    "lint": "eslint src",
+    "test": "bun test",
+    "test:unit": "bun test test/lib"
   },
   "dependencies": {
     "livekit-server-sdk": "2.15.0"

@@ -11,7 +11,7 @@ export async function handleRecordStop(req) {
     const url = new URL(req.url);
     const roomName = url.searchParams.get('roomName') ?? undefined;
 
-    if (roomName == null) {
+    if (roomName == null || roomName === '') {
       return new Response('Missing roomName parameter', { status: 403 });
     }
 

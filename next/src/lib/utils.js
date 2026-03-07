@@ -21,7 +21,7 @@ export function parseCookies(cookieHeader) {
   if (!cookieHeader) return cookies;
   for (const part of cookieHeader.split(';')) {
     const [name, ...rest] = part.trim().split('=');
-    if (name) cookies[name] = rest.join('=').trim();
+    if (name) cookies[name.trim()] = rest.join('=').trim();
   }
   return cookies;
 }
