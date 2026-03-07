@@ -4,7 +4,7 @@ import { handleRecordStop } from './routes/record-stop.js';
 
 const PORT = parseInt(process.env.PORT ?? '3001', 10);
 
-function corsHeaders(origin: string | null): HeadersInit {
+function corsHeaders(origin) {
   return {
     'Access-Control-Allow-Origin': origin ?? '*',
     'Access-Control-Allow-Credentials': 'true',
@@ -23,7 +23,7 @@ Bun.serve({
       return new Response(null, { status: 204, headers: corsHeaders(origin) });
     }
 
-    let res: Response;
+    let res;
     try {
       if (url.pathname === '/api/connection-details' && req.method === 'GET') {
         res = await handleConnectionDetails(req);

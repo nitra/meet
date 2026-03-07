@@ -6,7 +6,7 @@ import { EgressClient } from 'livekit-server-sdk';
  * to start/stop recordings for that room.
  * DO NOT USE THIS FOR PRODUCTION PURPOSES AS IS
  */
-export async function handleRecordStop(req: Request): Promise<Response> {
+export async function handleRecordStop(req) {
   try {
     const url = new URL(req.url);
     const roomName = url.searchParams.get('roomName') ?? undefined;
@@ -17,10 +17,10 @@ export async function handleRecordStop(req: Request): Promise<Response> {
 
     const { LIVEKIT_API_KEY, LIVEKIT_API_SECRET, LIVEKIT_URL } = process.env;
 
-    const hostURL = new URL(LIVEKIT_URL!);
+    const hostURL = new URL(LIVEKIT_URL);
     hostURL.protocol = 'https:';
 
-    const egressClient = new EgressClient(hostURL.origin, LIVEKIT_API_KEY!, LIVEKIT_API_SECRET!);
+    const egressClient = new EgressClient(hostURL.origin, LIVEKIT_API_KEY, LIVEKIT_API_SECRET);
     const activeEgresses = (await egressClient.listEgress({ roomName })).filter(
       (info) => info.status < 2,
     );

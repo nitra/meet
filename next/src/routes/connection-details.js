@@ -1,28 +1,26 @@
-import { AccessToken, AccessTokenOptions, VideoGrant } from 'livekit-server-sdk';
+import { AccessToken } from 'livekit-server-sdk';
 import { getLiveKitURL } from '../lib/getLiveKitURL.js';
-import { ConnectionDetails } from '../lib/types.js';
 import { getCookieExpirationTime, parseCookies, randomString } from '../lib/utils.js';
 
-const API_KEY = process.env.LIVEKIT_API_KEY!;
-const API_SECRET = process.env.LIVEKIT_API_SECRET!;
+const API_KEY = process.env.LIVEKIT_API_KEY;
+const API_SECRET = process.env.LIVEKIT_API_SECRET;
 const LIVEKIT_URL = process.env.LIVEKIT_URL;
 const COOKIE_KEY = 'random-participant-postfix';
 
-function createParticipantToken(userInfo: AccessTokenOptions, roomName: string): string {
+function createParticipantToken(userInfo, roomName) {
   const at = new AccessToken(API_KEY, API_SECRET, userInfo);
   at.ttl = '5m';
-  const grant: VideoGrant = {
+  at.addGrant({
     room: roomName,
     roomJoin: true,
     canPublish: true,
     canPublishData: true,
     canSubscribe: true,
-  };
-  at.addGrant(grant);
+  });
   return at.toJwt();
 }
 
-export async function handleConnectionDetails(req: Request): Promise<Response> {
+export async function handleConnectionDetails(req) {
   try {
     const url = new URL(req.url);
     const roomName = url.searchParams.get('roomName') ?? undefined;
@@ -56,7 +54,7 @@ export async function handleConnectionDetails(req: Request): Promise<Response> {
       roomName,
     );
 
-    const data: ConnectionDetails = {
+    const data = {
       serverUrl: livekitServerUrl,
       roomName,
       participantToken,

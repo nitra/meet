@@ -1,4 +1,4 @@
-export function getLiveKitURL(projectUrl: string, region: string | null): string {
+export function getLiveKitURL(projectUrl, region) {
   const url = new URL(projectUrl);
   if (region && url.hostname.includes('livekit.cloud')) {
     let [projectId, ...hostParts] = url.hostname.split('.');

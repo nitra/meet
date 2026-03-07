@@ -1,4 +1,4 @@
-export function randomString(length: number): string {
+export function randomString(length) {
   let result = '';
   const characters = 'abcdefghijklmnopqrstuvwxyz0123456789';
   const charactersLength = characters.length;
@@ -8,7 +8,7 @@ export function randomString(length: number): string {
   return result;
 }
 
-export function getCookieExpirationTime(): string {
+export function getCookieExpirationTime() {
   const now = new Date();
   const time = now.getTime();
   const expireTime = time + 60 * 120 * 1000;
@@ -16,8 +16,8 @@ export function getCookieExpirationTime(): string {
   return now.toUTCString();
 }
 
-export function parseCookies(cookieHeader: string | null): Record<string, string> {
-  const cookies: Record<string, string> = {};
+export function parseCookies(cookieHeader) {
+  const cookies = {};
   if (!cookieHeader) return cookies;
   for (const part of cookieHeader.split(';')) {
     const [name, ...rest] = part.trim().split('=');

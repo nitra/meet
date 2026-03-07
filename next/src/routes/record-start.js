@@ -6,7 +6,7 @@ import { EgressClient, EncodedFileOutput, S3Upload } from 'livekit-server-sdk';
  * to start/stop recordings for that room.
  * DO NOT USE THIS FOR PRODUCTION PURPOSES AS IS
  */
-export async function handleRecordStart(req: Request): Promise<Response> {
+export async function handleRecordStart(req) {
   try {
     const url = new URL(req.url);
     const roomName = url.searchParams.get('roomName') ?? undefined;
@@ -26,10 +26,10 @@ export async function handleRecordStart(req: Request): Promise<Response> {
       S3_REGION,
     } = process.env;
 
-    const hostURL = new URL(LIVEKIT_URL!);
+    const hostURL = new URL(LIVEKIT_URL);
     hostURL.protocol = 'https:';
 
-    const egressClient = new EgressClient(hostURL.origin, LIVEKIT_API_KEY!, LIVEKIT_API_SECRET!);
+    const egressClient = new EgressClient(hostURL.origin, LIVEKIT_API_KEY, LIVEKIT_API_SECRET);
 
     const existingEgresses = await egressClient.listEgress({ roomName });
     if (existingEgresses.length > 0 && existingEgresses.some((e) => e.status < 2)) {
