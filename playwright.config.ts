@@ -2,8 +2,8 @@ import { defineConfig, devices } from '@playwright/test';
 
 /**
  * Конфігурація Playwright для e2e книги.
- * Запуск: pnpm exec playwright test
- * Розділ: pnpm exec playwright test book/01-вступ
+ * Запуск: bun run test:e2e
+ * Розділ: bun run test:e2e book/01-вступ
  * @see https://playwright.dev/docs/test-configuration
  */
 export default defineConfig({
@@ -22,10 +22,20 @@ export default defineConfig({
   ],
   webServer: process.env.CI
     ? undefined
-    : {
-        command: 'pnpm dev',
-        url: 'http://localhost:3000',
-        reuseExistingServer: !process.env.CI,
-        timeout: 60_000,
-      },
+    : [
+        {
+          command: 'bun run dev',
+          url: 'http://localhost:3000',
+          name: 'Site',
+          reuseExistingServer: !process.env.CI,
+          timeout: 60_000,
+        },
+        {
+          command: 'bun run dev:api',
+          url: 'http://localhost:3001/api/connection-details',
+          name: 'API',
+          reuseExistingServer: !process.env.CI,
+          timeout: 60_000,
+        },
+      ],
 });

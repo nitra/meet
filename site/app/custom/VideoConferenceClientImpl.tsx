@@ -2,52 +2,36 @@
 
 import { formatChatMessageLinks, RoomContext, VideoConference } from '@livekit/components-react';
 import {
-  ExternalE2EEKeyProvider,
   LogLevel,
   Room,
   RoomConnectOptions,
   RoomOptions,
   RoomEvent,
   VideoPresets,
-  type VideoCodec,
 } from 'livekit-client';
 import { DebugMode } from '@/lib/Debug';
 import { useEffect, useMemo, useState } from 'react';
 import { KeyboardShortcuts } from '@/lib/KeyboardShortcuts';
 import { SettingsMenu } from '@/lib/SettingsMenu';
-import { useSetupE2EE } from '@/lib/useSetupE2EE';
 import { useLowCPUOptimizer } from '@/lib/usePerfomanceOptimiser';
 
 export function VideoConferenceClientImpl(props: {
   liveKitUrl: string;
   token: string;
-  codec: VideoCodec | undefined;
   singlePeerConnection: boolean | undefined;
 }) {
-  const keyProvider = new ExternalE2EEKeyProvider();
-  const { worker, e2eePassphrase } = useSetupE2EE();
-  const e2eeEnabled = !!(e2eePassphrase && worker);
-
-  const [e2eeSetupComplete, setE2eeSetupComplete] = useState(false);
-
   const roomOptions = useMemo((): RoomOptions => {
     return {
       publishDefaults: {
         videoSimulcastLayers: [VideoPresets.h540, VideoPresets.h216],
-        red: !e2eeEnabled,
-        videoCodec: props.codec,
+        red: true,
+        videoCodec: 'vp9',
       },
       adaptiveStream: { pixelDensity: 'screen' },
       dynacast: true,
-      e2ee: e2eeEnabled
-        ? {
-            keyProvider,
-            worker,
-          }
-        : undefined,
       singlePeerConnection: props.singlePeerConnection,
     };
-  }, [e2eeEnabled, props.codec, keyProvider, worker]);
+  }, [props.singlePeerConnection]);
 
   const room = useMemo(() => new Room(roomOptions), [roomOptions]);
 
@@ -56,18 +40,6 @@ export function VideoConferenceClientImpl(props: {
       autoSubscribe: true,
     };
   }, []);
-
-  useEffect(() => {
-    if (e2eeEnabled) {
-      keyProvider.setKey(e2eePassphrase).then(() => {
-        room.setE2EEEnabled(true).then(() => {
-          setE2eeSetupComplete(true);
-        });
-      });
-    } else {
-      setE2eeSetupComplete(true);
-    }
-  }, [e2eeEnabled, e2eePassphrase, keyProvider, room, setE2eeSetupComplete]);
 
   useEffect(() => {
     const onMediaDevicesError = (error: Error) => {
@@ -84,8 +56,6 @@ export function VideoConferenceClientImpl(props: {
   }, [room]);
 
   useEffect(() => {
-    if (!e2eeSetupComplete) return;
-
     room
       .connect(props.liveKitUrl, props.token, connectOptions)
       .then(() => {
@@ -93,7 +63,6 @@ export function VideoConferenceClientImpl(props: {
       })
       .catch((error) => {
         if (error?.name === 'NotFoundError' || error?.message?.includes('Requested device not found')) {
-          // Вмикаємо камеру та мікрофон окремо, щоб список пристроїв у налаштуваннях був доступний
           room.localParticipant.setCameraEnabled(true).catch((err: unknown) => {
             console.warn('Камера недоступна:', err);
           });
@@ -104,7 +73,7 @@ export function VideoConferenceClientImpl(props: {
         }
         console.error('Помилка підключення або медіа:', error);
       });
-  }, [room, props.liveKitUrl, props.token, connectOptions, e2eeSetupComplete]);
+  }, [room, props.liveKitUrl, props.token, connectOptions]);
 
   useLowCPUOptimizer(room);
 

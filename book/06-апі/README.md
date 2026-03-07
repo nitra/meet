@@ -41,12 +41,11 @@
 - **SessionProps** — параметри сесії (roomName, identity, опційні треки, region, TURN тощо).
 - **TokenResult** — identity + accessToken.
 - **ConnectionDetails** — serverUrl, roomName, participantName, participantToken.
-- **isVideoCodec** — type guard для валідного відеокодека (vp8, vp9, av1 тощо).
 
 ## Утиліти
 
 - **getLiveKitURL** — формування регіонального URL для LiveKit Cloud.
-- **client-utils** — `encodePassphrase`, `decodePassphrase`, `generateRoomId`, `randomString` для клієнтської логіки (E2EE, імена кімнат).
+- **client-utils** — `generateRoomId`, `randomString` для клієнтської логіки (імена кімнат).
 
 <details>
 <summary><strong>Тести функціональності</strong></summary>

@@ -4,17 +4,18 @@
 import { test, expect } from '@playwright/test';
 
 const BASE = process.env.PLAYWRIGHT_BASE_URL ?? 'http://localhost:3000';
+const BASE_API = process.env.PLAYWRIGHT_API_URL ?? 'http://localhost:3001';
 
 // ANCHOR: api_tests
 test.describe('06-api: API та бекенд', () => {
   test('GET /api/connection-details без roomName повертає 400', async ({ request }) => {
-    const res = await request.get(`${BASE}/api/connection-details`);
+    const res = await request.get(`${BASE_API}/api/connection-details`);
     expect(res.status()).toBe(400);
   });
 
   test('GET /api/connection-details без participantName повертає 400', async ({ request }) => {
     const res = await request.get(
-      `${BASE}/api/connection-details?roomName=test-room`
+      `${BASE_API}/api/connection-details?roomName=test-room`
     );
     expect(res.status()).toBe(400);
   });
@@ -23,7 +24,7 @@ test.describe('06-api: API та бекенд', () => {
     request,
   }) => {
     const res = await request.get(
-      `${BASE}/api/connection-details?roomName=e2e-room&participantName=TestUser`
+      `${BASE_API}/api/connection-details?roomName=e2e-room&participantName=TestUser`
     );
     if (res.status() === 200) {
       const data = await res.json();
@@ -36,20 +37,20 @@ test.describe('06-api: API та бекенд', () => {
   });
 
   test('GET /api/record/start без roomName повертає помилку', async ({ request }) => {
-    const res = await request.get(`${BASE}/api/record/start`);
+    const res = await request.get(`${BASE_API}/api/record/start`);
     expect(res.status()).not.toBe(200);
   });
 
   test('GET /api/record/start з roomName викликає ендпоінт', async ({ request }) => {
     const res = await request.get(
-      `${BASE}/api/record/start?roomName=non-existent-e2e-room`
+      `${BASE_API}/api/record/start?roomName=non-existent-e2e-room`
     );
     expect([200, 409, 500]).toContain(res.status());
   });
 
   test('GET /api/record/stop викликає ендпоінт', async ({ request }) => {
     const res = await request.get(
-      `${BASE}/api/record/stop?roomName=non-existent-e2e-room`
+      `${BASE_API}/api/record/stop?roomName=non-existent-e2e-room`
     );
     expect([200, 404, 500]).toContain(res.status());
   });

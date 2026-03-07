@@ -2,7 +2,7 @@
 # 2. Update the enviroment variables below.
 
 # REQUIRED SETTINGS
-# ################# 
+# #################
 # If you are using LiveKit Cloud, the API key and secret can be generated from the Cloud Dashboard.
 LIVEKIT_API_KEY=
 LIVEKIT_API_SECRET=
@@ -11,7 +11,7 @@ LIVEKIT_URL=
 
 
 # OPTIONAL SETTINGS
-# ################# 
+# #################
 # Recording
 # S3_KEY_ID=
 # S3_KEY_SECRET=
@@ -19,12 +19,9 @@ LIVEKIT_URL=
 # S3_BUCKET=
 # S3_REGION=
 
-# PUBLIC
+# PUBLIC (frontend)
 # Uncomment settings menu when using a LiveKit Cloud, it'll enable Krisp noise filters.
-# NEXT_PUBLIC_SHOW_SETTINGS_MENU=true
-# NEXT_PUBLIC_LK_RECORD_ENDPOINT=/api/record
-
-# Optional, to pipe logs to datadog
-# NEXT_PUBLIC_DATADOG_CLIENT_TOKEN=client-token
-# NEXT_PUBLIC_DATADOG_SITE=datadog-site
-
+NEXT_PUBLIC_SHOW_SETTINGS_MENU=true
+# Backend API (окремий сервіс next). Якщо не вказано — очікується той самий origin.
+NEXT_PUBLIC_CONN_DETAILS_ENDPOINT=http://localhost:3001/api/connection-details
+NEXT_PUBLIC_LK_RECORD_ENDPOINT=http://localhost:3001/api/record

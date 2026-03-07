@@ -2,47 +2,28 @@
   "name": "livekit-meet",
   "version": "0.2.0",
   "private": true,
+  "workspaces": ["site", "next", "run/*"],
   "scripts": {
-    "dev": "NODE_OPTIONS='' next dev",
-    "build": "next build",
-    "start": "next start",
-    "lint": "next lint",
-    "lint:fix": "next lint --fix",
-    "test": "vitest run",
+    "dev": "bun run --cwd site dev",
+    "dev:api": "bun run --cwd next dev",
+    "build": "bun run --cwd site build",
+    "build:api": "bun run --cwd next build",
+    "start": "bun run --cwd site start",
+    "start:api": "bun run --cwd next start",
+    "lint": "bun run --cwd site lint",
+    "lint:fix": "bun run --cwd site lint:fix",
+    "test": "bun run --cwd site test",
     "test:e2e": "playwright test",
     "test:e2e:ui": "playwright test --ui",
     "format:check": "prettier --check \"**/*.{ts,tsx,md,json}\"",
     "format:write": "prettier --write \"**/*.{ts,tsx,md,json}\"",
     "book": "cd book && mdbook serve"
   },
-  "dependencies": {
-    "@datadog/browser-logs": "^5.23.3",
-    "@livekit/components-react": "2.9.19",
-    "@livekit/components-styles": "1.2.0",
-    "@livekit/krisp-noise-filter": "0.4.1",
-    "@livekit/track-processors": "^0.7.0",
-    "livekit-client": "2.17.2",
-    "livekit-server-sdk": "2.15.0",
-    "next": "15.2.8",
-    "react": "18.3.1",
-    "react-dom": "18.3.1",
-    "react-hot-toast": "^2.5.2",
-    "tinykeys": "^3.0.0"
-  },
   "devDependencies": {
     "@playwright/test": "^1.58.2",
-    "@types/node": "24.10.13",
-    "@types/react": "18.3.27",
-    "@types/react-dom": "18.3.7",
-    "eslint": "9.39.1",
-    "eslint-config-next": "15.5.6",
-    "prettier": "3.7.3",
-    "source-map-loader": "^5.0.0",
-    "typescript": "5.9.3",
-    "vitest": "^3.2.4"
+    "prettier": "3.7.3"
   },
   "engines": {
-    "node": ">=18"
-  },
-  "packageManager": "pnpm@10.18.2"
+    "node": ">=24"
+  }
 }

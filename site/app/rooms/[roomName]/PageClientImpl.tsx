@@ -1,7 +1,6 @@
 'use client';
 
 import React from 'react';
-import { decodePassphrase } from '@/lib/client-utils';
 import { DebugMode } from '@/lib/Debug';
 import { KeyboardShortcuts } from '@/lib/KeyboardShortcuts';
 import { RecordingIndicator } from '@/lib/RecordingIndicator';
@@ -15,19 +14,15 @@ import {
   VideoConference,
 } from '@livekit/components-react';
 import {
-  ExternalE2EEKeyProvider,
   RoomOptions,
-  VideoCodec,
   VideoPresets,
   Room,
-  DeviceUnsupportedError,
   RoomConnectOptions,
   RoomEvent,
   TrackPublishDefaults,
   VideoCaptureOptions,
 } from 'livekit-client';
 import { useRouter } from 'next/navigation';
-import { useSetupE2EE } from '@/lib/useSetupE2EE';
 import { useLowCPUOptimizer } from '@/lib/usePerfomanceOptimiser';
 
 const CONN_DETAILS_ENDPOINT =
@@ -38,7 +33,6 @@ export function PageClientImpl(props: {
   roomName: string;
   region?: string;
   hq: boolean;
-  codec: VideoCodec;
 }) {
   const [preJoinChoices, setPreJoinChoices] = React.useState<LocalUserChoices | undefined>(
     undefined,
@@ -82,7 +76,7 @@ export function PageClientImpl(props: {
         <VideoConferenceComponent
           connectionDetails={connectionDetails}
           userChoices={preJoinChoices}
-          options={{ codec: props.codec, hq: props.hq }}
+          options={{ hq: props.hq }}
         />
       )}
     </main>
@@ -92,22 +86,9 @@ export function PageClientImpl(props: {
 function VideoConferenceComponent(props: {
   userChoices: LocalUserChoices;
   connectionDetails: ConnectionDetails;
-  options: {
-    hq: boolean;
-    codec: VideoCodec;
-  };
+  options: { hq: boolean };
 }) {
-  const keyProvider = new ExternalE2EEKeyProvider();
-  const { worker, e2eePassphrase } = useSetupE2EE();
-  const e2eeEnabled = !!(e2eePassphrase && worker);
-
-  const [e2eeSetupComplete, setE2eeSetupComplete] = React.useState(false);
-
   const roomOptions = React.useMemo((): RoomOptions => {
-    let videoCodec: VideoCodec | undefined = props.options.codec ? props.options.codec : 'vp9';
-    if (e2eeEnabled && (videoCodec === 'av1' || videoCodec === 'vp9')) {
-      videoCodec = undefined;
-    }
     const videoCaptureDefaults: VideoCaptureOptions = {
       deviceId: props.userChoices.videoDeviceId ?? undefined,
       resolution: props.options.hq ? VideoPresets.h2160 : VideoPresets.h720,
@@ -117,45 +98,22 @@ function VideoConferenceComponent(props: {
       videoSimulcastLayers: props.options.hq
         ? [VideoPresets.h1080, VideoPresets.h720]
         : [VideoPresets.h540, VideoPresets.h216],
-      red: !e2eeEnabled,
-      videoCodec,
+      red: true,
+      videoCodec: 'vp9',
     };
     return {
-      videoCaptureDefaults: videoCaptureDefaults,
-      publishDefaults: publishDefaults,
+      videoCaptureDefaults,
+      publishDefaults,
       audioCaptureDefaults: {
         deviceId: props.userChoices.audioDeviceId ?? undefined,
       },
       adaptiveStream: true,
       dynacast: true,
-      e2ee: keyProvider && worker && e2eeEnabled ? { keyProvider, worker } : undefined,
       singlePeerConnection: true,
     };
-  }, [props.userChoices, props.options.hq, props.options.codec]);
+  }, [props.userChoices, props.options.hq]);
 
-  const room = React.useMemo(() => new Room(roomOptions), []);
-
-  React.useEffect(() => {
-    if (e2eeEnabled) {
-      keyProvider
-        .setKey(decodePassphrase(e2eePassphrase))
-        .then(() => {
-          room.setE2EEEnabled(true).catch((e) => {
-            if (e instanceof DeviceUnsupportedError) {
-              alert(
-                `You're trying to join an encrypted meeting, but your browser does not support it. Please update it to the latest version and try again.`,
-              );
-              console.error(e);
-            } else {
-              throw e;
-            }
-          });
-        })
-        .then(() => setE2eeSetupComplete(true));
-    } else {
-      setE2eeSetupComplete(true);
-    }
-  }, [e2eeEnabled, room, e2eePassphrase]);
+  const room = React.useMemo(() => new Room(roomOptions), [roomOptions]);
 
   const connectOptions = React.useMemo((): RoomConnectOptions => {
     return {
@@ -165,36 +123,32 @@ function VideoConferenceComponent(props: {
 
   React.useEffect(() => {
     room.on(RoomEvent.Disconnected, handleOnLeave);
-    room.on(RoomEvent.EncryptionError, handleEncryptionError);
     room.on(RoomEvent.MediaDevicesError, handleError);
 
-    if (e2eeSetupComplete) {
-      room
-        .connect(
-          props.connectionDetails.serverUrl,
-          props.connectionDetails.participantToken,
-          connectOptions,
-        )
-        .catch((error) => {
-          handleError(error);
-        });
-      if (props.userChoices.videoEnabled) {
-        room.localParticipant.setCameraEnabled(true).catch((error) => {
-          handleError(error);
-        });
-      }
-      if (props.userChoices.audioEnabled) {
-        room.localParticipant.setMicrophoneEnabled(true).catch((error) => {
-          handleError(error);
-        });
-      }
+    room
+      .connect(
+        props.connectionDetails.serverUrl,
+        props.connectionDetails.participantToken,
+        connectOptions,
+      )
+      .catch((error) => {
+        handleError(error);
+      });
+    if (props.userChoices.videoEnabled) {
+      room.localParticipant.setCameraEnabled(true).catch((error) => {
+        handleError(error);
+      });
+    }
+    if (props.userChoices.audioEnabled) {
+      room.localParticipant.setMicrophoneEnabled(true).catch((error) => {
+        handleError(error);
+      });
     }
     return () => {
       room.off(RoomEvent.Disconnected, handleOnLeave);
-      room.off(RoomEvent.EncryptionError, handleEncryptionError);
       room.off(RoomEvent.MediaDevicesError, handleError);
     };
-  }, [e2eeSetupComplete, room, props.connectionDetails, props.userChoices]);
+  }, [room, props.connectionDetails, props.userChoices]);
 
   const lowPowerMode = useLowCPUOptimizer(room);
 
@@ -203,12 +157,6 @@ function VideoConferenceComponent(props: {
   const handleError = React.useCallback((error: Error) => {
     console.error(error);
     alert(`Encountered an unexpected error, check the console logs for details: ${error.message}`);
-  }, []);
-  const handleEncryptionError = React.useCallback((error: Error) => {
-    console.error(error);
-    alert(
-      `Encountered an unexpected encryption error, check the console logs for details: ${error.message}`,
-    );
   }, []);
 
   React.useEffect(() => {

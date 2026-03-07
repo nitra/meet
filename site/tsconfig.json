@@ -15,11 +15,7 @@
     "jsx": "preserve",
     "incremental": true,
     "sourceMap": true,
-    "plugins": [
-      {
-        "name": "next"
-      }
-    ],
+    "plugins": [{ "name": "next" }],
     "paths": {
       "@/*": ["./*"]
     }

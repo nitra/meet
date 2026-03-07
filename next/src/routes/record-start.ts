@@ -1,19 +1,19 @@
+import { Request, Response } from 'express';
 import { EgressClient, EncodedFileOutput, S3Upload } from 'livekit-server-sdk';
-import { NextRequest, NextResponse } from 'next/server';
 
-export async function GET(req: NextRequest) {
+/**
+ * CAUTION:
+ * for simplicity this implementation does not authenticate users and therefore allows anyone with knowledge of a roomName
+ * to start/stop recordings for that room.
+ * DO NOT USE THIS FOR PRODUCTION PURPOSES AS IS
+ */
+export async function handleRecordStart(req: Request, res: Response): Promise<void> {
   try {
-    const roomName = req.nextUrl.searchParams.get('roomName');
+    const roomName = req.query.roomName as string | undefined;
 
-    /**
-     * CAUTION:
-     * for simplicity this implementation does not authenticate users and therefore allows anyone with knowledge of a roomName
-     * to start/stop recordings for that room.
-     * DO NOT USE THIS FOR PRODUCTION PURPOSES AS IS
-     */
-
-    if (roomName === null) {
-      return new NextResponse('Missing roomName parameter', { status: 403 });
+    if (roomName == null) {
+      res.status(403).send('Missing roomName parameter');
+      return;
     }
 
     const {
@@ -30,11 +30,12 @@ export async function GET(req: NextRequest) {
     const hostURL = new URL(LIVEKIT_URL!);
     hostURL.protocol = 'https:';
 
-    const egressClient = new EgressClient(hostURL.origin, LIVEKIT_API_KEY, LIVEKIT_API_SECRET);
+    const egressClient = new EgressClient(hostURL.origin, LIVEKIT_API_KEY!, LIVEKIT_API_SECRET!);
 
     const existingEgresses = await egressClient.listEgress({ roomName });
     if (existingEgresses.length > 0 && existingEgresses.some((e) => e.status < 2)) {
-      return new NextResponse('Meeting is already being recorded', { status: 409 });
+      res.status(409).send('Meeting is already being recorded');
+      return;
     }
 
     const fileOutput = new EncodedFileOutput({
@@ -61,10 +62,10 @@ export async function GET(req: NextRequest) {
       },
     );
 
-    return new NextResponse(null, { status: 200 });
+    res.status(200).end();
   } catch (error) {
     if (error instanceof Error) {
-      return new NextResponse(error.message, { status: 500 });
+      res.status(500).send(error.message);
     }
   }
 }

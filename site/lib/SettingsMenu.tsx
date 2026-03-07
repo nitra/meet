@@ -1,6 +1,5 @@
 'use client';
 import * as React from 'react';
-import { Track } from 'livekit-client';
 import {
   useMaybeLayoutContext,
   MediaDeviceMenu,
@@ -50,9 +49,6 @@ export function SettingsMenu(props: SettingsMenuProps) {
   const toggleRoomRecording = async () => {
     if (!recordingEndpoint) {
       throw TypeError('No recording endpoint specified');
-    }
-    if (room.isE2EEEnabled) {
-      throw Error('Recording of encrypted meetings is currently not supported');
     }
     setProcessingRecRequest(true);
     setInitialRecStatus(isRecording);
