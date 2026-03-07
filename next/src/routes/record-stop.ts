@@ -1,4 +1,3 @@
-import { Request, Response } from 'express';
 import { EgressClient } from 'livekit-server-sdk';
 
 /**
@@ -7,13 +6,13 @@ import { EgressClient } from 'livekit-server-sdk';
  * to start/stop recordings for that room.
  * DO NOT USE THIS FOR PRODUCTION PURPOSES AS IS
  */
-export async function handleRecordStop(req: Request, res: Response): Promise<void> {
+export async function handleRecordStop(req: Request): Promise<Response> {
   try {
-    const roomName = req.query.roomName as string | undefined;
+    const url = new URL(req.url);
+    const roomName = url.searchParams.get('roomName') ?? undefined;
 
     if (roomName == null) {
-      res.status(403).send('Missing roomName parameter');
-      return;
+      return new Response('Missing roomName parameter', { status: 403 });
     }
 
     const { LIVEKIT_API_KEY, LIVEKIT_API_SECRET, LIVEKIT_URL } = process.env;
@@ -26,15 +25,15 @@ export async function handleRecordStop(req: Request, res: Response): Promise<voi
       (info) => info.status < 2,
     );
     if (activeEgresses.length === 0) {
-      res.status(404).send('No active recording found');
-      return;
+      return new Response('No active recording found', { status: 404 });
     }
     await Promise.all(activeEgresses.map((info) => egressClient.stopEgress(info.egressId)));
 
-    res.status(200).end();
+    return new Response(null, { status: 200 });
   } catch (error) {
     if (error instanceof Error) {
-      res.status(500).send(error.message);
+      return new Response(error.message, { status: 500 });
     }
+    return new Response('Internal Server Error', { status: 500 });
   }
 }

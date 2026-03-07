@@ -1,21 +1,48 @@
-import cookieParser from 'cookie-parser';
-import cors from 'cors';
-import express from 'express';
 import { handleConnectionDetails } from './routes/connection-details.js';
 import { handleRecordStart } from './routes/record-start.js';
 import { handleRecordStop } from './routes/record-stop.js';
 
-const app = express();
-const PORT = process.env.PORT ?? 3001;
+const PORT = parseInt(process.env.PORT ?? '3001', 10);
 
-app.use(cors({ origin: true, credentials: true }));
-app.use(cookieParser());
-app.use(express.json());
+function corsHeaders(origin: string | null): HeadersInit {
+  return {
+    'Access-Control-Allow-Origin': origin ?? '*',
+    'Access-Control-Allow-Credentials': 'true',
+    'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
+    'Access-Control-Allow-Headers': 'Content-Type',
+  };
+}
 
-app.get('/api/connection-details', handleConnectionDetails);
-app.get('/api/record/start', handleRecordStart);
-app.get('/api/record/stop', handleRecordStop);
+Bun.serve({
+  port: PORT,
+  async fetch(req) {
+    const url = new URL(req.url);
+    const origin = req.headers.get('Origin');
 
-app.listen(PORT, () => {
-  console.log(`Backend listening on http://localhost:${PORT}`);
+    if (req.method === 'OPTIONS') {
+      return new Response(null, { status: 204, headers: corsHeaders(origin) });
+    }
+
+    let res: Response;
+    try {
+      if (url.pathname === '/api/connection-details' && req.method === 'GET') {
+        res = await handleConnectionDetails(req);
+      } else if (url.pathname === '/api/record/start' && req.method === 'GET') {
+        res = await handleRecordStart(req);
+      } else if (url.pathname === '/api/record/stop' && req.method === 'GET') {
+        res = await handleRecordStop(req);
+      } else {
+        res = new Response('Not Found', { status: 404 });
+      }
+    } catch (err) {
+      const message = err instanceof Error ? err.message : 'Internal Server Error';
+      res = new Response(message, { status: 500 });
+    }
+
+    const headers = new Headers(res.headers);
+    Object.entries(corsHeaders(origin)).forEach(([k, v]) => headers.set(k, v));
+    return new Response(res.body, { status: res.status, statusText: res.statusText, headers });
+  },
 });
+
+console.log(`Backend listening on http://localhost:${PORT}`);

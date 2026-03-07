@@ -1,8 +1,7 @@
-import { Request, Response } from 'express';
 import { AccessToken, AccessTokenOptions, VideoGrant } from 'livekit-server-sdk';
 import { getLiveKitURL } from '../lib/getLiveKitURL.js';
 import { ConnectionDetails } from '../lib/types.js';
-import { getCookieExpirationTime, randomString } from '../lib/utils.js';
+import { getCookieExpirationTime, parseCookies, randomString } from '../lib/utils.js';
 
 const API_KEY = process.env.LIVEKIT_API_KEY!;
 const API_SECRET = process.env.LIVEKIT_API_SECRET!;
@@ -23,26 +22,26 @@ function createParticipantToken(userInfo: AccessTokenOptions, roomName: string):
   return at.toJwt();
 }
 
-export function handleConnectionDetails(req: Request, res: Response): void {
+export async function handleConnectionDetails(req: Request): Promise<Response> {
   try {
-    const roomName = req.query.roomName as string | undefined;
-    const participantName = req.query.participantName as string | undefined;
-    const metadata = (req.query.metadata as string) ?? '';
-    const region = req.query.region as string | undefined;
+    const url = new URL(req.url);
+    const roomName = url.searchParams.get('roomName') ?? undefined;
+    const participantName = url.searchParams.get('participantName') ?? undefined;
+    const metadata = url.searchParams.get('metadata') ?? '';
+    const region = url.searchParams.get('region') ?? undefined;
 
     if (!LIVEKIT_URL) {
       throw new Error('LIVEKIT_URL is not defined');
     }
     const livekitServerUrl = region ? getLiveKitURL(LIVEKIT_URL, region) : LIVEKIT_URL;
-    let randomParticipantPostfix = req.cookies?.[COOKIE_KEY];
+    const cookies = parseCookies(req.headers.get('Cookie'));
+    let randomParticipantPostfix = cookies[COOKIE_KEY];
 
     if (typeof roomName !== 'string') {
-      res.status(400).send('Missing required query parameter: roomName');
-      return;
+      return new Response('Missing required query parameter: roomName', { status: 400 });
     }
     if (!participantName) {
-      res.status(400).send('Missing required query parameter: participantName');
-      return;
+      return new Response('Missing required query parameter: participantName', { status: 400 });
     }
 
     if (!randomParticipantPostfix) {
@@ -63,16 +62,19 @@ export function handleConnectionDetails(req: Request, res: Response): void {
       participantToken,
       participantName,
     };
-    res
-      .setHeader(
-        'Set-Cookie',
-        `${COOKIE_KEY}=${randomParticipantPostfix}; Path=/; HttpOnly; SameSite=Strict; Secure; Expires=${getCookieExpirationTime()}`,
-      )
-      .status(200)
-      .json(data);
+
+    const setCookie = `${COOKIE_KEY}=${randomParticipantPostfix}; Path=/; HttpOnly; SameSite=Strict; Secure; Expires=${getCookieExpirationTime()}`;
+    return new Response(JSON.stringify(data), {
+      status: 200,
+      headers: {
+        'Content-Type': 'application/json',
+        'Set-Cookie': setCookie,
+      },
+    });
   } catch (error) {
     if (error instanceof Error) {
-      res.status(500).send(error.message);
+      return new Response(error.message, { status: 500 });
     }
+    return new Response('Internal Server Error', { status: 500 });
   }
 }

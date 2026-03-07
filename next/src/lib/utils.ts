@@ -15,3 +15,13 @@ export function getCookieExpirationTime(): string {
   now.setTime(expireTime);
   return now.toUTCString();
 }
+
+export function parseCookies(cookieHeader: string | null): Record<string, string> {
+  const cookies: Record<string, string> = {};
+  if (!cookieHeader) return cookies;
+  for (const part of cookieHeader.split(';')) {
+    const [name, ...rest] = part.trim().split('=');
+    if (name) cookies[name] = rest.join('=').trim();
+  }
+  return cookies;
+}

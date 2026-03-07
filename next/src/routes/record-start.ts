@@ -1,4 +1,3 @@
-import { Request, Response } from 'express';
 import { EgressClient, EncodedFileOutput, S3Upload } from 'livekit-server-sdk';
 
 /**
@@ -7,13 +6,13 @@ import { EgressClient, EncodedFileOutput, S3Upload } from 'livekit-server-sdk';
  * to start/stop recordings for that room.
  * DO NOT USE THIS FOR PRODUCTION PURPOSES AS IS
  */
-export async function handleRecordStart(req: Request, res: Response): Promise<void> {
+export async function handleRecordStart(req: Request): Promise<Response> {
   try {
-    const roomName = req.query.roomName as string | undefined;
+    const url = new URL(req.url);
+    const roomName = url.searchParams.get('roomName') ?? undefined;
 
     if (roomName == null) {
-      res.status(403).send('Missing roomName parameter');
-      return;
+      return new Response('Missing roomName parameter', { status: 403 });
     }
 
     const {
@@ -34,8 +33,7 @@ export async function handleRecordStart(req: Request, res: Response): Promise<vo
 
     const existingEgresses = await egressClient.listEgress({ roomName });
     if (existingEgresses.length > 0 && existingEgresses.some((e) => e.status < 2)) {
-      res.status(409).send('Meeting is already being recorded');
-      return;
+      return new Response('Meeting is already being recorded', { status: 409 });
     }
 
     const fileOutput = new EncodedFileOutput({
@@ -62,10 +60,11 @@ export async function handleRecordStart(req: Request, res: Response): Promise<vo
       },
     );
 
-    res.status(200).end();
+    return new Response(null, { status: 200 });
   } catch (error) {
     if (error instanceof Error) {
-      res.status(500).send(error.message);
+      return new Response(error.message, { status: 500 });
     }
+    return new Response('Internal Server Error', { status: 500 });
   }
 }
