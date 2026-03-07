@@ -1,0 +1,69 @@
+next/src/routes/connection-details.js
+  5387866cea2e928f 7-8,22-25,32,35,39,49-51
+next/src/routes/record-start.js
+  5387866cea2e928f 14
+next/test/lib/utils.test.js
+  5387866cea2e928f 1-61
+next/test/routes/connection-details.test.js
+  5387866cea2e928f 1-69
+next/test/lib/getLiveKitURL.test.js
+  5387866cea2e928f 1-31
+next/test/routes/record-start.test.js
+  5387866cea2e928f 1-17
+next/src/lib/utils.js
+  5387866cea2e928f 24
+next/src/routes/record-stop.js
+  5387866cea2e928f 14
+next/package.json
+  5387866cea2e928f 9-11
+архітектура.MD
+  a82038c5cda7d841 5,9
+next/test/routes/record-stop.test.js
+  5387866cea2e928f 1-17
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.8",
+  "base_commit_sha": "06ffb632468db62b38e7374b4f5287bf4ab4654b",
+  "prompts": {
+    "5387866cea2e928f": {
+      "agent_id": {
+        "tool": "cursor",
+        "id": "bb26ea0e-8f67-4165-91c3-06097c6d8d59",
+        "model": "default"
+      },
+      "human_author": "vitaliytv <v@nitra.ai>",
+      "messages": [],
+      "total_additions": 216,
+      "total_deletions": 18,
+      "accepted_lines": 405,
+      "overriden_lines": 0
+    },
+    "a82038c5cda7d841": {
+      "agent_id": {
+        "tool": "cursor",
+        "id": "70040d0d-1eb4-4bd4-877f-af25f0e01962",
+        "model": "default"
+      },
+      "human_author": "vitaliytv <v@nitra.ai>",
+      "messages": [],
+      "total_additions": 1601,
+      "total_deletions": 21,
+      "accepted_lines": 1596,
+      "overriden_lines": 0
+    },
+    "daa23d05cdd5d9b6": {
+      "agent_id": {
+        "tool": "cursor",
+        "id": "aaf5a584-2c5e-45a5-a060-632bc48541ec",
+        "model": "default"
+      },
+      "human_author": "vitaliytv <v@nitra.ai>",
+      "messages": [],
+      "total_additions": 6,
+      "total_deletions": 0,
+      "accepted_lines": 6,
+      "overriden_lines": 0
+    }
+  }
+}
