@@ -1,0 +1,37 @@
+book/02-зустрічі/test/spec.spec.ts
+  a4a372c2ea402ade 2,8
+book/04-безпека/test/spec.spec.ts
+  a4a372c2ea402ade 15
+book/01-вступ/README.md
+  a4a372c2ea402ade 22
+site/src/components/LiveKitRoom.vue
+  a4a372c2ea402ade 4,11,40,42
+book/02-зустрічі/README.md
+  a4a372c2ea402ade 3,5,18
+site/src/components/livekit/ConferenceBlock.vue
+  a4a372c2ea402ade 34,51,63
+site/src/pages/index.vue
+  a4a372c2ea402ade 12,14,26
+book/01-вступ/test/spec.spec.ts
+  a4a372c2ea402ade 3,14,16
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.8",
+  "base_commit_sha": "ef44eec40ccb463984cb68ae0ed892972814862b",
+  "prompts": {
+    "a4a372c2ea402ade": {
+      "agent_id": {
+        "tool": "cursor",
+        "id": "20a73e0f-4089-45e4-be90-6524cbd568f4",
+        "model": "default"
+      },
+      "human_author": "vitaliytv <v@nitra.ai>",
+      "messages": [],
+      "total_additions": 0,
+      "total_deletions": 0,
+      "accepted_lines": 20,
+      "overriden_lines": 0
+    }
+  }
+}
