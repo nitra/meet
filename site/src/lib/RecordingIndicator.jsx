@@ -1,6 +1,6 @@
 import { useIsRecording } from '@livekit/components-react'
 import * as React from 'react'
-import toast from 'react-hot-toast'
+import { toast } from 'react-hot-toast'
 
 export function RecordingIndicator() {
   const isRecording = useIsRecording()
@@ -34,6 +34,6 @@ export function RecordingIndicator() {
         height: '100%',
         boxShadow: isRecording ? 'var(--lk-danger3) 0px 0px 0px 3px inset' : 'none',
         pointerEvents: 'none'
-      }}></div>
+      }} />
   )
 }

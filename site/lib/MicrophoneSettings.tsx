@@ -1,7 +1,6 @@
 import React from 'react'
 import { useKrispNoiseFilter } from '@livekit/components-react/krisp'
-import { TrackToggle } from '@livekit/components-react'
-import { MediaDeviceMenu } from '@livekit/components-react'
+import { TrackToggle, MediaDeviceMenu } from '@livekit/components-react'
 import { Track } from 'livekit-client'
 import { isLowPowerDevice } from './client-utils'
 
@@ -38,6 +37,7 @@ export function MicrophoneSettings() {
       </section>
 
       <button
+        type='button'
         className='lk-button'
         onClick={() => setNoiseFilterEnabled(!isNoiseFilterEnabled)}
         disabled={isNoiseFilterPending}

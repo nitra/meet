@@ -29,7 +29,7 @@ export const DebugMode = ({ logLevel }: { logLevel?: LogLevel }) => {
   const [roomSid, setRoomSid] = React.useState('')
 
   React.useEffect(() => {
-    room.getSid().then(setRoomSid)
+    room.getSid().then(setRoomSid).catch(() => { setRoomSid('') })
   }, [room])
 
   useDebugMode({ logLevel })
@@ -59,29 +59,31 @@ export const DebugMode = ({ logLevel }: { logLevel?: LogLevel }) => {
     return null
   }
 
-  const handleSimulate = (event: React.ChangeEvent<HTMLSelectElement>) => {
+  const _handleSimulate = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const { value } = event.target
-    if (value == '') {
+    if (value === '') {
       return
     }
     event.target.value = ''
-    let isReconnect = false
+    let _isReconnect = false
     switch (value) {
-      case 'signal-reconnect':
-        isReconnect = true
+      case 'signal-reconnect': {
+        _isReconnect = true
+      }
 
       // fall through
-      default:
+      default: {
         // @ts-expect-error
         room.simulateScenario(value)
+      }
     }
   }
 
   const lp = room.localParticipant
 
   if (!isOpen) {
-    return <></>
-  } else {
+    return null
+  }
     return (
       <div className={styles.overlay}>
         <section id='room-info'>
@@ -98,7 +100,7 @@ export const DebugMode = ({ logLevel }: { logLevel?: LogLevel }) => {
               <b>Published tracks</b>
             </summary>
             <div>
-              {Array.from(lp.trackPublications.values()).map(t => (
+              {[...lp.trackPublications.values()].map(t => (
                 <>
                   <div>
                     <i>
@@ -138,12 +140,10 @@ export const DebugMode = ({ logLevel }: { logLevel?: LogLevel }) => {
                 <tbody>
                   {lp.permissions &&
                     Object.entries(lp.permissions).map(([key, val]) => (
-                      <>
-                        <tr>
-                          <td>{key}</td>
-                          {key !== 'canPublishSources' ? <td>{val.toString()}</td> : <td> {val.join(', ')} </td>}
-                        </tr>
-                      </>
+                      <tr key={key}>
+                        <td>{key}</td>
+                        {key === 'canPublishSources' ? <td> {val.join(', ')} </td> : <td>{val.toString()}</td>}
+                      </tr>
                     ))}
                 </tbody>
               </table>
@@ -155,16 +155,16 @@ export const DebugMode = ({ logLevel }: { logLevel?: LogLevel }) => {
           <summary>
             <b>Remote Participants</b>
           </summary>
-          {Array.from(room.remoteParticipants.values()).map(p => (
+          {[...room.remoteParticipants.values()].map(p => (
             <details key={p.sid} className={styles.detailsSection}>
               <summary>
                 <b>
                   {p.identity}
-                  <span></span>
+                  <span />
                 </b>
               </summary>
               <div>
-                {Array.from(p.trackPublications.values()).map(t => (
+                {[...p.trackPublications.values()].map(t => (
                   <>
                     <div>
                       <i>
@@ -205,13 +205,13 @@ export const DebugMode = ({ logLevel }: { logLevel?: LogLevel }) => {
         </details>
       </div>
     )
-  }
+  
 }
 
 function trackStatus(t: RemoteTrackPublication): string {
   if (t.isSubscribed) {
     return t.isEnabled ? 'enabled' : 'disabled'
-  } else {
-    return 'unsubscribed'
   }
+    return 'unsubscribed'
+  
 }

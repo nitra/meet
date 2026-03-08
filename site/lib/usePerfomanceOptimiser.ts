@@ -25,6 +25,9 @@ const defaultOptions: LowCPUOptimizerOptions = {
 /**
  * This hook ensures that on devices with low CPU, the performance is optimised when needed.
  * This is done by primarily reducing the video quality to low when the CPU is constrained.
+ * @param {Room} room - LiveKit room instance
+ * @param {Partial<LowCPUOptimizerOptions>} [options] - Optimizer options
+ * @returns {boolean} Whether low power mode is active
  */
 export function useLowCPUOptimizer(room: Room, options: Partial<LowCPUOptimizerOptions> = {}) {
   const [lowPowerMode, setLowPowerMode] = React.useState(false)
@@ -40,11 +43,11 @@ export function useLowCPUOptimizer(room: Room, options: Partial<LowCPUOptimizerO
         track.stopProcessor()
       }
       if (opts.reduceSubscriberVideoQuality) {
-        room.remoteParticipants.forEach(participant => {
-          participant.videoTrackPublications.forEach(publication => {
+        for (const participant of room.remoteParticipants) {
+          for (const publication of participant.videoTrackPublications) {
             publication.setVideoQuality(VideoQuality.LOW)
-          })
-        })
+          }
+        }
       }
     }
 

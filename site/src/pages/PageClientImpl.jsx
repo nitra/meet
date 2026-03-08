@@ -4,6 +4,7 @@ import { KeyboardShortcuts } from '@/lib/KeyboardShortcuts'
 import { RecordingIndicator } from '@/lib/RecordingIndicator'
 import { SettingsMenu } from '@/lib/SettingsMenu'
 import { formatChatMessageLinks, PreJoin, RoomContext, VideoConference } from '@livekit/components-react'
+import { toast } from 'react-hot-toast'
 import { VideoPresets, Room, RoomEvent } from 'livekit-client'
 import { useNavigate } from 'react-router-dom'
 import { useLowCPUOptimizer } from '@/lib/usePerfomanceOptimiser'
@@ -12,7 +13,7 @@ const CONN_DETAILS_ENDPOINT = import.meta.env.VITE_CONN_DETAILS_ENDPOINT ?? '/ap
 const SHOW_SETTINGS_MENU = import.meta.env.VITE_SHOW_SETTINGS_MENU === 'true'
 
 export function PageClientImpl(props) {
-  const [preJoinChoices, setPreJoinChoices] = React.useState(undefined)
+  const [preJoinChoices, setPreJoinChoices] = React.useState()
   const preJoinDefaults = React.useMemo(() => {
     return {
       username: '',
@@ -20,7 +21,7 @@ export function PageClientImpl(props) {
       audioEnabled: true
     }
   }, [])
-  const [connectionDetails, setConnectionDetails] = React.useState(undefined)
+  const [connectionDetails, setConnectionDetails] = React.useState()
 
   const handlePreJoinSubmit = React.useCallback(
     async values => {
@@ -121,7 +122,7 @@ function VideoConferenceComponent(props) {
   const handleOnLeave = React.useCallback(() => navigate('/'), [navigate])
   const handleError = React.useCallback(error => {
     console.error(error)
-    alert(`Encountered an unexpected error, check the console logs for details: ${error.message}`)
+    toast.error(`Encountered an unexpected error, check the console logs for details: ${error.message}`)
   }, [])
 
   React.useEffect(() => {

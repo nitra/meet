@@ -3,20 +3,18 @@ import * as React from 'react'
 import {
   useMaybeLayoutContext,
   MediaDeviceMenu,
-  TrackToggle,
   useRoomContext,
   useIsRecording
 } from '@livekit/components-react'
 import styles from '../styles/SettingsMenu.module.css'
 import { CameraSettings } from './CameraSettings'
 import { MicrophoneSettings } from './MicrophoneSettings'
-/**
- * @alpha
- */
+
 export interface SettingsMenuProps extends React.HTMLAttributes<HTMLDivElement> {}
 
 /**
- * @alpha
+ * @param {SettingsMenuProps} props - Menu container props
+ * @returns {JSX.Element} Settings menu component
  */
 export function SettingsMenu(props: SettingsMenuProps) {
   const layoutContext = useMaybeLayoutContext()
@@ -48,7 +46,7 @@ export function SettingsMenu(props: SettingsMenuProps) {
 
   const toggleRoomRecording = async () => {
     if (!recordingEndpoint) {
-      throw TypeError('No recording endpoint specified')
+      throw new TypeError('No recording endpoint specified')
     }
     setProcessingRecRequest(true)
     setInitialRecStatus(isRecording)
@@ -58,8 +56,7 @@ export function SettingsMenu(props: SettingsMenuProps) {
     } else {
       response = await fetch(recordingEndpoint + `/start?roomName=${room.name}`)
     }
-    if (response.ok) {
-    } else {
+    if (!response.ok) {
       console.error('Error handling recording request, check server logs:', response.status, response.statusText)
       setProcessingRecRequest(false)
     }
@@ -72,6 +69,7 @@ export function SettingsMenu(props: SettingsMenuProps) {
           tab =>
             settings[tab] && (
               <button
+                type='button'
                 className={`${styles.tab} lk-button`}
                 key={tab}
                 onClick={() => setActiveTab(tab)}
@@ -109,7 +107,7 @@ export function SettingsMenu(props: SettingsMenuProps) {
                 <section className='lk-button-group'>
                   <span className='lk-button'>Audio Output</span>
                   <div className='lk-button-group-menu'>
-                    <MediaDeviceMenu kind='audiooutput'></MediaDeviceMenu>
+                    <MediaDeviceMenu kind='audiooutput' />
                   </div>
                 </section>
               </>
@@ -121,7 +119,7 @@ export function SettingsMenu(props: SettingsMenuProps) {
             <h3>Record Meeting</h3>
             <section>
               <p>{isRecording ? 'Meeting is currently being recorded' : 'No active recordings for this meeting'}</p>
-              <button disabled={processingRecRequest} onClick={() => toggleRoomRecording()}>
+              <button type='button' disabled={processingRecRequest} onClick={() => toggleRoomRecording()}>
                 {isRecording ? 'Stop' : 'Start'} Recording
               </button>
             </section>
@@ -129,7 +127,7 @@ export function SettingsMenu(props: SettingsMenuProps) {
         )}
       </div>
       <div style={{ display: 'flex', justifyContent: 'flex-end', width: '100%' }}>
-        <button className={`lk-button`} onClick={() => layoutContext?.widget.dispatch?.({ msg: 'toggle_settings' })}>
+        <button type='button' className="lk-button" onClick={() => layoutContext?.widget.dispatch?.({ msg: 'toggle_settings' })}>
           Close
         </button>
       </div>

@@ -38,7 +38,7 @@ describe('utils', () => {
 
   describe('parseCookies', () => {
     test('повертає порожній об’єкт для undefined/null/порожнього рядка', () => {
-      expect(parseCookies(undefined)).toEqual({})
+      expect(parseCookies()).toEqual({})
       expect(parseCookies('')).toEqual({})
     })
 

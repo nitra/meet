@@ -5,13 +5,15 @@ import { EgressClient, EncodedFileOutput, S3Upload } from 'livekit-server-sdk'
  * for simplicity this implementation does not authenticate users and therefore allows anyone with knowledge of a roomName
  * to start/stop recordings for that room.
  * DO NOT USE THIS FOR PRODUCTION PURPOSES AS IS
+ * @param {Request} req - Incoming request with roomName query param
+ * @returns {Promise<Response>} Response with status 200 on success or error details
  */
 export async function handleRecordStart(req) {
   try {
     const url = new URL(req.url)
     const roomName = url.searchParams.get('roomName') ?? undefined
 
-    if (roomName == null || roomName === '') {
+    if (roomName === undefined || roomName === null || roomName === '') {
       return new Response('Missing roomName parameter', { status: 403 })
     }
 
@@ -32,7 +34,7 @@ export async function handleRecordStart(req) {
     const egressClient = new EgressClient(hostURL.origin, LIVEKIT_API_KEY, LIVEKIT_API_SECRET)
 
     const existingEgresses = await egressClient.listEgress({ roomName })
-    if (existingEgresses.length > 0 && existingEgresses.some(e => e.status < 2)) {
+    if (existingEgresses.some(e => e.status < 2)) {
       return new Response('Meeting is already being recorded', { status: 409 })
     }
 

@@ -3,7 +3,7 @@
  */
 import { test, expect } from '@playwright/test'
 
-const BASE = process.env.PLAYWRIGHT_BASE_URL ?? 'http://localhost:5173'
+const _BASE = process.env.PLAYWRIGHT_BASE_URL ?? 'http://localhost:5173'
 const BASE_API = process.env.PLAYWRIGHT_API_URL ?? 'http://localhost:3001'
 
 // ANCHOR: api_tests

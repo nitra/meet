@@ -18,6 +18,7 @@ function Tabs(props) {
   const tabs = React.Children.map(props.children, (child, index) => {
     return (
       <button
+        type='button'
         className='lk-button'
         onClick={() => {
           if (onTabSelected) {
@@ -38,7 +39,7 @@ function Tabs(props) {
   )
 }
 
-function DemoMeetingTab(props) {
+function DemoMeetingTab() {
   const router = useRouter()
   const startMeeting = () => {
     router.push(`/rooms/${generateRoomId()}`)
@@ -46,14 +47,14 @@ function DemoMeetingTab(props) {
   return (
     <div className={styles.tabContent}>
       <p style={{ margin: 0 }}>Try LiveKit Meet for free with our live demo project.</p>
-      <button style={{ marginTop: '1rem' }} className='lk-button' onClick={startMeeting}>
+      <button type='button' style={{ marginTop: '1rem' }} className='lk-button' onClick={startMeeting}>
         Start Meeting
       </button>
     </div>
   )
 }
 
-function CustomConnectionTab(props) {
+function CustomConnectionTab() {
   const router = useRouter()
 
   const onSubmit = event => {

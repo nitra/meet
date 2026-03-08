@@ -52,11 +52,11 @@ export function VideoConferenceClientImpl(props) {
       })
       .catch(error => {
         if (error?.name === 'NotFoundError' || error?.message?.includes('Requested device not found')) {
-          room.localParticipant.setCameraEnabled(true).catch(err => {
-            console.warn('Камера недоступна:', err)
+          room.localParticipant.setCameraEnabled(true).catch(error => {
+            console.warn('Камера недоступна:', error)
           })
-          room.localParticipant.setMicrophoneEnabled(true).catch(micError => {
-            console.warn('Мікрофон недоступний:', micError)
+          room.localParticipant.setMicrophoneEnabled(true).catch(error => {
+            console.warn('Мікрофон недоступний:', error)
           })
           return
         }

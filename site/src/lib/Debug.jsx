@@ -24,7 +24,7 @@ export const DebugMode = ({ logLevel } = {}) => {
   const [roomSid, setRoomSid] = React.useState('')
 
   React.useEffect(() => {
-    room.getSid().then(setRoomSid)
+    room.getSid().then(setRoomSid).catch(() => { setRoomSid('') })
   }, [room])
 
   useDebugMode({ logLevel })
@@ -53,7 +53,7 @@ export const DebugMode = ({ logLevel } = {}) => {
   const lp = room.localParticipant
 
   if (!isOpen) {
-    return <></>
+    return null
   }
 
   return (
@@ -72,7 +72,7 @@ export const DebugMode = ({ logLevel } = {}) => {
             <b>Published tracks</b>
           </summary>
           <div>
-            {Array.from(lp.trackPublications.values()).map(t => (
+            {[...lp.trackPublications.values()].map(t => (
               <React.Fragment key={t.trackSid}>
                 <div>
                   <i>
@@ -114,7 +114,7 @@ export const DebugMode = ({ logLevel } = {}) => {
                   Object.entries(lp.permissions).map(([key, val]) => (
                     <tr key={key}>
                       <td>{key}</td>
-                      {key !== 'canPublishSources' ? <td>{val.toString()}</td> : <td>{val.join(', ')}</td>}
+                      {key === 'canPublishSources' ? <td>{val.join(', ')}</td> : <td>{val.toString()}</td>}
                     </tr>
                   ))}
               </tbody>
@@ -127,13 +127,13 @@ export const DebugMode = ({ logLevel } = {}) => {
         <summary>
           <b>Remote Participants</b>
         </summary>
-        {Array.from(room.remoteParticipants.values()).map(p => (
+        {[...room.remoteParticipants.values()].map(p => (
           <details key={p.sid} className={styles.detailsSection}>
             <summary>
               <b>{p.identity}</b>
             </summary>
             <div>
-              {Array.from(p.trackPublications.values()).map(t => (
+              {[...p.trackPublications.values()].map(t => (
                 <React.Fragment key={t.trackSid}>
                   <div>
                     <i>

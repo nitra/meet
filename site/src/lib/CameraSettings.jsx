@@ -72,6 +72,7 @@ export function CameraSettings() {
         <div style={{ marginBottom: '8px' }}>Background Effects</div>
         <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
           <button
+            type='button'
             onClick={() => selectBackground('none')}
             className='lk-button'
             aria-pressed={backgroundType === 'none'}
@@ -83,6 +84,7 @@ export function CameraSettings() {
           </button>
 
           <button
+            type='button'
             onClick={() => selectBackground('blur')}
             className='lk-button'
             aria-pressed={backgroundType === 'blur'}
@@ -121,6 +123,7 @@ export function CameraSettings() {
 
           {BACKGROUND_IMAGES.map(image => (
             <button
+              type='button'
               key={image.path}
               onClick={() => selectBackground('image', image.path)}
               className='lk-button'

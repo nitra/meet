@@ -34,13 +34,15 @@ Bun.serve({
       } else {
         res = new Response('Not Found', { status: 404 })
       }
-    } catch (err) {
-      const message = err instanceof Error ? err.message : 'Internal Server Error'
+    } catch (error) {
+      const message = error instanceof Error ? error.message : 'Internal Server Error'
       res = new Response(message, { status: 500 })
     }
 
     const headers = new Headers(res.headers)
-    Object.entries(corsHeaders(origin)).forEach(([k, v]) => headers.set(k, v))
+    for (const [k, v] of Object.entries(corsHeaders(origin))) {
+      headers.set(k, v)
+    }
     return new Response(res.body, { status: res.status, statusText: res.statusText, headers })
   }
 })
