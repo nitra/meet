@@ -15,17 +15,17 @@
     "@livekit/components-react": "2.9.19",
     "@livekit/components-styles": "1.2.0",
     "@livekit/krisp-noise-filter": "0.4.1",
-    "@livekit/track-processors": "^0.7.0",
+    "@livekit/track-processors": "^0.7.2",
     "livekit-client": "2.17.2",
     "react": "18.3.1",
     "react-dom": "18.3.1",
-    "react-hot-toast": "^2.5.2",
-    "react-router-dom": "^7.4.1",
+    "react-hot-toast": "^2.6.0",
+    "react-router-dom": "^7.13.1",
     "tinykeys": "^3.0.0"
   },
   "devDependencies": {
     "@vitejs/plugin-react": "^5.1.4",
     "vite": "8.0.0-beta.16",
-    "vitest": "^3.2.4"
+    "vitest": "^4.0.18"
   }
 }
