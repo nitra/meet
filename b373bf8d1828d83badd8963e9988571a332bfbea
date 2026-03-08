@@ -1,0 +1,25 @@
+архітектура.MD
+  15f3f0df313e86b2 9
+package.json
+  15f3f0df313e86b2 7,12,14,16,18,22
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.8",
+  "base_commit_sha": "b373bf8d1828d83badd8963e9988571a332bfbea",
+  "prompts": {
+    "15f3f0df313e86b2": {
+      "agent_id": {
+        "tool": "cursor",
+        "id": "6f820f43-12a2-4306-8682-c4489771abf0",
+        "model": "default"
+      },
+      "human_author": "vitaliytv <v@nitra.ai>",
+      "messages": [],
+      "total_additions": 8,
+      "total_deletions": 8,
+      "accepted_lines": 8,
+      "overriden_lines": 0
+    }
+  }
+}
