@@ -1,0 +1,87 @@
+site/lib/usePerfomanceOptimiser.ts
+  a86ba780d779c94c 28-30,46-47
+site/src/pages/Home.jsx
+  bcef2c1681afb7ce 19,48
+site/lib/SettingsMenu.tsx
+  a86ba780d779c94c 12,16-17,59
+  bcef2c1681afb7ce 72,122,130
+site/src/lib/MicrophoneSettings.jsx
+  a86ba780d779c94c 3
+  bcef2c1681afb7ce 39
+.oxlintrc.json
+  bcef2c1681afb7ce 3,71,367-369,388
+site/src/lib/Debug.jsx
+  bcef2c1681afb7ce 56
+  a86ba780d779c94c 27,117
+site/package.json
+  bcef2c1681afb7ce 10-11
+next/src/index.js
+  a86ba780d779c94c 43-45
+package.json
+  bcef2c1681afb7ce 17-20
+site/src/lib/SettingsMenu.jsx
+  bcef2c1681afb7ce 57,104,112
+site/src/lib/RecordingIndicator.jsx
+  a86ba780d779c94c 3
+next/src/routes/record-stop.js
+  a86ba780d779c94c 8-9,16,26-27
+next/package.json
+  bcef2c1681afb7ce 9
+site/lib/CameraSettings.tsx
+  bcef2c1681afb7ce 85,97,136
+site/lib/Debug.tsx
+  bcef2c1681afb7ce 85,143,146
+  a86ba780d779c94c 32,62,64,68,71,145
+site/src/lib/CameraSettings.jsx
+  bcef2c1681afb7ce 75,87,126
+site/lib/MicrophoneSettings.tsx
+  a86ba780d779c94c 3
+  bcef2c1681afb7ce 40
+next/src/routes/record-start.js
+  a86ba780d779c94c 8-9,16
+book/06-апі/test/spec.spec.ts
+  a86ba780d779c94c 6
+site/app/rooms/[roomName]/PageClientImpl.jsx
+  a86ba780d779c94c 9,127
+site/app/page.jsx
+  bcef2c1681afb7ce 21,50
+site/src/pages/PageClientImpl.jsx
+  a86ba780d779c94c 7,125
+site/lib/RecordingIndicator.tsx
+  a86ba780d779c94c 3
+site/src/lib/usePerfomanceOptimiser.js
+  a86ba780d779c94c 13-15,31-32,34-35
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.8",
+  "base_commit_sha": "d5eeb131d0b4513ca3ea147dd1201d4f19382556",
+  "prompts": {
+    "a86ba780d779c94c": {
+      "agent_id": {
+        "tool": "cursor",
+        "id": "325236a0-b99e-45a1-b78f-9f2bb2a295a0",
+        "model": "default"
+      },
+      "human_author": "vitaliytv <v@nitra.ai>",
+      "messages": [],
+      "total_additions": 58,
+      "total_deletions": 47,
+      "accepted_lines": 44,
+      "overriden_lines": 0
+    },
+    "bcef2c1681afb7ce": {
+      "agent_id": {
+        "tool": "cursor",
+        "id": "4d3aa300-7bc3-438d-8aa5-fa1a61481b26",
+        "model": "default"
+      },
+      "human_author": "vitaliytv <v@nitra.ai>",
+      "messages": [],
+      "total_additions": 49,
+      "total_deletions": 47,
+      "accepted_lines": 37,
+      "overriden_lines": 0
+    }
+  }
+}
