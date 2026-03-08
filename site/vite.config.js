@@ -1,12 +1,22 @@
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { defineConfig } from 'vite'
-import react from '@vitejs/plugin-react'
+import vue from '@vitejs/plugin-vue'
+import VueRouter from 'vue-router/vite'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 
 export default defineConfig({
-  plugins: [react()],
+  oxc: {
+    include: /\.[jt]sx?$/
+  },
+  plugins: [
+    vue({ include: /\.vue$/, enforce: 'pre' }),
+    VueRouter({
+      dts: 'src/route-map.d.ts',
+      routesFolder: 'src/pages'
+    })
+  ],
   resolve: {
     alias: {
       '@': path.resolve(__dirname, './src')
@@ -30,6 +40,6 @@ export default defineConfig({
   },
   test: {
     environment: 'node',
-    include: ['src/**/*.test.js', 'src/**/*.test.jsx']
+    include: ['src/**/*.test.js', 'src/**/*.test.js']
   }
 })

@@ -2,29 +2,17 @@
   <img src="./.github/assets/livekit-mark.png" alt="LiveKit logo" width="100" height="100">
 </a>
 
-# LiveKit Meet
-
-<p>
-  <a href="https://meet.livekit.io"><strong>Try the demo</strong></a>
-  •
-  <a href="https://github.com/livekit/components-js">LiveKit Components</a>
-  •
-  <a href="https://docs.livekit.io/">LiveKit Docs</a>
-  •
-  <a href="https://livekit.io/cloud">LiveKit Cloud</a>
-  •
-  <a href="https://blog.livekit.io/">Blog</a>
-</p>
+# Nitra Live
 
 <br>
 
-LiveKit Meet is an open source video conferencing app built on [LiveKit Components](https://github.com/livekit/components-js), [LiveKit Cloud](https://cloud.livekit.io/), and Vite. It's been completely redesigned from the ground up using our new components library.
+Nitra Live це система для проведення відеоконференцій. Переважно членами команди для роботи над проектами.
 
-![LiveKit Meet screenshot](./.github/assets/livekit-meet.jpg)
+![Nitra Live screenshot](./.github/assets/livekit-meet.jpg)
 
 ## Tech Stack
 
-- Frontend: [Vite](https://vite.dev/) + React; app is built with [@livekit/components-react](https://github.com/livekit/components-js/).
+- Frontend: [Vite](https://vite.dev/) + Vue 3; app uses [livekit-client](https://github.com/livekit/client-sdk-js) and custom Vue components.
 - API: optional Node/Bun server in `run/next/` for connection details and recording.
 
 ## Demo

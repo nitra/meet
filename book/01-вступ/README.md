@@ -1,21 +1,21 @@
 # 1. Вступ
 
-## Що таке LiveKit Meet
+## Що таке Nitra Live
 
-**LiveKit Meet** — відкритий клієнт відеоконференцій, побудований на:
+**Nitra Live** — відкритий клієнт відеоконференцій, побудований на:
 
-- **LiveKit Components** (`@livekit/components-react`) — UI-компоненти для кімнат, відео, чату
+- **Vue 3** + **livekit-client** — власні UI-компоненти для кімнат, відео, чату
 - **LiveKit Cloud** або власний **LiveKit Server** — бекенд для реального часу
-- **Next.js** — фреймворк додатку (App Router, API routes)
+- **Vite** — збірка фронтенду; опційно **Node/Bun** сервер для connection details та запису
 
 Додаток дає змогу проводити демо-зустрічі з автогенерацією кімнат та підключатися до власного LiveKit-сервера з URL і токеном.
 
 ## Технічний стек
 
-- **Next.js 15** — React-додаток з серверними та клієнтськими маршрутами
+- **Vue 3** + **Vue Router** — SPA з файловою маршрутизацією (pages)
 - **livekit-client** — клієнтський SDK для підключення до кімнат
-- **livekit-server-sdk** — видача токенів та керування Egress (запис)
-- **@livekit/components-react** — готові компоненти (PreJoin, VideoConference, чат тощо)
+- **livekit-server-sdk** (опційно) — видача токенів та керування Egress (запис)
+- Власні Vue-компоненти: PreJoin, VideoConference, налаштування медіа тощо
 
 ## Структура додатку
 

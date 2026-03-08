@@ -21,7 +21,7 @@
 
 ## Шумозаглушення (Krisp)
 
-Підтримується **Enhanced Noise Cancellation** через пакет `@livekit/krisp-noise-filter` та хук `useKrispNoiseFilter` з `@livekit/components-react/krisp`. У **MicrophoneSettings** користувач бачить кнопку «Enable / Disable Enhanced Noise Cancellation»; стан фільтра зберігається через `setNoiseFilterEnabled`.
+Підтримується **Enhanced Noise Cancellation** через пакет `@livekit/krisp-noise-filter` та композабл `useKrispNoiseFilter` (у проєкті: `src/composables/useKrispNoiseFilter.js`). У **MicrophoneSettings** користувач бачить кнопку «Enable / Disable Enhanced Noise Cancellation»; стан фільтра зберігається через `setNoiseFilterEnabled`.
 
 - **Якість:** на пристроях з обмеженими ресурсами використовується `quality: 'low'`, на інших — `quality: 'medium'`.
 - **Low-power пристрої** — це пристрої з кількістю логічних ядер CPU менше 6 (`navigator.hardwareConcurrency < 6`). Визначення в `lib/client-utils.ts` (`isLowPowerDevice()`). На таких пристроях Krisp за замовчуванням **вимкнений**; на решті — **увімкнений**.
@@ -29,7 +29,7 @@
 
 ## Перемикання треків у кімнаті
 
-- **TrackToggle** (з LiveKit Components) — кнопки вмикання/вимкнення камери та мікрофона в UI.
+- **TrackToggle** — кнопки вмикання/вимкнення камери та мікрофона в UI.
 - **Швидкі клавіші** (розділ «Користувацький досвід»): Cmd/Ctrl+Shift+A — мікрофон, Cmd/Ctrl+Shift+V — камера.
 
 ## Кодеки та якість
