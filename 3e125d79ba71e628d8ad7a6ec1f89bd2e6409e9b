@@ -1,0 +1,21 @@
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.8",
+  "base_commit_sha": "3e125d79ba71e628d8ad7a6ec1f89bd2e6409e9b",
+  "prompts": {
+    "863d066a1a50c9c1": {
+      "agent_id": {
+        "tool": "cursor",
+        "id": "0c4a3980-0dfd-4199-9451-f291a9706efe",
+        "model": "default"
+      },
+      "human_author": "vitaliytv <v@nitra.ai>",
+      "messages": [],
+      "total_additions": 268,
+      "total_deletions": 56,
+      "accepted_lines": 216,
+      "overriden_lines": 0
+    }
+  }
+}
