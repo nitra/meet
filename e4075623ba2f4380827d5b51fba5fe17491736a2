@@ -1,0 +1,39 @@
+site/lib/usePerfomanceOptimiser.ts
+  bcef2c1681afb7ce 58
+site/src/pages/PageClientImpl.jsx
+  bcef2c1681afb7ce 100,124
+site/src/lib/MicrophoneSettings.jsx
+  bcef2c1681afb7ce 21
+site/lib/SettingsMenu.tsx
+  bcef2c1681afb7ce 24
+site/app/rooms/[roomName]/PageClientImpl.jsx
+  bcef2c1681afb7ce 102,126
+site/src/lib/usePerfomanceOptimiser.js
+  bcef2c1681afb7ce 43
+site/lib/MicrophoneSettings.tsx
+  bcef2c1681afb7ce 22
+site/lib/RecordingIndicator.tsx
+  bcef2c1681afb7ce 25
+site/src/lib/RecordingIndicator.jsx
+  bcef2c1681afb7ce 25
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.8",
+  "base_commit_sha": "e4075623ba2f4380827d5b51fba5fe17491736a2",
+  "prompts": {
+    "bcef2c1681afb7ce": {
+      "agent_id": {
+        "tool": "cursor",
+        "id": "4d3aa300-7bc3-438d-8aa5-fa1a61481b26",
+        "model": "default"
+      },
+      "human_author": "vitaliytv <v@nitra.ai>",
+      "messages": [],
+      "total_additions": 23,
+      "total_deletions": 23,
+      "accepted_lines": 11,
+      "overriden_lines": 0
+    }
+  }
+}
