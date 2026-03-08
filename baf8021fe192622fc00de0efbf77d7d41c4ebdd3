@@ -1,0 +1,46 @@
+site/package.json
+  a74e6185898187f3 10
+site/vite.config.js
+  a74e6185898187f3 43
+package.json
+  a74e6185898187f3 13,16-17,22
+book/README.md
+  a74e6185898187f3 1-67
+run/next/src/lib/getLiveKitURL.js
+  a74e6185898187f3 1
+README.md
+  a74e6185898187f3 28-29
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.8",
+  "base_commit_sha": "baf8021fe192622fc00de0efbf77d7d41c4ebdd3",
+  "prompts": {
+    "a4a372c2ea402ade": {
+      "agent_id": {
+        "tool": "cursor",
+        "id": "20a73e0f-4089-45e4-be90-6524cbd568f4",
+        "model": "default"
+      },
+      "human_author": "vitaliytv <v@nitra.ai>",
+      "messages": [],
+      "total_additions": 38,
+      "total_deletions": 206,
+      "accepted_lines": 20,
+      "overriden_lines": 0
+    },
+    "a74e6185898187f3": {
+      "agent_id": {
+        "tool": "cursor",
+        "id": "0bcdcf46-97a3-42ed-9723-e80b7e506f85",
+        "model": "default"
+      },
+      "human_author": "vitaliytv <v@nitra.ai>",
+      "messages": [],
+      "total_additions": 77,
+      "total_deletions": 15,
+      "accepted_lines": 76,
+      "overriden_lines": 0
+    }
+  }
+}
