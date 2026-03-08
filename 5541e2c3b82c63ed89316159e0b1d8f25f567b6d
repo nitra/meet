@@ -1,0 +1,104 @@
+site/src/lib/types.js
+  2c5da4295cc48824 1-5
+site/src/pages/Room.jsx
+  2c5da4295cc48824 1-15
+site/src/lib/RecordingIndicator.jsx
+  2c5da4295cc48824 1-40
+site/src/pages/PageClientImpl.jsx
+  2c5da4295cc48824 1-164
+site/lib/types.js
+  2c5da4295cc48824 1-4
+site/src/lib/Debug.jsx
+  2c5da4295cc48824 1-2,4-188
+  992859dab49769f1 3
+site/package.json
+  992859dab49769f1 28
+site/src/pages/custom/VideoConferenceClientImpl.jsx
+  2c5da4295cc48824 1-105
+site/src/lib/MicrophoneSettings.jsx
+  2c5da4295cc48824 1-54
+site/app/page.jsx
+  2c5da4295cc48824 1-139
+site/app/rooms/[roomName]/page.jsx
+  2c5da4295cc48824 1-16
+site/src/lib/CameraSettings.jsx
+  2c5da4295cc48824 1-164
+site/app/custom/VideoConferenceClientImpl.jsx
+  2c5da4295cc48824 1-104
+site/src/lib/getLiveKitURL.test.js
+  2c5da4295cc48824 1-35
+site/src/lib/KeyboardShortcuts.jsx
+  2c5da4295cc48824 1-26
+site/app/rooms/[roomName]/PageClientImpl.jsx
+  2c5da4295cc48824 1-158
+site/src/App.jsx
+  2c5da4295cc48824 1-14
+package.json
+  2c5da4295cc48824 26-27
+site/src/pages/Home.jsx
+  992859dab49769f1 55
+site/src/main.jsx
+  2c5da4295cc48824 1-17
+site/src/lib/getLiveKitURL.js
+  2c5da4295cc48824 1-14
+site/app/layout.jsx
+  2c5da4295cc48824 1-59
+site/src/lib/client-utils.js
+  2c5da4295cc48824 1-21
+playwright.config.js
+  2c5da4295cc48824 1-39
+site/index.html
+  2c5da4295cc48824 24
+site/jsconfig.json
+  2c5da4295cc48824 1-9
+site/src/lib/usePerfomanceOptimiser.js
+  2c5da4295cc48824 1-61
+site/src/lib/SettingsMenu.jsx
+  2c5da4295cc48824 1-137
+site/app/custom/page.jsx
+  2c5da4295cc48824 1-21
+site/src/pages/Custom.jsx
+  2c5da4295cc48824 1-26
+site/lib/getLiveKitURL.js
+  2c5da4295cc48824 1-12
+site/lib/client-utils.js
+  2c5da4295cc48824 1-21
+site/eslint.config.js
+  992859dab49769f1 23
+  2c5da4295cc48824 8
+site/vite.config.js
+  2c5da4295cc48824 1-35
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.8",
+  "base_commit_sha": "5541e2c3b82c63ed89316159e0b1d8f25f567b6d",
+  "prompts": {
+    "2c5da4295cc48824": {
+      "agent_id": {
+        "tool": "cursor",
+        "id": "4eaef120-c381-4a54-a842-24b8cdd6c3ee",
+        "model": "default"
+      },
+      "human_author": "vitaliytv <v@nitra.ai>",
+      "messages": [],
+      "total_additions": 1760,
+      "total_deletions": 37,
+      "accepted_lines": 1706,
+      "overriden_lines": 1
+    },
+    "992859dab49769f1": {
+      "agent_id": {
+        "tool": "cursor",
+        "id": "4bbb7f16-f647-488a-9431-10cdaf754f68",
+        "model": "default"
+      },
+      "human_author": "vitaliytv <v@nitra.ai>",
+      "messages": [],
+      "total_additions": 5,
+      "total_deletions": 27,
+      "accepted_lines": 4,
+      "overriden_lines": 0
+    }
+  }
+}
