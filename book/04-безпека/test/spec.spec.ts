@@ -12,13 +12,8 @@ test.describe('04-bezpeka: Безпека', () => {
     expect(page.url()).not.toMatch(/#/)
   })
 
-  test('на вкладці Demo немає опції E2EE', async ({ page }) => {
+  test('на головній немає опції E2EE', async ({ page }) => {
     await page.goto('/')
-    await expect(page.getByLabel(/enable end-to-end encryption/i)).toHaveCount(0)
-  })
-
-  test('на вкладці Custom немає опції E2EE', async ({ page }) => {
-    await page.goto('/?tab=custom')
     await expect(page.getByLabel(/enable end-to-end encryption/i)).toHaveCount(0)
   })
 })

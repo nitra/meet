@@ -1,11 +1,11 @@
 /**
- * Розділ 2. Зустрічі та кімнати — Demo, Custom, кімната, PreJoin.
+ * Розділ 2. Зустрічі та кімнати — головна, кімната, PreJoin.
  */
 import { test, expect } from '@playwright/test'
 
 // ANCHOR: meetings_tests
 test.describe('02-zustrilia: Зустрічі та кімнати', () => {
-  test('вкладка Demo показує кнопку Start Meeting', async ({ page }) => {
+  test('головна показує кнопку Start Meeting', async ({ page }) => {
     await page.goto('/')
     await expect(page.getByRole('button', { name: 'Start Meeting' })).toBeVisible()
   })
@@ -32,25 +32,6 @@ test.describe('02-zustrilia: Зустрічі та кімнати', () => {
     ])
     const url2 = page.url()
     expect(url1).not.toBe(url2)
-  })
-
-  test('вкладка Custom показує форму з Server URL та Token', async ({ page }) => {
-    await page.goto('/?tab=custom')
-    await expect(page.getByPlaceholder(/LiveKit Server URL/i)).toBeVisible()
-    await expect(page.locator('#token')).toBeVisible()
-  })
-
-  test('сабміт Custom редіректить на /custom з query-параметрами', async ({ page }) => {
-    await page.goto('/?tab=custom')
-    await page.getByPlaceholder(/LiveKit Server URL/i).fill('https://demo.livekit.cloud')
-    await page.locator('#token').fill('test-token')
-    const connectBtn = page.getByRole('button', { name: 'Connect' })
-    await expect(connectBtn).toBeVisible()
-    await Promise.all([
-      page.waitForURL(/\/custom\/?\?.*liveKitUrl=.+&token=.+/, { timeout: 15_000 }),
-      connectBtn.click()
-    ])
-    await expect(page).toHaveURL(/\/custom\/?\?.*liveKitUrl=.+&token=.+/)
   })
 
   test('сторінка кімнати показує PreJoin (до отримання connection details)', async ({ page }) => {

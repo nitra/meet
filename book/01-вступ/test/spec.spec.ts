@@ -1,6 +1,6 @@
 /**
  * Розділ 1. Вступ — головна сторінка, стек, структура додатку.
- * Перевірка: головна (/), вкладки Demo/Custom, посилання, тема.
+ * Перевірка: головна (/), кнопка Start Meeting, посилання, тема.
  */
 import { test, expect } from '@playwright/test'
 
@@ -11,22 +11,9 @@ test.describe('01-вступ: Вступ', () => {
     await expect(page.getByRole('heading', { name: /Open source video conferencing/i })).toBeVisible()
   })
 
-  test('на головній є вкладки Demo та Custom', async ({ page }) => {
+  test('на головній є кнопка Start Meeting', async ({ page }) => {
     await page.goto('/')
-    await expect(page.getByRole('button', { name: 'Demo' })).toBeVisible()
-    await expect(page.getByRole('button', { name: 'Custom' })).toBeVisible()
-  })
-
-  test('за замовчуванням обрана вкладка Demo', async ({ page }) => {
-    await page.goto('/')
-    const demoBtn = page.getByRole('button', { name: 'Demo' })
-    await expect(demoBtn).toHaveAttribute('aria-pressed', 'true')
-  })
-
-  test('перехід на вкладку Custom оновлює URL', async ({ page }) => {
-    await page.goto('/')
-    await page.getByRole('button', { name: 'Custom' }).click()
-    await expect(page).toHaveURL(/\?tab=custom/)
+    await expect(page.getByRole('button', { name: 'Start Meeting' })).toBeVisible()
   })
 
   test('головна використовує тему LiveKit (data-lk-theme)', async ({ page }) => {

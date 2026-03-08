@@ -26,44 +26,29 @@ const props = defineProps({
   connectionDetails: { type: Object, required: true },
   userChoices: { type: Object, required: true },
   options: { type: Object, default: () => ({}) },
-  isCustom: { type: Boolean, default: false },
   onLeave: { type: Function, default: null }
 })
 
 const { toast } = useToast()
 
-const roomOptions = computed(() => {
-  if (props.isCustom) {
-    return {
-      publishDefaults: {
-        videoSimulcastLayers: [VideoPresets.h540, VideoPresets.h216],
-        red: true,
-        videoCodec: 'h265' // HEVC, апаратне кодування на MacBook M1
-      },
-      adaptiveStream: { pixelDensity: 'screen' },
-      dynacast: true,
-      singlePeerConnection: props.options.singlePC
-    }
-  }
-  return {
-    videoCaptureDefaults: {
-      deviceId: props.userChoices.videoDeviceId,
-      resolution: props.options.hq ? VideoPresets.h2160 : VideoPresets.h720
-    },
-    publishDefaults: {
-      dtx: false,
-      videoSimulcastLayers: props.options.hq
-        ? [VideoPresets.h1080, VideoPresets.h720]
-        : [VideoPresets.h540, VideoPresets.h216],
-      red: true,
-      videoCodec: 'h265' // HEVC, апаратне кодування на MacBook M1
-    },
-    audioCaptureDefaults: { deviceId: props.userChoices.audioDeviceId },
-    adaptiveStream: true,
-    dynacast: true,
-    singlePeerConnection: true
-  }
-})
+const roomOptions = computed(() => ({
+  videoCaptureDefaults: {
+    deviceId: props.userChoices.videoDeviceId,
+    resolution: props.options.hq ? VideoPresets.h2160 : VideoPresets.h720
+  },
+  publishDefaults: {
+    dtx: false,
+    videoSimulcastLayers: props.options.hq
+      ? [VideoPresets.h1080, VideoPresets.h720]
+      : [VideoPresets.h540, VideoPresets.h216],
+    red: true,
+    videoCodec: 'h265' // HEVC, апаратне кодування на MacBook M1
+  },
+  audioCaptureDefaults: { deviceId: props.userChoices.audioDeviceId },
+  adaptiveStream: true,
+  dynacast: true,
+  singlePeerConnection: true
+}))
 
 const room = ref(markRaw(new Room(roomOptions.value)))
 provide(LK_ROOM, room.value)
@@ -75,7 +60,7 @@ function handleLeave() {
 
 function handleError(err) {
   console.error(err)
-  toast.error(props.isCustom ? `Помилка: ${err?.message ?? err}` : `Unexpected error, check console: ${err.message}`)
+  toast.error(`Unexpected error, check console: ${err.message}`)
 }
 
 onMounted(() => {
@@ -87,24 +72,11 @@ onMounted(() => {
   r.connect(props.connectionDetails.serverUrl, props.connectionDetails.participantToken, CONNECT_OPTIONS)
     .then(() => {
       if (!mounted.value) return
-      if (props.isCustom) return r.localParticipant.enableCameraAndMicrophone()
       if (props.userChoices.videoEnabled) r.localParticipant.setCameraEnabled(true).catch(handleError)
       if (props.userChoices.audioEnabled) r.localParticipant.setMicrophoneEnabled(true).catch(handleError)
     })
     .catch(error => {
       if (!mounted.value) return
-      if (
-        props.isCustom &&
-        (error?.name === 'NotFoundError' || error?.message?.includes('Requested device not found'))
-      ) {
-        r.localParticipant.setCameraEnabled(true).catch(() => {
-          /* ігнорувати помилку пристрою */
-        })
-        r.localParticipant.setMicrophoneEnabled(true).catch(() => {
-          /* ігнорувати помилку пристрою */
-        })
-        return
-      }
       handleError(error)
     })
 })

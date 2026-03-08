@@ -12,16 +12,15 @@
 
 ## Технічний стек
 
-- **Vue 3** + **Vue Router** — SPA у `site/` з файловою маршрутизацією (`vue-router/auto-routes`: `pages/index.vue`, `pages/rooms/[roomName].vue`, `pages/custom.vue`)
+- **Vue 3** + **Vue Router** — SPA у `site/` з файловою маршрутизацією (`vue-router/auto-routes`: `pages/index.vue`, `pages/rooms/[roomName].vue`)
 - **livekit-client** — клієнтський SDK для підключення до кімнат
 - **livekit-server-sdk** — у **`run/next/`**: видача токенів (connection-details) та керування Egress (запис)
 - Власні Vue-компоненти: `PreJoin.vue`, `ConferenceBlock.vue`, `VideoConference.vue`, `SettingsMenu.vue`, налаштування медіа тощо
 
 ## Структура додатку
 
-- **Головна** (`/`) — `site/src/pages/index.vue`: вибір вкладки Demo або Custom
+- **Головна** (`/`) — `site/src/pages/index.vue`: кнопка **Start Meeting** для переходу в кімнату
 - **Кімната** (`/rooms/[roomName]`) — `site/src/pages/rooms/[roomName].vue`: відеоконференція з пре-джойном та отриманням connection details через API; відео публікується з кодеком **H.265** (HEVC) для апаратного кодування на MacBook M1
-- **Кастомне підключення** (`/custom`) — `site/src/pages/custom.vue`: вхід за URL сервера та JWT-токеном
 
 Деталі кожного блоку — у відповідних розділах книги.
 

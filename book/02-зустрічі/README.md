@@ -1,17 +1,8 @@
 # 2. Зустрічі та кімнати
 
-## Режими входу
+## Вхід у зустріч
 
-### Demo (демо-зустріч)
-
-- На головній сторінці вкладка **Demo**.
-- Кнопка **Start Meeting** викликає `generateRoomId()` з `site/src/lib/client-utils.js` і перенаправляє на `/rooms/[roomName]`.
-
-### Custom (кастомне підключення)
-
-- Вкладка **Custom**: користувач вводить **LiveKit Server URL** та **Token** (JWT).
-- Після сабміту редірект на `/custom?liveKitUrl=...&token=...`.
-- Сторінка `site/src/pages/custom.vue` рендерить **LiveKitRoom** з пропсами `liveKitUrl`, `token`; підтримується query-параметр `singlePC`.
+- На головній сторінці (**/**) кнопка **Start Meeting** викликає `generateRoomId()` з `site/src/lib/client-utils.js` і перенаправляє на `/rooms/[roomName]`.
 
 ## Кімната (`/rooms/[roomName]`)
 
@@ -24,7 +15,7 @@
 
 ## Генерація імені кімнати
 
-- У демо-режимі кімната створюється «на льоту»; ім’я генерується клієнтом у `generateRoomId()` (формат `xxxx-xxxx`), щоб кожен «Start Meeting» вів у нову кімнату.
+- Кімната створюється «на льоту»; ім’я генерується клієнтом у `generateRoomId()` (формат `xxxx-xxxx`), щоб кожен «Start Meeting» вів у нову кімнату.
 
 <details>
 <summary><strong>Тести функціональності</strong></summary>
