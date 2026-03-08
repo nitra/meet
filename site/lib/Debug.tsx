@@ -29,7 +29,12 @@ export const DebugMode = ({ logLevel }: { logLevel?: LogLevel }) => {
   const [roomSid, setRoomSid] = React.useState('')
 
   React.useEffect(() => {
-    room.getSid().then(setRoomSid).catch(() => { setRoomSid('') })
+    room
+      .getSid()
+      .then(setRoomSid)
+      .catch(() => {
+        setRoomSid('')
+      })
   }, [room])
 
   useDebugMode({ logLevel })
@@ -84,23 +89,87 @@ export const DebugMode = ({ logLevel }: { logLevel?: LogLevel }) => {
   if (!isOpen) {
     return null
   }
-    return (
-      <div className={styles.overlay}>
-        <section id='room-info'>
-          <h3>
-            Room Info {room.name}: {roomSid}
-          </h3>
-        </section>
-        <details open>
+  return (
+    <div className={styles.overlay}>
+      <section id='room-info'>
+        <h3>
+          Room Info {room.name}: {roomSid}
+        </h3>
+      </section>
+      <details open>
+        <summary>
+          <b>Local Participant: {lp.identity}</b>
+        </summary>
+        <details open className={styles.detailsSection}>
           <summary>
-            <b>Local Participant: {lp.identity}</b>
+            <b>Published tracks</b>
           </summary>
-          <details open className={styles.detailsSection}>
+          <div>
+            {[...lp.trackPublications.values()].map(t => (
+              <>
+                <div>
+                  <i>
+                    {t.source.toString()}
+                    &nbsp;<span>{t.trackSid}</span>
+                  </i>
+                </div>
+                <table>
+                  <tbody>
+                    <tr>
+                      <td>Kind</td>
+                      <td>
+                        {t.kind}&nbsp;
+                        {t.kind === 'video' && (
+                          <span>
+                            {t.track?.dimensions?.width}x{t.track?.dimensions?.height}
+                          </span>
+                        )}
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Bitrate</td>
+                      <td>{Math.ceil(t.track!.currentBitrate / 1000)} kbps</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </>
+            ))}
+          </div>
+        </details>
+        <details open className={styles.detailsSection}>
+          <summary>
+            <b>Permissions</b>
+          </summary>
+          <div>
+            <table>
+              <tbody>
+                {lp.permissions &&
+                  Object.entries(lp.permissions).map(([key, val]) => (
+                    <tr key={key}>
+                      <td>{key}</td>
+                      {key === 'canPublishSources' ? <td> {val.join(', ')} </td> : <td>{val.toString()}</td>}
+                    </tr>
+                  ))}
+              </tbody>
+            </table>
+          </div>
+        </details>
+      </details>
+
+      <details>
+        <summary>
+          <b>Remote Participants</b>
+        </summary>
+        {[...room.remoteParticipants.values()].map(p => (
+          <details key={p.sid} className={styles.detailsSection}>
             <summary>
-              <b>Published tracks</b>
+              <b>
+                {p.identity}
+                <span />
+              </b>
             </summary>
             <div>
-              {[...lp.trackPublications.values()].map(t => (
+              {[...p.trackPublications.values()].map(t => (
                 <>
                   <div>
                     <i>
@@ -116,102 +185,36 @@ export const DebugMode = ({ logLevel }: { logLevel?: LogLevel }) => {
                           {t.kind}&nbsp;
                           {t.kind === 'video' && (
                             <span>
-                              {t.track?.dimensions?.width}x{t.track?.dimensions?.height}
+                              {t.dimensions?.width}x{t.dimensions?.height}
                             </span>
                           )}
                         </td>
                       </tr>
                       <tr>
-                        <td>Bitrate</td>
-                        <td>{Math.ceil(t.track!.currentBitrate / 1000)} kbps</td>
+                        <td>Status</td>
+                        <td>{trackStatus(t)}</td>
                       </tr>
+                      {t.track && (
+                        <tr>
+                          <td>Bitrate</td>
+                          <td>{Math.ceil(t.track.currentBitrate / 1000)} kbps</td>
+                        </tr>
+                      )}
                     </tbody>
                   </table>
                 </>
               ))}
             </div>
           </details>
-          <details open className={styles.detailsSection}>
-            <summary>
-              <b>Permissions</b>
-            </summary>
-            <div>
-              <table>
-                <tbody>
-                  {lp.permissions &&
-                    Object.entries(lp.permissions).map(([key, val]) => (
-                      <tr key={key}>
-                        <td>{key}</td>
-                        {key === 'canPublishSources' ? <td> {val.join(', ')} </td> : <td>{val.toString()}</td>}
-                      </tr>
-                    ))}
-                </tbody>
-              </table>
-            </div>
-          </details>
-        </details>
-
-        <details>
-          <summary>
-            <b>Remote Participants</b>
-          </summary>
-          {[...room.remoteParticipants.values()].map(p => (
-            <details key={p.sid} className={styles.detailsSection}>
-              <summary>
-                <b>
-                  {p.identity}
-                  <span />
-                </b>
-              </summary>
-              <div>
-                {[...p.trackPublications.values()].map(t => (
-                  <>
-                    <div>
-                      <i>
-                        {t.source.toString()}
-                        &nbsp;<span>{t.trackSid}</span>
-                      </i>
-                    </div>
-                    <table>
-                      <tbody>
-                        <tr>
-                          <td>Kind</td>
-                          <td>
-                            {t.kind}&nbsp;
-                            {t.kind === 'video' && (
-                              <span>
-                                {t.dimensions?.width}x{t.dimensions?.height}
-                              </span>
-                            )}
-                          </td>
-                        </tr>
-                        <tr>
-                          <td>Status</td>
-                          <td>{trackStatus(t)}</td>
-                        </tr>
-                        {t.track && (
-                          <tr>
-                            <td>Bitrate</td>
-                            <td>{Math.ceil(t.track.currentBitrate / 1000)} kbps</td>
-                          </tr>
-                        )}
-                      </tbody>
-                    </table>
-                  </>
-                ))}
-              </div>
-            </details>
-          ))}
-        </details>
-      </div>
-    )
-  
+        ))}
+      </details>
+    </div>
+  )
 }
 
 function trackStatus(t: RemoteTrackPublication): string {
   if (t.isSubscribed) {
     return t.isEnabled ? 'enabled' : 'disabled'
   }
-    return 'unsubscribed'
-  
+  return 'unsubscribed'
 }

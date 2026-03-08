@@ -19,7 +19,7 @@ export function MicrophoneSettings() {
   React.useEffect(() => {
     // enable Krisp by default on non-low power devices
     setNoiseFilterEnabled(!isLowPowerDevice())
-  }, [])
+  }, [setNoiseFilterEnabled])
   return (
     <div
       style={{

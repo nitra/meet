@@ -91,6 +91,13 @@ function VideoConferenceComponent(props) {
     }
   }, [])
 
+  const navigate = useNavigate()
+  const handleOnLeave = React.useCallback(() => navigate('/'), [navigate])
+  const handleError = React.useCallback(error => {
+    console.error(error)
+    toast.error(`Encountered an unexpected error, check the console logs for details: ${error.message}`)
+  }, [])
+
   React.useEffect(() => {
     room.on(RoomEvent.Disconnected, handleOnLeave)
     room.on(RoomEvent.MediaDevicesError, handleError)
@@ -114,16 +121,9 @@ function VideoConferenceComponent(props) {
       room.off(RoomEvent.Disconnected, handleOnLeave)
       room.off(RoomEvent.MediaDevicesError, handleError)
     }
-  }, [room, props.connectionDetails, props.userChoices])
+  }, [room, props.connectionDetails, props.userChoices, handleOnLeave, handleError, connectOptions])
 
   const lowPowerMode = useLowCPUOptimizer(room)
-
-  const navigate = useNavigate()
-  const handleOnLeave = React.useCallback(() => navigate('/'), [navigate])
-  const handleError = React.useCallback(error => {
-    console.error(error)
-    toast.error(`Encountered an unexpected error, check the console logs for details: ${error.message}`)
-  }, [])
 
   React.useEffect(() => {
     if (lowPowerMode) {

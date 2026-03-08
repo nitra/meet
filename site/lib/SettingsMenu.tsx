@@ -1,11 +1,6 @@
 'use client'
 import * as React from 'react'
-import {
-  useMaybeLayoutContext,
-  MediaDeviceMenu,
-  useRoomContext,
-  useIsRecording
-} from '@livekit/components-react'
+import { useMaybeLayoutContext, MediaDeviceMenu, useRoomContext, useIsRecording } from '@livekit/components-react'
 import styles from '../styles/SettingsMenu.module.css'
 import { CameraSettings } from './CameraSettings'
 import { MicrophoneSettings } from './MicrophoneSettings'
@@ -26,7 +21,7 @@ export function SettingsMenu(props: SettingsMenuProps) {
       media: { camera: true, microphone: true, label: 'Media Devices', speaker: true },
       recording: recordingEndpoint ? { label: 'Recording' } : undefined
     }
-  }, [])
+  }, [recordingEndpoint])
 
   const tabs = React.useMemo(
     () => Object.keys(settings).filter(t => t !== undefined) as Array<keyof typeof settings>,
@@ -127,7 +122,10 @@ export function SettingsMenu(props: SettingsMenuProps) {
         )}
       </div>
       <div style={{ display: 'flex', justifyContent: 'flex-end', width: '100%' }}>
-        <button type='button' className="lk-button" onClick={() => layoutContext?.widget.dispatch?.({ msg: 'toggle_settings' })}>
+        <button
+          type='button'
+          className='lk-button'
+          onClick={() => layoutContext?.widget.dispatch?.({ msg: 'toggle_settings' })}>
           Close
         </button>
       </div>

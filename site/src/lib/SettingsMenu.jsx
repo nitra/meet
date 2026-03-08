@@ -109,7 +109,10 @@ export function SettingsMenu(props) {
         )}
       </div>
       <div style={{ display: 'flex', justifyContent: 'flex-end', width: '100%' }}>
-        <button type='button' className='lk-button' onClick={() => layoutContext?.widget.dispatch?.({ msg: 'toggle_settings' })}>
+        <button
+          type='button'
+          className='lk-button'
+          onClick={() => layoutContext?.widget.dispatch?.({ msg: 'toggle_settings' })}>
           Close
         </button>
       </div>

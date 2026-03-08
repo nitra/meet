@@ -22,7 +22,7 @@ export function RecordingIndicator() {
         })
       }
     }
-  }, [isRecording])
+  }, [isRecording, wasRecording])
 
   return (
     <div
@@ -34,6 +34,7 @@ export function RecordingIndicator() {
         height: '100%',
         boxShadow: isRecording ? 'var(--lk-danger3) 0px 0px 0px 3px inset' : 'none',
         pointerEvents: 'none'
-      }} />
+      }}
+    />
   )
 }

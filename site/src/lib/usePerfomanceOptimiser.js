@@ -40,7 +40,7 @@ export function useLowCPUOptimizer(room, options = {}) {
     return () => {
       room.localParticipant.off(ParticipantEvent.LocalTrackCpuConstrained, handleCpuConstrained)
     }
-  }, [room, opts.reducePublisherVideoQuality, opts.reduceSubscriberVideoQuality])
+  }, [room, opts.reducePublisherVideoQuality, opts.reduceSubscriberVideoQuality, opts.disableVideoProcessing])
 
   React.useEffect(() => {
     const lowerQuality = (_, publication) => {

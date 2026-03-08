@@ -24,7 +24,12 @@ export const DebugMode = ({ logLevel } = {}) => {
   const [roomSid, setRoomSid] = React.useState('')
 
   React.useEffect(() => {
-    room.getSid().then(setRoomSid).catch(() => { setRoomSid('') })
+    room
+      .getSid()
+      .then(setRoomSid)
+      .catch(() => {
+        setRoomSid('')
+      })
   }, [room])
 
   useDebugMode({ logLevel })

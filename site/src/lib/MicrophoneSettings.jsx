@@ -18,7 +18,7 @@ export function MicrophoneSettings() {
 
   React.useEffect(() => {
     setNoiseFilterEnabled(!isLowPowerDevice())
-  }, [])
+  }, [setNoiseFilterEnabled])
   return (
     <div
       style={{
