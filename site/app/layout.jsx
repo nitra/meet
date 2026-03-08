@@ -1,10 +1,9 @@
 import '../styles/globals.css';
 import '@livekit/components-styles';
 import '@livekit/components-styles/prefabs';
-import type { Metadata, Viewport } from 'next';
 import { Toaster } from 'react-hot-toast';
 
-export const metadata: Metadata = {
+export const metadata = {
   title: {
     default: 'LiveKit Meet | Conference app build with LiveKit open source',
     template: '%s',
@@ -44,11 +43,11 @@ export const metadata: Metadata = {
   },
 };
 
-export const viewport: Viewport = {
+export const viewport = {
   themeColor: '#070707',
 };
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body data-lk-theme="default">

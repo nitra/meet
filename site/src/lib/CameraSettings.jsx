@@ -1,44 +1,37 @@
 import React from 'react';
 import {
   MediaDeviceMenu,
-  TrackReference,
   TrackToggle,
   useLocalParticipant,
   VideoTrack,
 } from '@livekit/components-react';
 import { BackgroundBlur, VirtualBackground } from '@livekit/track-processors';
-import { isLocalTrack, LocalTrackPublication, Track } from 'livekit-client';
+import { isLocalTrack, Track } from 'livekit-client';
 
-// Background image paths (from public folder — no static import to avoid build-time validation errors)
 const BACKGROUND_IMAGES = [
   { name: 'Desk', path: '/background-images/samantha-gades-BlIhVfXbi9s-unsplash.jpg' },
   { name: 'Nature', path: '/background-images/ali-kazal-tbw_KQE3Cbg-unsplash.jpg' },
 ];
 
-// Background options
-type BackgroundType = 'none' | 'blur' | 'image';
-
 export function CameraSettings() {
   const { cameraTrack, localParticipant } = useLocalParticipant();
-  const [backgroundType, setBackgroundType] = React.useState<BackgroundType>(
-    (cameraTrack as LocalTrackPublication)?.track?.getProcessor()?.name === 'background-blur'
+  const [backgroundType, setBackgroundType] = React.useState(
+    cameraTrack?.track?.getProcessor()?.name === 'background-blur'
       ? 'blur'
-      : (cameraTrack as LocalTrackPublication)?.track?.getProcessor()?.name === 'virtual-background'
+      : cameraTrack?.track?.getProcessor()?.name === 'virtual-background'
         ? 'image'
         : 'none',
   );
 
-  const [virtualBackgroundImagePath, setVirtualBackgroundImagePath] = React.useState<string | null>(
-    null,
-  );
+  const [virtualBackgroundImagePath, setVirtualBackgroundImagePath] = React.useState(null);
 
-  const camTrackRef: TrackReference | undefined = React.useMemo(() => {
+  const camTrackRef = React.useMemo(() => {
     return cameraTrack
       ? { participant: localParticipant, publication: cameraTrack, source: Track.Source.Camera }
       : undefined;
   }, [localParticipant, cameraTrack]);
 
-  const selectBackground = (type: BackgroundType, imagePath?: string) => {
+  const selectBackground = (type, imagePath) => {
     setBackgroundType(type);
     if (type === 'image' && imagePath) {
       setVirtualBackgroundImagePath(imagePath);

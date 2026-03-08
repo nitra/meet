@@ -7,14 +7,11 @@ export function KeyboardShortcuts() {
   const { toggle: toggleCamera } = useTrackToggle({ source: Track.Source.Camera });
 
   React.useEffect(() => {
-    function handleShortcut(event: KeyboardEvent) {
-      // Toggle microphone: Cmd/Ctrl-Shift-A
+    function handleShortcut(event) {
       if (toggleMic && event.key === 'A' && (event.ctrlKey || event.metaKey)) {
         event.preventDefault();
         toggleMic();
       }
-
-      // Toggle camera: Cmd/Ctrl-Shift-V
       if (event.key === 'V' && (event.ctrlKey || event.metaKey)) {
         event.preventDefault();
         toggleCamera();

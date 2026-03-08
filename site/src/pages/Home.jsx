@@ -3,12 +3,12 @@ import React, { Suspense } from 'react';
 import { generateRoomId } from '@/lib/client-utils';
 import styles from '@/styles/Home.module.css';
 
-function Tabs(props: React.PropsWithChildren<object>) {
+function Tabs(props) {
   const [searchParams] = useSearchParams();
   const tabIndex = searchParams?.get('tab') === 'custom' ? 1 : 0;
 
   const navigate = useNavigate();
-  function onTabSelected(index: number) {
+  function onTabSelected(index) {
     const tab = index === 1 ? 'custom' : 'demo';
     navigate(`/?tab=${tab}`);
   }
@@ -24,8 +24,7 @@ function Tabs(props: React.PropsWithChildren<object>) {
         }}
         aria-pressed={tabIndex === index}
       >
-        {/* @ts-expect-error - child may be ReactElement with props.label */}
-        {child?.props.label}
+        {child?.props?.label}
       </button>
     );
   });
@@ -33,14 +32,12 @@ function Tabs(props: React.PropsWithChildren<object>) {
   return (
     <div className={styles.tabContainer}>
       <div className={styles.tabSelect}>{tabs}</div>
-      {/* @ts-expect-error - tabIndex is valid index for children array */}
-      {props.children[tabIndex]}
+      {props.children?.[tabIndex]}
     </div>
   );
 }
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars -- label used by parent Tabs for tab button
-function DemoMeetingTab(props: { label: string }) {
+function DemoMeetingTab() {
   const navigate = useNavigate();
   const startMeeting = () => {
     navigate(`/rooms/${generateRoomId()}`);
@@ -55,13 +52,12 @@ function DemoMeetingTab(props: { label: string }) {
   );
 }
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars -- label used by parent Tabs for tab button
-function CustomConnectionTab(props: { label: string }) {
+function CustomConnectionTab() {
   const navigate = useNavigate();
 
-  const onSubmit: React.FormEventHandler<HTMLFormElement> = (event) => {
+  const onSubmit = (event) => {
     event.preventDefault();
-    const formData = new FormData(event.target as HTMLFormElement);
+    const formData = new FormData(event.target);
     const serverUrl = formData.get('serverUrl');
     const token = formData.get('token');
     navigate(`/custom/?liveKitUrl=${serverUrl}&token=${token}`);

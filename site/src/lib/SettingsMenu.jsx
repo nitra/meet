@@ -9,15 +9,7 @@ import styles from '@/styles/SettingsMenu.module.css';
 import { CameraSettings } from '@/lib/CameraSettings';
 import { MicrophoneSettings } from '@/lib/MicrophoneSettings';
 
-/**
- * @alpha
- */
-export type SettingsMenuProps = React.HTMLAttributes<HTMLDivElement>;
-
-/**
- * @alpha
- */
-export function SettingsMenu(props: SettingsMenuProps) {
+export function SettingsMenu(props) {
   const layoutContext = useMaybeLayoutContext();
   const room = useRoomContext();
   const recordingEndpoint = import.meta.env.VITE_LK_RECORD_ENDPOINT;
@@ -30,7 +22,7 @@ export function SettingsMenu(props: SettingsMenuProps) {
   }, [recordingEndpoint]);
 
   const tabs = React.useMemo(
-    () => Object.keys(settings).filter((t) => t !== undefined) as Array<keyof typeof settings>,
+    () => Object.keys(settings).filter((t) => settings[t] !== undefined),
     [settings],
   );
   const [activeTab, setActiveTab] = React.useState(tabs[0]);
@@ -51,15 +43,13 @@ export function SettingsMenu(props: SettingsMenuProps) {
     }
     setProcessingRecRequest(true);
     setInitialRecStatus(isRecording);
-    let response: Response;
+    let response;
     if (isRecording) {
       response = await fetch(recordingEndpoint + `/stop?roomName=${room.name}`);
     } else {
       response = await fetch(recordingEndpoint + `/start?roomName=${room.name}`);
     }
-    if (response.ok) {
-      // Recording start/stop succeeded
-    } else {
+    if (!response.ok) {
       console.error(
         'Error handling recording request, check server logs:',
         response.status,
@@ -81,10 +71,7 @@ export function SettingsMenu(props: SettingsMenuProps) {
                 onClick={() => setActiveTab(tab)}
                 aria-pressed={tab === activeTab}
               >
-                {
-                  // @ts-expect-error - tab key ensures settings[tab] exists here
-                  settings[tab].label
-                }
+                {settings[tab].label}
               </button>
             ),
         )}
@@ -92,7 +79,7 @@ export function SettingsMenu(props: SettingsMenuProps) {
       <div className="tab-content">
         {activeTab === 'media' && (
           <>
-            {settings.media && settings.media.camera && (
+            {settings.media?.camera && (
               <>
                 <h3>Camera</h3>
                 <section>
@@ -100,7 +87,7 @@ export function SettingsMenu(props: SettingsMenuProps) {
                 </section>
               </>
             )}
-            {settings.media && settings.media.microphone && (
+            {settings.media?.microphone && (
               <>
                 <h3>Microphone</h3>
                 <section>
@@ -108,7 +95,7 @@ export function SettingsMenu(props: SettingsMenuProps) {
                 </section>
               </>
             )}
-            {settings.media && settings.media.speaker && (
+            {settings.media?.speaker && (
               <>
                 <h3>Speaker & Headphones</h3>
                 <section className="lk-button-group">
@@ -139,7 +126,7 @@ export function SettingsMenu(props: SettingsMenuProps) {
       </div>
       <div style={{ display: 'flex', justifyContent: 'flex-end', width: '100%' }}>
         <button
-          className={`lk-button`}
+          className="lk-button"
           onClick={() => layoutContext?.widget.dispatch?.({ msg: 'toggle_settings' })}
         >
           Close

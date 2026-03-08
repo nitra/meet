@@ -1,12 +1,6 @@
 import { VideoConferenceClientImpl } from './VideoConferenceClientImpl';
 
-export default async function CustomRoomConnection(props: {
-  searchParams: Promise<{
-    liveKitUrl?: string;
-    token?: string;
-    singlePC?: string;
-  }>;
-}) {
+export default async function CustomRoomConnection(props) {
   const { liveKitUrl, token, singlePC } = await props.searchParams;
   if (typeof liveKitUrl !== 'string') {
     return <h2>Missing LiveKit URL</h2>;

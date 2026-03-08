@@ -1,8 +1,8 @@
-export function generateRoomId(): string {
+export function generateRoomId() {
   return `${randomString(4)}-${randomString(4)}`;
 }
 
-export function randomString(length: number): string {
+export function randomString(length) {
   let result = '';
   const characters = 'abcdefghijklmnopqrstuvwxyz0123456789';
   const charactersLength = characters.length;

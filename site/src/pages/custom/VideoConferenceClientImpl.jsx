@@ -2,8 +2,6 @@ import { formatChatMessageLinks, RoomContext, VideoConference } from '@livekit/c
 import {
   LogLevel,
   Room,
-  RoomConnectOptions,
-  RoomOptions,
   RoomEvent,
   VideoPresets,
 } from 'livekit-client';
@@ -13,12 +11,8 @@ import { KeyboardShortcuts } from '@/lib/KeyboardShortcuts';
 import { SettingsMenu } from '@/lib/SettingsMenu';
 import { useLowCPUOptimizer } from '@/lib/usePerfomanceOptimiser';
 
-export function VideoConferenceClientImpl(props: {
-  liveKitUrl: string;
-  token: string;
-  singlePeerConnection: boolean | undefined;
-}) {
-  const roomOptions = useMemo((): RoomOptions => {
+export function VideoConferenceClientImpl(props) {
+  const roomOptions = useMemo(() => {
     return {
       publishDefaults: {
         videoSimulcastLayers: [VideoPresets.h540, VideoPresets.h216],
@@ -33,14 +27,14 @@ export function VideoConferenceClientImpl(props: {
 
   const room = useMemo(() => new Room(roomOptions), [roomOptions]);
 
-  const connectOptions = useMemo((): RoomConnectOptions => {
+  const connectOptions = useMemo(() => {
     return {
       autoSubscribe: true,
     };
   }, []);
 
   useEffect(() => {
-    const onMediaDevicesError = (error: Error) => {
+    const onMediaDevicesError = (error) => {
       console.warn(
         'Помилка доступу до камери/мікрофона:',
         error?.message ?? error,
@@ -64,10 +58,10 @@ export function VideoConferenceClientImpl(props: {
           error?.name === 'NotFoundError' ||
           error?.message?.includes('Requested device not found')
         ) {
-          room.localParticipant.setCameraEnabled(true).catch((err: unknown) => {
+          room.localParticipant.setCameraEnabled(true).catch((err) => {
             console.warn('Камера недоступна:', err);
           });
-          room.localParticipant.setMicrophoneEnabled(true).catch((micError: unknown) => {
+          room.localParticipant.setMicrophoneEnabled(true).catch((micError) => {
             console.warn('Мікрофон недоступний:', micError);
           });
           return;
@@ -78,8 +72,6 @@ export function VideoConferenceClientImpl(props: {
 
   useLowCPUOptimizer(room);
 
-  // Уникаємо hydration mismatch: LiveKit VideoConference рендерить різний HTML на сервері
-  // (room не підключено) і на клієнті. Рендеримо конференцію лише після монтування.
   const [mounted, setMounted] = useState(false);
   useEffect(() => {
     setMounted(true);

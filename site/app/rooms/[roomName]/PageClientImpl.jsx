@@ -5,34 +5,26 @@ import { DebugMode } from '@/lib/Debug';
 import { KeyboardShortcuts } from '@/lib/KeyboardShortcuts';
 import { RecordingIndicator } from '@/lib/RecordingIndicator';
 import { SettingsMenu } from '@/lib/SettingsMenu';
-import { ConnectionDetails } from '@/lib/types';
 import {
   formatChatMessageLinks,
-  LocalUserChoices,
   PreJoin,
   RoomContext,
   VideoConference,
 } from '@livekit/components-react';
 import {
-  RoomOptions,
   VideoPresets,
   Room,
-  RoomConnectOptions,
   RoomEvent,
-  TrackPublishDefaults,
-  VideoCaptureOptions,
 } from 'livekit-client';
 import { useRouter } from 'next/navigation';
 import { useLowCPUOptimizer } from '@/lib/usePerfomanceOptimiser';
 
 const CONN_DETAILS_ENDPOINT =
   process.env.NEXT_PUBLIC_CONN_DETAILS_ENDPOINT ?? '/api/connection-details';
-const SHOW_SETTINGS_MENU = process.env.NEXT_PUBLIC_SHOW_SETTINGS_MENU == 'true';
+const SHOW_SETTINGS_MENU = process.env.NEXT_PUBLIC_SHOW_SETTINGS_MENU === 'true';
 
-export function PageClientImpl(props: { roomName: string; region?: string; hq: boolean }) {
-  const [preJoinChoices, setPreJoinChoices] = React.useState<LocalUserChoices | undefined>(
-    undefined,
-  );
+export function PageClientImpl(props) {
+  const [preJoinChoices, setPreJoinChoices] = React.useState(undefined);
   const preJoinDefaults = React.useMemo(() => {
     return {
       username: '',
@@ -40,11 +32,9 @@ export function PageClientImpl(props: { roomName: string; region?: string; hq: b
       audioEnabled: true,
     };
   }, []);
-  const [connectionDetails, setConnectionDetails] = React.useState<ConnectionDetails | undefined>(
-    undefined,
-  );
+  const [connectionDetails, setConnectionDetails] = React.useState(undefined);
 
-  const handlePreJoinSubmit = React.useCallback(async (values: LocalUserChoices) => {
+  const handlePreJoinSubmit = React.useCallback(async (values) => {
     setPreJoinChoices(values);
     const url = new URL(CONN_DETAILS_ENDPOINT, window.location.origin);
     url.searchParams.append('roomName', props.roomName);
@@ -55,8 +45,8 @@ export function PageClientImpl(props: { roomName: string; region?: string; hq: b
     const connectionDetailsResp = await fetch(url.toString());
     const connectionDetailsData = await connectionDetailsResp.json();
     setConnectionDetails(connectionDetailsData);
-  }, []);
-  const handlePreJoinError = React.useCallback((e: any) => console.error(e), []);
+  }, [props.roomName, props.region]);
+  const handlePreJoinError = React.useCallback((e) => console.error(e), []);
 
   return (
     <main data-lk-theme="default" style={{ height: '100%' }}>
@@ -79,17 +69,13 @@ export function PageClientImpl(props: { roomName: string; region?: string; hq: b
   );
 }
 
-function VideoConferenceComponent(props: {
-  userChoices: LocalUserChoices;
-  connectionDetails: ConnectionDetails;
-  options: { hq: boolean };
-}) {
-  const roomOptions = React.useMemo((): RoomOptions => {
-    const videoCaptureDefaults: VideoCaptureOptions = {
+function VideoConferenceComponent(props) {
+  const roomOptions = React.useMemo(() => {
+    const videoCaptureDefaults = {
       deviceId: props.userChoices.videoDeviceId ?? undefined,
       resolution: props.options.hq ? VideoPresets.h2160 : VideoPresets.h720,
     };
-    const publishDefaults: TrackPublishDefaults = {
+    const publishDefaults = {
       dtx: false,
       videoSimulcastLayers: props.options.hq
         ? [VideoPresets.h1080, VideoPresets.h720]
@@ -111,7 +97,7 @@ function VideoConferenceComponent(props: {
 
   const room = React.useMemo(() => new Room(roomOptions), [roomOptions]);
 
-  const connectOptions = React.useMemo((): RoomConnectOptions => {
+  const connectOptions = React.useMemo(() => {
     return {
       autoSubscribe: true,
     };
@@ -150,7 +136,7 @@ function VideoConferenceComponent(props: {
 
   const router = useRouter();
   const handleOnLeave = React.useCallback(() => router.push('/'), [router]);
-  const handleError = React.useCallback((error: Error) => {
+  const handleError = React.useCallback((error) => {
     console.error(error);
     alert(`Encountered an unexpected error, check the console logs for details: ${error.message}`);
   }, []);

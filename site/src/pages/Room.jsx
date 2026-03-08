@@ -2,7 +2,7 @@ import { useParams, useSearchParams } from 'react-router-dom';
 import { PageClientImpl } from './PageClientImpl';
 
 export default function Room() {
-  const { roomName } = useParams<{ roomName: string }>();
+  const { roomName } = useParams();
   const [searchParams] = useSearchParams();
   const region = searchParams.get('region') ?? undefined;
   const hq = searchParams.get('hq') === 'true';

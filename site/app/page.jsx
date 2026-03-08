@@ -5,17 +5,17 @@ import React, { Suspense } from 'react';
 import { generateRoomId } from '@/lib/client-utils';
 import styles from '../styles/Home.module.css';
 
-function Tabs(props: React.PropsWithChildren<{}>) {
+function Tabs(props) {
   const searchParams = useSearchParams();
   const tabIndex = searchParams?.get('tab') === 'custom' ? 1 : 0;
 
   const router = useRouter();
-  function onTabSelected(index: number) {
+  function onTabSelected(index) {
     const tab = index === 1 ? 'custom' : 'demo';
     router.push(`/?tab=${tab}`);
   }
 
-  let tabs = React.Children.map(props.children, (child, index) => {
+  const tabs = React.Children.map(props.children, (child, index) => {
     return (
       <button
         className="lk-button"
@@ -26,8 +26,7 @@ function Tabs(props: React.PropsWithChildren<{}>) {
         }}
         aria-pressed={tabIndex === index}
       >
-        {/* @ts-ignore */}
-        {child?.props.label}
+        {child?.props?.label}
       </button>
     );
   });
@@ -35,13 +34,12 @@ function Tabs(props: React.PropsWithChildren<{}>) {
   return (
     <div className={styles.tabContainer}>
       <div className={styles.tabSelect}>{tabs}</div>
-      {/* @ts-ignore */}
-      {props.children[tabIndex]}
+      {props.children?.[tabIndex]}
     </div>
   );
 }
 
-function DemoMeetingTab(props: { label: string }) {
+function DemoMeetingTab(props) {
   const router = useRouter();
   const startMeeting = () => {
     router.push(`/rooms/${generateRoomId()}`);
@@ -56,12 +54,12 @@ function DemoMeetingTab(props: { label: string }) {
   );
 }
 
-function CustomConnectionTab(props: { label: string }) {
+function CustomConnectionTab(props) {
   const router = useRouter();
 
-  const onSubmit: React.FormEventHandler<HTMLFormElement> = (event) => {
+  const onSubmit = (event) => {
     event.preventDefault();
-    const formData = new FormData(event.target as HTMLFormElement);
+    const formData = new FormData(event.target);
     const serverUrl = formData.get('serverUrl');
     const token = formData.get('token');
     router.push(`/custom/?liveKitUrl=${serverUrl}&token=${token}`);
