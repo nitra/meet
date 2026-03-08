@@ -1,4 +1,4 @@
-import { defineConfig, devices } from '@playwright/test';
+import { defineConfig, devices } from '@playwright/test'
 
 /**
  * Конфігурація Playwright для e2e книги.
@@ -15,7 +15,7 @@ export default defineConfig({
   reporter: 'html',
   use: {
     baseURL: process.env.PLAYWRIGHT_BASE_URL ?? 'http://localhost:5173',
-    trace: 'on-first-retry',
+    trace: 'on-first-retry'
   },
   projects: [{ name: 'chromium', use: { ...devices['Desktop Chrome'] } }],
   webServer: process.env.CI
@@ -26,14 +26,14 @@ export default defineConfig({
           url: 'http://localhost:5173',
           name: 'Site',
           reuseExistingServer: !process.env.CI,
-          timeout: 60_000,
+          timeout: 60_000
         },
         {
           command: 'bun run dev:api',
           url: 'http://localhost:3001/api/connection-details',
           name: 'API',
           reuseExistingServer: !process.env.CI,
-          timeout: 60_000,
-        },
-      ],
-});
+          timeout: 60_000
+        }
+      ]
+})

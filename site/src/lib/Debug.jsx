@@ -1,64 +1,64 @@
-import * as React from 'react';
-import { useRoomContext } from '@livekit/components-react';
-import { setLogLevel } from 'livekit-client';
-import { tinykeys } from 'tinykeys';
+import * as React from 'react'
+import { useRoomContext } from '@livekit/components-react'
+import { setLogLevel } from 'livekit-client'
+import { tinykeys } from 'tinykeys'
 
-import styles from '@/styles/Debug.module.css';
+import styles from '@/styles/Debug.module.css'
 
 export const useDebugMode = ({ logLevel } = {}) => {
-  const room = useRoomContext();
+  const room = useRoomContext()
 
   React.useEffect(() => {
-    setLogLevel(logLevel ?? 'debug');
-    window.__lk_room = room;
+    setLogLevel(logLevel ?? 'debug')
+    window.__lk_room = room
     return () => {
-      window.__lk_room = undefined;
-    };
-  }, [room, logLevel]);
-};
+      window.__lk_room = undefined
+    }
+  }, [room, logLevel])
+}
 
 export const DebugMode = ({ logLevel } = {}) => {
-  const room = useRoomContext();
-  const [isOpen, setIsOpen] = React.useState(false);
-  const [, setRender] = React.useState({});
-  const [roomSid, setRoomSid] = React.useState('');
+  const room = useRoomContext()
+  const [isOpen, setIsOpen] = React.useState(false)
+  const [, setRender] = React.useState({})
+  const [roomSid, setRoomSid] = React.useState('')
 
   React.useEffect(() => {
-    room.getSid().then(setRoomSid);
-  }, [room]);
+    room.getSid().then(setRoomSid)
+  }, [room])
 
-  useDebugMode({ logLevel });
+  useDebugMode({ logLevel })
 
   React.useEffect(() => {
     if (typeof window !== 'undefined') {
       const unsubscribe = tinykeys(window, {
         'Shift+D': () => {
-          setIsOpen((open) => !open);
-        },
-      });
+          setIsOpen(open => !open)
+        }
+      })
       const interval = setInterval(() => {
-        setRender({});
-      }, 1000);
+        setRender({})
+      }, 1000)
       return () => {
-        unsubscribe();
-        clearInterval(interval);
-      };
+        unsubscribe()
+        clearInterval(interval)
+      }
     }
-  }, [isOpen]);
+  }, [isOpen])
 
   if (typeof window === 'undefined' || !isOpen) {
-    return null;
+    return null
   }
 
-  const lp = room.localParticipant;
+  const lp = room.localParticipant
 
   if (!isOpen) {
-    return <></>;
+    return <></>
   }
 
   return (
     <div className={styles.overlay}>
-      <section id="room-info">
+      <section id='room-info'>
         <h3>
           Room Info {room.name}: {roomSid}
         </h3>
@@ -72,7 +72,7 @@ export const DebugMode = ({ logLevel } = {}) => {
             <b>Published tracks</b>
           </summary>
           <div>
-            {Array.from(lp.trackPublications.values()).map((t) => (
+            {Array.from(lp.trackPublications.values()).map(t => (
               <React.Fragment key={t.trackSid}>
                 <div>
                   <i>
@@ -114,11 +114,7 @@ export const DebugMode = ({ logLevel } = {}) => {
                   Object.entries(lp.permissions).map(([key, val]) => (
                     <tr key={key}>
                       <td>{key}</td>
-                      {key !== 'canPublishSources' ? (
-                        <td>{val.toString()}</td>
-                      ) : (
-                        <td>{val.join(', ')}</td>
-                      )}
+                      {key !== 'canPublishSources' ? <td>{val.toString()}</td> : <td>{val.join(', ')}</td>}
                     </tr>
                   ))}
               </tbody>
@@ -131,13 +127,13 @@ export const DebugMode = ({ logLevel } = {}) => {
         <summary>
           <b>Remote Participants</b>
         </summary>
-        {Array.from(room.remoteParticipants.values()).map((p) => (
+        {Array.from(room.remoteParticipants.values()).map(p => (
           <details key={p.sid} className={styles.detailsSection}>
             <summary>
               <b>{p.identity}</b>
             </summary>
             <div>
-              {Array.from(p.trackPublications.values()).map((t) => (
+              {Array.from(p.trackPublications.values()).map(t => (
                 <React.Fragment key={t.trackSid}>
                   <div>
                     <i>
@@ -177,12 +173,12 @@ export const DebugMode = ({ logLevel } = {}) => {
         ))}
       </details>
     </div>
-  );
-};
+  )
+}
 
 function trackStatus(t) {
   if (t.isSubscribed) {
-    return t.isEnabled ? 'enabled' : 'disabled';
+    return t.isEnabled ? 'enabled' : 'disabled'
   }
-  return 'unsubscribed';
+  return 'unsubscribed'
 }

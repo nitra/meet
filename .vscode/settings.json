@@ -1,0 +1,17 @@
+{
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": "explicit",
+    "source.fixAll.stylelint": "explicit"
+  },
+  "editor.bracketPairColorization.enabled": true,
+  "editor.guides.bracketPairs": true,
+  "editor.formatOnSave": true,
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "eslint.validate": ["javascript", "javascriptreact", "typescript", "vue"],
+  "stylelint.validate": ["vue"],
+  "files.associations": {
+    "*.env.*": "properties"
+  },
+  "oxc.path.oxlint": "/opt/homebrew/bin/oxlint",
+  "oxc.path.oxfmt": "/opt/homebrew/bin/oxfmt"
+}

@@ -1,61 +1,56 @@
-import {
-  ParticipantEvent,
-  RoomEvent,
-  VideoQuality,
-  isVideoTrack,
-} from 'livekit-client';
-import * as React from 'react';
+import { ParticipantEvent, RoomEvent, VideoQuality, isVideoTrack } from 'livekit-client'
+import * as React from 'react'
 
 const defaultOptions = {
   reducePublisherVideoQuality: true,
   reduceSubscriberVideoQuality: true,
-  disableVideoProcessing: false,
-};
+  disableVideoProcessing: false
+}
 
 /**
  * This hook ensures that on devices with low CPU, the performance is optimised when needed.
  * This is done by primarily reducing the video quality to low when the CPU is constrained.
  */
 export function useLowCPUOptimizer(room, options = {}) {
-  const [lowPowerMode, setLowPowerMode] = React.useState(false);
-  const opts = React.useMemo(() => ({ ...defaultOptions, ...options }), [options]);
+  const [lowPowerMode, setLowPowerMode] = React.useState(false)
+  const opts = React.useMemo(() => ({ ...defaultOptions, ...options }), [options])
   React.useEffect(() => {
-    const handleCpuConstrained = async (track) => {
-      setLowPowerMode(true);
-      console.warn('Local track CPU constrained', track);
+    const handleCpuConstrained = async track => {
+      setLowPowerMode(true)
+      console.warn('Local track CPU constrained', track)
       if (opts.reducePublisherVideoQuality) {
-        track.prioritizePerformance();
+        track.prioritizePerformance()
       }
       if (opts.disableVideoProcessing && isVideoTrack(track)) {
-        track.stopProcessor();
+        track.stopProcessor()
       }
       if (opts.reduceSubscriberVideoQuality) {
-        room.remoteParticipants.forEach((participant) => {
-          participant.videoTrackPublications.forEach((publication) => {
-            publication.setVideoQuality(VideoQuality.LOW);
-          });
-        });
+        room.remoteParticipants.forEach(participant => {
+          participant.videoTrackPublications.forEach(publication => {
+            publication.setVideoQuality(VideoQuality.LOW)
+          })
+        })
       }
-    };
+    }
 
-    room.localParticipant.on(ParticipantEvent.LocalTrackCpuConstrained, handleCpuConstrained);
+    room.localParticipant.on(ParticipantEvent.LocalTrackCpuConstrained, handleCpuConstrained)
     return () => {
-      room.localParticipant.off(ParticipantEvent.LocalTrackCpuConstrained, handleCpuConstrained);
-    };
-  }, [room, opts.reducePublisherVideoQuality, opts.reduceSubscriberVideoQuality]);
+      room.localParticipant.off(ParticipantEvent.LocalTrackCpuConstrained, handleCpuConstrained)
+    }
+  }, [room, opts.reducePublisherVideoQuality, opts.reduceSubscriberVideoQuality])
 
   React.useEffect(() => {
     const lowerQuality = (_, publication) => {
-      publication.setVideoQuality(VideoQuality.LOW);
-    };
+      publication.setVideoQuality(VideoQuality.LOW)
+    }
     if (lowPowerMode && opts.reduceSubscriberVideoQuality) {
-      room.on(RoomEvent.TrackSubscribed, lowerQuality);
+      room.on(RoomEvent.TrackSubscribed, lowerQuality)
     }
 
     return () => {
-      room.off(RoomEvent.TrackSubscribed, lowerQuality);
-    };
-  }, [lowPowerMode, room, opts.reduceSubscriberVideoQuality]);
+      room.off(RoomEvent.TrackSubscribed, lowerQuality)
+    }
+  }, [lowPowerMode, room, opts.reduceSubscriberVideoQuality])
 
-  return lowPowerMode;
+  return lowPowerMode
 }

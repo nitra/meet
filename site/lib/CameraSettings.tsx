@@ -1,63 +1,61 @@
-import React from 'react';
+import React from 'react'
 import {
   MediaDeviceMenu,
   TrackReference,
   TrackToggle,
   useLocalParticipant,
-  VideoTrack,
-} from '@livekit/components-react';
-import { BackgroundBlur, VirtualBackground } from '@livekit/track-processors';
-import { isLocalTrack, LocalTrackPublication, Track } from 'livekit-client';
+  VideoTrack
+} from '@livekit/components-react'
+import { BackgroundBlur, VirtualBackground } from '@livekit/track-processors'
+import { isLocalTrack, LocalTrackPublication, Track } from 'livekit-client'
 
 // Background image paths (from public folder — no static import to avoid build-time validation errors)
 const BACKGROUND_IMAGES = [
   { name: 'Desk', path: '/background-images/samantha-gades-BlIhVfXbi9s-unsplash.jpg' },
-  { name: 'Nature', path: '/background-images/ali-kazal-tbw_KQE3Cbg-unsplash.jpg' },
-];
+  { name: 'Nature', path: '/background-images/ali-kazal-tbw_KQE3Cbg-unsplash.jpg' }
+]
 
 // Background options
-type BackgroundType = 'none' | 'blur' | 'image';
+type BackgroundType = 'none' | 'blur' | 'image'
 
 export function CameraSettings() {
-  const { cameraTrack, localParticipant } = useLocalParticipant();
+  const { cameraTrack, localParticipant } = useLocalParticipant()
   const [backgroundType, setBackgroundType] = React.useState<BackgroundType>(
     (cameraTrack as LocalTrackPublication)?.track?.getProcessor()?.name === 'background-blur'
       ? 'blur'
       : (cameraTrack as LocalTrackPublication)?.track?.getProcessor()?.name === 'virtual-background'
         ? 'image'
-        : 'none',
-  );
+        : 'none'
+  )
 
-  const [virtualBackgroundImagePath, setVirtualBackgroundImagePath] = React.useState<string | null>(
-    null,
-  );
+  const [virtualBackgroundImagePath, setVirtualBackgroundImagePath] = React.useState<string | null>(null)
 
   const camTrackRef: TrackReference | undefined = React.useMemo(() => {
     return cameraTrack
       ? { participant: localParticipant, publication: cameraTrack, source: Track.Source.Camera }
-      : undefined;
-  }, [localParticipant, cameraTrack]);
+      : undefined
+  }, [localParticipant, cameraTrack])
 
   const selectBackground = (type: BackgroundType, imagePath?: string) => {
-    setBackgroundType(type);
+    setBackgroundType(type)
     if (type === 'image' && imagePath) {
-      setVirtualBackgroundImagePath(imagePath);
+      setVirtualBackgroundImagePath(imagePath)
     } else if (type !== 'image') {
-      setVirtualBackgroundImagePath(null);
+      setVirtualBackgroundImagePath(null)
     }
-  };
+  }
 
   React.useEffect(() => {
     if (isLocalTrack(cameraTrack?.track)) {
       if (backgroundType === 'blur') {
-        cameraTrack.track?.setProcessor(BackgroundBlur());
+        cameraTrack.track?.setProcessor(BackgroundBlur())
       } else if (backgroundType === 'image' && virtualBackgroundImagePath) {
-        cameraTrack.track?.setProcessor(VirtualBackground(virtualBackgroundImagePath));
+        cameraTrack.track?.setProcessor(VirtualBackground(virtualBackgroundImagePath))
       } else {
-        cameraTrack.track?.stopProcessor();
+        cameraTrack.track?.stopProcessor()
       }
     }
-  }, [cameraTrack, backgroundType, virtualBackgroundImagePath]);
+  }, [cameraTrack, backgroundType, virtualBackgroundImagePath])
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
@@ -67,16 +65,16 @@ export function CameraSettings() {
             maxHeight: '280px',
             objectFit: 'contain',
             objectPosition: 'right',
-            transform: 'scaleX(-1)',
+            transform: 'scaleX(-1)'
           }}
           trackRef={camTrackRef}
         />
       )}
 
-      <section className="lk-button-group">
+      <section className='lk-button-group'>
         <TrackToggle source={Track.Source.Camera}>Camera</TrackToggle>
-        <div className="lk-button-group-menu">
-          <MediaDeviceMenu kind="videoinput" />
+        <div className='lk-button-group-menu'>
+          <MediaDeviceMenu kind='videoinput' />
         </div>
       </section>
 
@@ -85,19 +83,18 @@ export function CameraSettings() {
         <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
           <button
             onClick={() => selectBackground('none')}
-            className="lk-button"
+            className='lk-button'
             aria-pressed={backgroundType === 'none'}
             style={{
               border: backgroundType === 'none' ? '2px solid #0090ff' : '1px solid #d1d1d1',
-              minWidth: '80px',
-            }}
-          >
+              minWidth: '80px'
+            }}>
             None
           </button>
 
           <button
             onClick={() => selectBackground('blur')}
-            className="lk-button"
+            className='lk-button'
             aria-pressed={backgroundType === 'blur'}
             style={{
               border: backgroundType === 'blur' ? '2px solid #0090ff' : '1px solid #d1d1d1',
@@ -105,9 +102,8 @@ export function CameraSettings() {
               backgroundColor: '#f0f0f0',
               position: 'relative',
               overflow: 'hidden',
-              height: '60px',
-            }}
-          >
+              height: '60px'
+            }}>
             <div
               style={{
                 position: 'absolute',
@@ -117,7 +113,7 @@ export function CameraSettings() {
                 bottom: 0,
                 backgroundColor: '#e0e0e0',
                 filter: 'blur(8px)',
-                zIndex: 0,
+                zIndex: 0
               }}
             />
             <span
@@ -127,18 +123,17 @@ export function CameraSettings() {
                 backgroundColor: 'rgba(0,0,0,0.6)',
                 padding: '2px 5px',
                 borderRadius: '4px',
-                fontSize: '12px',
-              }}
-            >
+                fontSize: '12px'
+              }}>
               Blur
             </span>
           </button>
 
-          {BACKGROUND_IMAGES.map((image) => (
+          {BACKGROUND_IMAGES.map(image => (
             <button
               key={image.path}
               onClick={() => selectBackground('image', image.path)}
-              className="lk-button"
+              className='lk-button'
               aria-pressed={backgroundType === 'image' && virtualBackgroundImagePath === image.path}
               style={{
                 backgroundImage: `url(${image.path})`,
@@ -149,17 +144,15 @@ export function CameraSettings() {
                 border:
                   backgroundType === 'image' && virtualBackgroundImagePath === image.path
                     ? '2px solid #0090ff'
-                    : '1px solid #d1d1d1',
-              }}
-            >
+                    : '1px solid #d1d1d1'
+              }}>
               <span
                 style={{
                   backgroundColor: 'rgba(0,0,0,0.6)',
                   padding: '2px 5px',
                   borderRadius: '4px',
-                  fontSize: '12px',
-                }}
-              >
+                  fontSize: '12px'
+                }}>
                 {image.name}
               </span>
             </button>
@@ -167,5 +160,5 @@ export function CameraSettings() {
         </div>
       </div>
     </div>
-  );
+  )
 }

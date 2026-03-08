@@ -1,4 +1,4 @@
-import { EgressClient, EncodedFileOutput, S3Upload } from 'livekit-server-sdk';
+import { EgressClient, EncodedFileOutput, S3Upload } from 'livekit-server-sdk'
 
 /**
  * CAUTION:
@@ -8,11 +8,11 @@ import { EgressClient, EncodedFileOutput, S3Upload } from 'livekit-server-sdk';
  */
 export async function handleRecordStart(req) {
   try {
-    const url = new URL(req.url);
-    const roomName = url.searchParams.get('roomName') ?? undefined;
+    const url = new URL(req.url)
+    const roomName = url.searchParams.get('roomName') ?? undefined
 
     if (roomName == null || roomName === '') {
-      return new Response('Missing roomName parameter', { status: 403 });
+      return new Response('Missing roomName parameter', { status: 403 })
     }
 
     const {
@@ -23,17 +23,17 @@ export async function handleRecordStart(req) {
       S3_KEY_SECRET,
       S3_BUCKET,
       S3_ENDPOINT,
-      S3_REGION,
-    } = process.env;
+      S3_REGION
+    } = process.env
 
-    const hostURL = new URL(LIVEKIT_URL);
-    hostURL.protocol = 'https:';
+    const hostURL = new URL(LIVEKIT_URL)
+    hostURL.protocol = 'https:'
 
-    const egressClient = new EgressClient(hostURL.origin, LIVEKIT_API_KEY, LIVEKIT_API_SECRET);
+    const egressClient = new EgressClient(hostURL.origin, LIVEKIT_API_KEY, LIVEKIT_API_SECRET)
 
-    const existingEgresses = await egressClient.listEgress({ roomName });
-    if (existingEgresses.length > 0 && existingEgresses.some((e) => e.status < 2)) {
-      return new Response('Meeting is already being recorded', { status: 409 });
+    const existingEgresses = await egressClient.listEgress({ roomName })
+    if (existingEgresses.length > 0 && existingEgresses.some(e => e.status < 2)) {
+      return new Response('Meeting is already being recorded', { status: 409 })
     }
 
     const fileOutput = new EncodedFileOutput({
@@ -45,26 +45,26 @@ export async function handleRecordStart(req) {
           accessKey: S3_KEY_ID,
           secret: S3_KEY_SECRET,
           region: S3_REGION,
-          bucket: S3_BUCKET,
-        }),
-      },
-    });
+          bucket: S3_BUCKET
+        })
+      }
+    })
 
     await egressClient.startRoomCompositeEgress(
       roomName,
       {
-        file: fileOutput,
+        file: fileOutput
       },
       {
-        layout: 'speaker',
-      },
-    );
+        layout: 'speaker'
+      }
+    )
 
-    return new Response(null, { status: 200 });
+    return new Response(null, { status: 200 })
   } catch (error) {
     if (error instanceof Error) {
-      return new Response(error.message, { status: 500 });
+      return new Response(error.message, { status: 500 })
     }
-    return new Response('Internal Server Error', { status: 500 });
+    return new Response('Internal Server Error', { status: 500 })
   }
 }

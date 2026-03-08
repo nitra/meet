@@ -1,21 +1,21 @@
 export function generateRoomId(): string {
-  return `${randomString(4)}-${randomString(4)}`;
+  return `${randomString(4)}-${randomString(4)}`
 }
 
 export function randomString(length: number): string {
-  let result = '';
-  const characters = 'abcdefghijklmnopqrstuvwxyz0123456789';
-  const charactersLength = characters.length;
+  let result = ''
+  const characters = 'abcdefghijklmnopqrstuvwxyz0123456789'
+  const charactersLength = characters.length
   for (let i = 0; i < length; i++) {
-    result += characters.charAt(Math.floor(Math.random() * charactersLength));
+    result += characters.charAt(Math.floor(Math.random() * charactersLength))
   }
-  return result;
+  return result
 }
 
 export function isLowPowerDevice() {
-  return navigator.hardwareConcurrency < 6;
+  return navigator.hardwareConcurrency < 6
 }
 
 export function isMeetStaging() {
-  return new URL(location.origin).host === 'meet.staging.livekit.io';
+  return new URL(location.origin).host === 'meet.staging.livekit.io'
 }

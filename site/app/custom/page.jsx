@@ -1,21 +1,17 @@
-import { VideoConferenceClientImpl } from './VideoConferenceClientImpl';
+import { VideoConferenceClientImpl } from './VideoConferenceClientImpl'
 
 export default async function CustomRoomConnection(props) {
-  const { liveKitUrl, token, singlePC } = await props.searchParams;
+  const { liveKitUrl, token, singlePC } = await props.searchParams
   if (typeof liveKitUrl !== 'string') {
-    return <h2>Missing LiveKit URL</h2>;
+    return <h2>Missing LiveKit URL</h2>
   }
   if (typeof token !== 'string') {
-    return <h2>Missing LiveKit token</h2>;
+    return <h2>Missing LiveKit token</h2>
   }
 
   return (
-    <main data-lk-theme="default" style={{ height: '100%' }}>
-      <VideoConferenceClientImpl
-        liveKitUrl={liveKitUrl}
-        token={token}
-        singlePeerConnection={singlePC === 'true'}
-      />
+    <main data-lk-theme='default' style={{ height: '100%' }}>
+      <VideoConferenceClientImpl liveKitUrl={liveKitUrl} token={token} singlePeerConnection={singlePC === 'true'} />
     </main>
-  );
+  )
 }

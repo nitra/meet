@@ -1,90 +1,90 @@
-import * as React from 'react';
-import { useRoomContext } from '@livekit/components-react';
-import { setLogLevel, LogLevel, RemoteTrackPublication } from 'livekit-client';
+import * as React from 'react'
+import { useRoomContext } from '@livekit/components-react'
+import { setLogLevel, LogLevel, RemoteTrackPublication } from 'livekit-client'
 // @ts-ignore
-import { tinykeys } from 'tinykeys';
+import { tinykeys } from 'tinykeys'
 
-import styles from '../styles/Debug.module.css';
+import styles from '../styles/Debug.module.css'
 
 export const useDebugMode = ({ logLevel }: { logLevel?: LogLevel }) => {
-  const room = useRoomContext();
+  const room = useRoomContext()
 
   React.useEffect(() => {
-    setLogLevel(logLevel ?? 'debug');
+    setLogLevel(logLevel ?? 'debug')
 
     // @ts-expect-error
-    window.__lk_room = room;
+    window.__lk_room = room
 
     return () => {
       // @ts-expect-error
-      window.__lk_room = undefined;
-    };
-  }, [room, logLevel]);
-};
+      window.__lk_room = undefined
+    }
+  }, [room, logLevel])
+}
 
 export const DebugMode = ({ logLevel }: { logLevel?: LogLevel }) => {
-  const room = useRoomContext();
-  const [isOpen, setIsOpen] = React.useState(false);
-  const [, setRender] = React.useState({});
-  const [roomSid, setRoomSid] = React.useState('');
+  const room = useRoomContext()
+  const [isOpen, setIsOpen] = React.useState(false)
+  const [, setRender] = React.useState({})
+  const [roomSid, setRoomSid] = React.useState('')
 
   React.useEffect(() => {
-    room.getSid().then(setRoomSid);
-  }, [room]);
+    room.getSid().then(setRoomSid)
+  }, [room])
 
-  useDebugMode({ logLevel });
+  useDebugMode({ logLevel })
 
   React.useEffect(() => {
     if (window) {
       const unsubscribe = tinykeys(window, {
         'Shift+D': () => {
-          console.log('setting open');
-          setIsOpen((open) => !open);
-        },
-      });
+          console.log('setting open')
+          setIsOpen(open => !open)
+        }
+      })
 
       // timer to re-render
       const interval = setInterval(() => {
-        setRender({});
-      }, 1000);
+        setRender({})
+      }, 1000)
 
       return () => {
-        unsubscribe();
-        clearInterval(interval);
-      };
+        unsubscribe()
+        clearInterval(interval)
+      }
     }
-  }, [isOpen]);
+  }, [isOpen])
 
   if (typeof window === 'undefined' || !isOpen) {
-    return null;
+    return null
   }
 
   const handleSimulate = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    const { value } = event.target;
+    const { value } = event.target
     if (value == '') {
-      return;
+      return
     }
-    event.target.value = '';
-    let isReconnect = false;
+    event.target.value = ''
+    let isReconnect = false
     switch (value) {
       case 'signal-reconnect':
-        isReconnect = true;
+        isReconnect = true
 
       // fall through
       default:
         // @ts-expect-error
-        room.simulateScenario(value);
+        room.simulateScenario(value)
     }
-  };
+  }
 
-  const lp = room.localParticipant;
+  const lp = room.localParticipant
 
   if (!isOpen) {
-    return <></>;
+    return <></>
   } else {
     return (
       <div className={styles.overlay}>
-        <section id="room-info">
+        <section id='room-info'>
           <h3>
             Room Info {room.name}: {roomSid}
           </h3>
@@ -98,7 +98,7 @@ export const DebugMode = ({ logLevel }: { logLevel?: LogLevel }) => {
               <b>Published tracks</b>
             </summary>
             <div>
-              {Array.from(lp.trackPublications.values()).map((t) => (
+              {Array.from(lp.trackPublications.values()).map(t => (
                 <>
                   <div>
                     <i>
@@ -141,11 +141,7 @@ export const DebugMode = ({ logLevel }: { logLevel?: LogLevel }) => {
                       <>
                         <tr>
                           <td>{key}</td>
-                          {key !== 'canPublishSources' ? (
-                            <td>{val.toString()}</td>
-                          ) : (
-                            <td> {val.join(', ')} </td>
-                          )}
+                          {key !== 'canPublishSources' ? <td>{val.toString()}</td> : <td> {val.join(', ')} </td>}
                         </tr>
                       </>
                     ))}
@@ -159,7 +155,7 @@ export const DebugMode = ({ logLevel }: { logLevel?: LogLevel }) => {
           <summary>
             <b>Remote Participants</b>
           </summary>
-          {Array.from(room.remoteParticipants.values()).map((p) => (
+          {Array.from(room.remoteParticipants.values()).map(p => (
             <details key={p.sid} className={styles.detailsSection}>
               <summary>
                 <b>
@@ -168,7 +164,7 @@ export const DebugMode = ({ logLevel }: { logLevel?: LogLevel }) => {
                 </b>
               </summary>
               <div>
-                {Array.from(p.trackPublications.values()).map((t) => (
+                {Array.from(p.trackPublications.values()).map(t => (
                   <>
                     <div>
                       <i>
@@ -208,14 +204,14 @@ export const DebugMode = ({ logLevel }: { logLevel?: LogLevel }) => {
           ))}
         </details>
       </div>
-    );
+    )
   }
-};
+}
 
 function trackStatus(t: RemoteTrackPublication): string {
   if (t.isSubscribed) {
-    return t.isEnabled ? 'enabled' : 'disabled';
+    return t.isEnabled ? 'enabled' : 'disabled'
   } else {
-    return 'unsubscribed';
+    return 'unsubscribed'
   }
 }

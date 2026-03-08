@@ -1,0 +1,15 @@
+{
+  "recommendations": [
+    "vscode-icons-team.vscode-icons",
+    "irongeek.vscode-env",
+    "vue.volar",
+    "redhat.vscode-yaml",
+    "mrmlnc.vscode-attrs-sorter",
+    "frigus02.vscode-sql-tagged-template-literals-syntax-only",
+    "stylelint.vscode-stylelint",
+    "gruntfuggly.todo-tree",
+    "streetsidesoftware.code-spell-checker",
+    "streetsidesoftware.code-spell-checker-russian",
+    "streetsidesoftware.code-spell-checker-ukrainian"
+  ]
+}
