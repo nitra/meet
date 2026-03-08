@@ -22,12 +22,6 @@ export function VideoConferenceClientImpl(props) {
 
   const room = useMemo(() => new Room(roomOptions), [roomOptions])
 
-  const connectOptions = useMemo(() => {
-    return {
-      autoSubscribe: true
-    }
-  }, [])
-
   useEffect(() => {
     const onMediaDevicesError = error => {
       console.warn(
@@ -44,7 +38,7 @@ export function VideoConferenceClientImpl(props) {
 
   useEffect(() => {
     room
-      .connect(props.liveKitUrl, props.token, connectOptions)
+      .connect(props.liveKitUrl, props.token, { autoSubscribe: true })
       .then(() => {
         return room.localParticipant.enableCameraAndMicrophone()
       })
@@ -60,7 +54,7 @@ export function VideoConferenceClientImpl(props) {
         }
         console.error('Помилка підключення або медіа:', error)
       })
-  }, [room, props.liveKitUrl, props.token, connectOptions])
+  }, [room, props.liveKitUrl, props.token])
 
   useLowCPUOptimizer(room)
 

@@ -1,14 +1,11 @@
 export function getLiveKitURL(projectUrl, region) {
   const url = new URL(projectUrl)
   if (region && url.hostname.includes('livekit.cloud')) {
-    const parts = url.hostname.split('.')
-    const projectId = parts[0]
-    let hostParts = parts.slice(1)
+    let [projectId, ...hostParts] = url.hostname.split('.')
     if (hostParts[0] !== 'staging') {
       hostParts = ['production', ...hostParts]
     }
-    const regionURL = [projectId, region, ...hostParts].join('.')
-    url.hostname = regionURL
+    url.hostname = [projectId, region, ...hostParts].join('.')
   }
   return url.toString()
 }

@@ -5,8 +5,7 @@ export function getLiveKitURL(projectUrl, region) {
     if (hostParts[0] !== 'staging') {
       hostParts = ['production', ...hostParts]
     }
-    const regionURL = [projectId, region, ...hostParts].join('.')
-    url.hostname = regionURL
+    url.hostname = [projectId, region, ...hostParts].join('.')
   }
   return url.toString()
 }

@@ -57,10 +57,6 @@ export const DebugMode = ({ logLevel } = {}) => {
 
   const lp = room.localParticipant
 
-  if (!isOpen) {
-    return null
-  }
-
   return (
     <div className={styles.overlay}>
       <section id='room-info'>

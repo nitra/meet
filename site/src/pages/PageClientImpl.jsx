@@ -11,16 +11,12 @@ import { useLowCPUOptimizer } from '@/lib/usePerfomanceOptimiser'
 
 const CONN_DETAILS_ENDPOINT = import.meta.env.VITE_CONN_DETAILS_ENDPOINT ?? '/api/connection-details'
 const SHOW_SETTINGS_MENU = import.meta.env.VITE_SHOW_SETTINGS_MENU === 'true'
+const CONNECT_OPTIONS = { autoSubscribe: true }
+
+const PRE_JOIN_DEFAULTS = { username: '', videoEnabled: true, audioEnabled: true }
 
 export function PageClientImpl(props) {
   const [preJoinChoices, setPreJoinChoices] = React.useState()
-  const preJoinDefaults = React.useMemo(() => {
-    return {
-      username: '',
-      videoEnabled: true,
-      audioEnabled: true
-    }
-  }, [])
   const [connectionDetails, setConnectionDetails] = React.useState()
 
   const handlePreJoinSubmit = React.useCallback(
@@ -44,7 +40,7 @@ export function PageClientImpl(props) {
     <main data-lk-theme='default' style={{ height: '100%' }}>
       {connectionDetails === undefined || preJoinChoices === undefined ? (
         <div style={{ display: 'grid', placeItems: 'center', height: '100%' }}>
-          <PreJoin defaults={preJoinDefaults} onSubmit={handlePreJoinSubmit} onError={handlePreJoinError} />
+          <PreJoin defaults={PRE_JOIN_DEFAULTS} onSubmit={handlePreJoinSubmit} onError={handlePreJoinError} />
         </div>
       ) : (
         <VideoConferenceComponent
@@ -85,12 +81,6 @@ function VideoConferenceComponent(props) {
 
   const room = React.useMemo(() => new Room(roomOptions), [roomOptions])
 
-  const connectOptions = React.useMemo(() => {
-    return {
-      autoSubscribe: true
-    }
-  }, [])
-
   const navigate = useNavigate()
   const handleOnLeave = React.useCallback(() => navigate('/'), [navigate])
   const handleError = React.useCallback(error => {
@@ -103,7 +93,7 @@ function VideoConferenceComponent(props) {
     room.on(RoomEvent.MediaDevicesError, handleError)
 
     room
-      .connect(props.connectionDetails.serverUrl, props.connectionDetails.participantToken, connectOptions)
+      .connect(props.connectionDetails.serverUrl, props.connectionDetails.participantToken, CONNECT_OPTIONS)
       .catch(error => {
         handleError(error)
       })
@@ -121,7 +111,7 @@ function VideoConferenceComponent(props) {
       room.off(RoomEvent.Disconnected, handleOnLeave)
       room.off(RoomEvent.MediaDevicesError, handleError)
     }
-  }, [room, props.connectionDetails, props.userChoices, handleOnLeave, handleError, connectOptions])
+  }, [room, props.connectionDetails, props.userChoices, handleOnLeave, handleError])
 
   const lowPowerMode = useLowCPUOptimizer(room)
 

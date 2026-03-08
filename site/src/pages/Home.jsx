@@ -18,11 +18,7 @@ function Tabs(props) {
       <button
         type='button'
         className='lk-button'
-        onClick={() => {
-          if (onTabSelected) {
-            onTabSelected(index)
-          }
-        }}
+        onClick={() => onTabSelected(index)}
         aria-pressed={tabIndex === index}>
         {child?.props?.label}
       </button>

@@ -10,9 +10,7 @@ export function randomString(length) {
 
 export function getCookieExpirationTime() {
   const now = new Date()
-  const time = now.getTime()
-  const expireTime = time + 60 * 120 * 1000
-  now.setTime(expireTime)
+  now.setTime(now.getTime() + 60 * 120 * 1000)
   return now.toUTCString()
 }
 

@@ -50,19 +50,16 @@ export function SettingsMenu(props) {
   return (
     <div className='settings-menu' style={{ width: '100%', position: 'relative' }} {...props}>
       <div className={styles.tabs}>
-        {tabs.map(
-          tab =>
-            settings[tab] && (
-              <button
-                type='button'
-                className={`${styles.tab} lk-button`}
-                key={tab}
-                onClick={() => setActiveTab(tab)}
-                aria-pressed={tab === activeTab}>
-                {settings[tab].label}
-              </button>
-            )
-        )}
+        {tabs.map(tab => (
+          <button
+            type='button'
+            className={`${styles.tab} lk-button`}
+            key={tab}
+            onClick={() => setActiveTab(tab)}
+            aria-pressed={tab === activeTab}>
+            {settings[tab].label}
+          </button>
+        ))}
       </div>
       <div className='tab-content'>
         {activeTab === 'media' && (
