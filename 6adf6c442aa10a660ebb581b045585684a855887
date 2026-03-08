@@ -1,0 +1,174 @@
+book/03-медіа/README.md
+  8d3effc7ad27b9aa 24,32
+site/src/pages/index.vue
+  863d066a1a50c9c1 1-3,5-24,26-28,30-58,61-98
+  2298da78bc4aa63c 4,25,29,59-60
+site/index.html
+  863d066a1a50c9c1 26
+  2298da78bc4aa63c 17,22
+site/src/composables/useIsRecording.js
+  2298da78bc4aa63c 1-39
+site/src/components/livekit/RecordingIndicator.vue
+  2298da78bc4aa63c 1-51
+site/src/components/livekit/ParticipantTile.vue
+  2298da78bc4aa63c 1-63
+site/src/components/livekit/MicrophoneSettings.vue
+  2298da78bc4aa63c 1-50
+site/src/composables/useTrackToggle.js
+  2298da78bc4aa63c 1-55
+site/src/components/livekit/toast.js
+  2298da78bc4aa63c 1-38
+site/src/route-map.d.ts
+  8d3effc7ad27b9aa 1,34-35,41-42,48-49,65,67,71,73,77,79
+  04a4906ef4b2c54b 2-33,36-40,43-47,50-64,66,68-70,72,74-76,78,80-95
+site/src/main.js
+  863d066a1a50c9c1 1-10
+site/src/components/livekit/ToastContainer.vue
+  2298da78bc4aa63c 1-42
+site/src/components/livekit/PreJoin.vue
+  2298da78bc4aa63c 1-143
+site/src/components/livekit/ConferenceBlock.vue
+  2298da78bc4aa63c 1-133
+site/src/composables/useLocalParticipant.js
+  2298da78bc4aa63c 1-16
+site/src/components/livekit/CameraSettings.vue
+  2298da78bc4aa63c 1-156
+site/vite.config.js
+  863d066a1a50c9c1 5,15-18,43
+  04a4906ef4b2c54b 10-12
+  2298da78bc4aa63c 4,14
+site/src/components/livekit/VideoTrack.vue
+  2298da78bc4aa63c 1-22,24-39,41-45
+  8d3effc7ad27b9aa 23,40
+site/src/components/livekit/DebugMode.vue
+  2298da78bc4aa63c 1-172
+site/src/composables/useKrispNoiseFilter.js
+  2298da78bc4aa63c 1-86
+site/src/composables/useRoom.js
+  2298da78bc4aa63c 1-14
+site/src/components/livekit/MediaDeviceMenu.vue
+  2298da78bc4aa63c 1-75
+site/src/composables/useLowCPUOptimizer.js
+  2298da78bc4aa63c 1-69
+site/src/components/livekit/SettingsMenu.vue
+  2298da78bc4aa63c 1-141
+site/src/components/livekit/VideoConference.vue
+  2298da78bc4aa63c 1-44
+site/src/App.vue
+  863d066a1a50c9c1 1-5
+site/src/router.js
+  863d066a1a50c9c1 1-7
+.oxlintrc.json
+  8d3effc7ad27b9aa 3
+site/src/pages/rooms/[roomName].vue
+  2298da78bc4aa63c 2,9
+  863d066a1a50c9c1 1,3-8,10-21
+site/src/components/livekit/TrackToggle.vue
+  2298da78bc4aa63c 1-25
+run/next/README.md
+  2298da78bc4aa63c 3
+site/src/pages/custom.vue
+  863d066a1a50c9c1 1-2,4-11,13-24
+  2298da78bc4aa63c 3,12
+README.md
+  2298da78bc4aa63c 5,9,11
+  8d3effc7ad27b9aa 15
+book/01-вступ/README.md
+  2298da78bc4aa63c 3,5
+  8d3effc7ad27b9aa 7,9,15,17-18
+site/src/components/livekit/KeyboardShortcuts.vue
+  2298da78bc4aa63c 1-28
+site/src/components/livekit/ParticipantGrid.vue
+  2298da78bc4aa63c 1-37
+site/src/components/livekit/roomSymbol.js
+  2298da78bc4aa63c 1-2
+site/src/components/livekit/ControlBar.vue
+  2298da78bc4aa63c 1-60
+site/src/components/LiveKitRoom.vue
+  2298da78bc4aa63c 1-102
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.8",
+  "base_commit_sha": "6adf6c442aa10a660ebb581b045585684a855887",
+  "prompts": {
+    "04a4906ef4b2c54b": {
+      "agent_id": {
+        "tool": "cursor",
+        "id": "35704da1-ea0b-47b2-b96e-cea55611b55f",
+        "model": "default"
+      },
+      "human_author": "vitaliytv <v@nitra.ai>",
+      "messages": [],
+      "total_additions": 118,
+      "total_deletions": 2,
+      "accepted_lines": 102,
+      "overriden_lines": 0
+    },
+    "2298da78bc4aa63c": {
+      "agent_id": {
+        "tool": "cursor",
+        "id": "8bf3c095-d3c9-4700-9d1d-b6973f426ae6",
+        "model": "default"
+      },
+      "human_author": "vitaliytv <v@nitra.ai>",
+      "messages": [],
+      "total_additions": 1991,
+      "total_deletions": 350,
+      "accepted_lines": 1707,
+      "overriden_lines": 0
+    },
+    "27d74a573be99dff": {
+      "agent_id": {
+        "tool": "cursor",
+        "id": "ce3b4d02-6f5f-490b-bef2-ebfc430bb16e",
+        "model": "default"
+      },
+      "human_author": "vitaliytv <v@nitra.ai>",
+      "messages": [],
+      "total_additions": 13,
+      "total_deletions": 9,
+      "accepted_lines": 3,
+      "overriden_lines": 0
+    },
+    "863d066a1a50c9c1": {
+      "agent_id": {
+        "tool": "cursor",
+        "id": "0c4a3980-0dfd-4199-9451-f291a9706efe",
+        "model": "default"
+      },
+      "human_author": "vitaliytv <v@nitra.ai>",
+      "messages": [],
+      "total_additions": 191,
+      "total_deletions": 16,
+      "accepted_lines": 333,
+      "overriden_lines": 7
+    },
+    "8d3effc7ad27b9aa": {
+      "agent_id": {
+        "tool": "cursor",
+        "id": "86c35dbc-f5c6-4f45-8b0a-c3249dd6dc27",
+        "model": "default"
+      },
+      "human_author": "vitaliytv <v@nitra.ai>",
+      "messages": [],
+      "total_additions": 53,
+      "total_deletions": 66,
+      "accepted_lines": 24,
+      "overriden_lines": 0
+    },
+    "fc6e6a4b16db3d9c": {
+      "agent_id": {
+        "tool": "cursor",
+        "id": "2ef6eafb-dd70-4504-8964-f3f536964e16",
+        "model": "default"
+      },
+      "human_author": "vitaliytv <v@nitra.ai>",
+      "messages": [],
+      "total_additions": 3,
+      "total_deletions": 3,
+      "accepted_lines": 3,
+      "overriden_lines": 0
+    }
+  }
+}
