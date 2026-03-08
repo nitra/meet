@@ -1,0 +1,41 @@
+README.md
+  e836085bcc0d8ae0 21,27-28
+site/src/pages/PageClientImpl.jsx
+  e836085bcc0d8ae0 14,16,43,96
+site/src/lib/getLiveKitURL.js
+  e836085bcc0d8ae0 4,8
+run/next/src/lib/utils.js
+  e836085bcc0d8ae0 13
+run/next/src/lib/getLiveKitURL.js
+  e836085bcc0d8ae0 8
+site/src/lib/SettingsMenu.jsx
+  e836085bcc0d8ae0 53
+site/src/pages/Home.jsx
+  e836085bcc0d8ae0 21
+site/jsconfig.json
+  e836085bcc0d8ae0 8
+site/src/pages/custom/VideoConferenceClientImpl.jsx
+  e836085bcc0d8ae0 41,57
+site/src/lib/RecordingIndicator.jsx
+  e836085bcc0d8ae0 5-6,11-12,22,24-25
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.8",
+  "base_commit_sha": "0541097ab3379691ae465734468606add036ec6c",
+  "prompts": {
+    "e836085bcc0d8ae0": {
+      "agent_id": {
+        "tool": "cursor",
+        "id": "4bc3657a-1a04-4838-a3b1-af86c87d8a0a",
+        "model": "default"
+      },
+      "human_author": "vitaliytv <v@nitra.ai>",
+      "messages": [],
+      "total_additions": 50,
+      "total_deletions": 363,
+      "accepted_lines": 30,
+      "overriden_lines": 0
+    }
+  }
+}
