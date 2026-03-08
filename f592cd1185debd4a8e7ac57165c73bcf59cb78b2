@@ -1,0 +1,52 @@
+book/04-безпека/README.md
+  6b01a9c616c1f49b 6-7
+book/03-медіа/README.md
+  6b01a9c616c1f49b 15,17-18,20,24,27,37-38
+архітектура.MD
+  8d3effc7ad27b9aa 28
+book/05-запис/README.md
+  6b01a9c616c1f49b 6,10-11,21,25
+book/01-вступ/README.md
+  6b01a9c616c1f49b 9,15,17-18,22-24
+site/src/components/livekit/ConferenceBlock.vue
+  8d3effc7ad27b9aa 41,59
+book/02-зустрічі/README.md
+  6b01a9c616c1f49b 8,13-14,18-19,21-23,27
+book/07-користувач/README.md
+  6b01a9c616c1f49b 5,10,14-17,21,23,27,31
+book/06-апі/README.md
+  6b01a9c616c1f49b 5,19-20,22,26,35,39,41-42,44,46-47
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.8",
+  "base_commit_sha": "f592cd1185debd4a8e7ac57165c73bcf59cb78b2",
+  "prompts": {
+    "6b01a9c616c1f49b": {
+      "agent_id": {
+        "tool": "cursor",
+        "id": "923f26c4-8c05-42f0-b450-6db84404a5c4",
+        "model": "default"
+      },
+      "human_author": "vitaliytv <v@nitra.ai>",
+      "messages": [],
+      "total_additions": 56,
+      "total_deletions": 61,
+      "accepted_lines": 53,
+      "overriden_lines": 0
+    },
+    "8d3effc7ad27b9aa": {
+      "agent_id": {
+        "tool": "cursor",
+        "id": "86c35dbc-f5c6-4f45-8b0a-c3249dd6dc27",
+        "model": "default"
+      },
+      "human_author": "vitaliytv <v@nitra.ai>",
+      "messages": [],
+      "total_additions": 3,
+      "total_deletions": 3,
+      "accepted_lines": 3,
+      "overriden_lines": 0
+    }
+  }
+}
