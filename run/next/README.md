@@ -24,7 +24,7 @@ bun run dev
 
 Щоб site використовував цей бекенд, у `site/.env.local` задай:
 
-- `NEXT_PUBLIC_CONN_DETAILS_ENDPOINT=http://localhost:3001/api/connection-details`
-- `NEXT_PUBLIC_LK_RECORD_ENDPOINT=http://localhost:3001/api/record`
+- `NEXT_PUBLIC_CONN_DETAILS_ENDPOINT=http://localhost:8080/api/connection-details`
+- `NEXT_PUBLIC_LK_RECORD_ENDPOINT=http://localhost:8080/api/record`
 
 За замовчуванням (якщо не вказано) site очікує API на тому ж origin (`/api/...`), тобто потрібен проксі або окремий бекенд з цими змінними.

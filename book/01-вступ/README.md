@@ -6,22 +6,22 @@
 
 - **Vue 3** + **livekit-client** — власні UI-компоненти для кімнат, відео, чату
 - **LiveKit Cloud** або власний **LiveKit Server** — бекенд для реального часу
-- **Vite** — збірка фронтенду; опційно **Node/Bun** сервер для connection details та запису
+- **Vite** — збірка фронтенду в директорії **`site/`**; API обслуговується окремим сервісом у **`run/next/`** (Bun) для connection details та запису
 
 Додаток дає змогу проводити демо-зустрічі з автогенерацією кімнат та підключатися до власного LiveKit-сервера з URL і токеном.
 
 ## Технічний стек
 
-- **Vue 3** + **Vue Router** — SPA з файловою маршрутизацією (pages)
+- **Vue 3** + **Vue Router** — SPA у `site/` з файловою маршрутизацією (`vue-router/auto-routes`: `pages/index.vue`, `pages/rooms/[roomName].vue`, `pages/custom.vue`)
 - **livekit-client** — клієнтський SDK для підключення до кімнат
-- **livekit-server-sdk** (опційно) — видача токенів та керування Egress (запис)
-- Власні Vue-компоненти: PreJoin, VideoConference, налаштування медіа тощо
+- **livekit-server-sdk** — у **`run/next/`**: видача токенів (connection-details) та керування Egress (запис)
+- Власні Vue-компоненти: `PreJoin.vue`, `ConferenceBlock.vue`, `VideoConference.vue`, `SettingsMenu.vue`, налаштування медіа тощо
 
 ## Структура додатку
 
-- **Головна** (`/`) — вибір вкладки Demo або Custom
-- **Кімната** (`/rooms/[roomName]`) — відеоконференція з пре-джойном та отриманням connection details через API (відео завжди VP9)
-- **Кастомне підключення** (`/custom`) — вхід за URL сервера та JWT-токеном
+- **Головна** (`/`) — `site/src/pages/index.vue`: вибір вкладки Demo або Custom
+- **Кімната** (`/rooms/[roomName]`) — `site/src/pages/rooms/[roomName].vue`: відеоконференція з пре-джойном та отриманням connection details через API; відео публікується з кодеком **H.265** (HEVC) для апаратного кодування на MacBook M1
+- **Кастомне підключення** (`/custom`) — `site/src/pages/custom.vue`: вхід за URL сервера та JWT-токеном
 
 Деталі кожного блоку — у відповідних розділах книги.
 

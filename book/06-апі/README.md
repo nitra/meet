@@ -2,7 +2,7 @@
 
 ## Connection Details
 
-**Маршрут:** `GET /api/connection-details`
+**Маршрут:** `GET /api/connection-details` (обслуговується **run/next**: `src/routes/connection-details.js`)
 
 **Призначення:** видача даних для підключення учасника до кімнати (URL сервера + JWT).
 
@@ -16,14 +16,14 @@
 **Логіка:**
 
 - Читає `LIVEKIT_URL`, `LIVEKIT_API_KEY`, `LIVEKIT_API_SECRET`.
-- Якщо передано `region`, URL перетворюється через **getLiveKitURL**.
-- Генерується унікальний identity: `participantName__randomPostfix` (postfix у cookie для стабільності).
+- Якщо передано `region`, URL перетворюється через **getLiveKitURL** (`run/next/src/lib/getLiveKitURL.js`).
+- Генерується унікальний identity: `participantName__randomPostfix` (postfix у cookie `random-participant-postfix` для стабільності).
 - Створюється **AccessToken** з VideoGrant (room, roomJoin, canPublish, canSubscribe, canPublishData), TTL 5 хв.
-- Відповідь: JSON типу **ConnectionDetails** (`serverUrl`, `roomName`, `participantName`, `participantToken`) і встановлення cookie з postfix.
+- Відповідь: JSON (`serverUrl`, `roomName`, `participantName`, `participantToken`) і встановлення cookie з postfix.
 
 ## Record Start
 
-**Маршрут:** `GET /api/record/start?roomName=...`
+**Маршрут:** `GET /api/record/start?roomName=...` (реалізація: `run/next/src/routes/record-start.js`)
 
 - Перевірка наявності `roomName`.
 - Створення EgressClient, перевірка на вже запущений egress.
@@ -32,20 +32,19 @@
 
 ## Record Stop
 
-**Маршрут:** `GET /api/record/stop` (з параметром кімнати або egress)
+**Маршрут:** `GET /api/record/stop` (реалізація: `run/next/src/routes/record-stop.js`) — з параметром кімнати або egress
 
 - Зупинка активного egress для вказаної кімнати через EgressClient.
 
-## Типи (lib/types.ts)
+## Бекенд (run/next)
 
-- **SessionProps** — параметри сесії (roomName, identity, опційні треки, region, TURN тощо).
-- **TokenResult** — identity + accessToken.
-- **ConnectionDetails** — serverUrl, roomName, participantName, participantToken.
+- Сервіс на **Bun**, точка входу `src/index.js`, маршрути підключені до connection-details та record (start/stop).
+- Утиліти: **getLiveKitURL** у `run/next/src/lib/getLiveKitURL.js`; **utils.js** — cookies, `randomString` для identity postfix.
 
-## Утиліти
+## Клієнт (site)
 
-- **getLiveKitURL** — формування регіонального URL для LiveKit Cloud.
-- **client-utils** — `generateRoomId`, `randomString` для клієнтської логіки (імена кімнат).
+- **client-utils.js** — `generateRoomId`, `randomString`, `isLowPowerDevice` для клієнтської логіки (імена кімнат, Krisp).
+- **getLiveKitURL.js** — формування регіонального URL на клієнті (якщо потрібно).
 
 <details>
 <summary><strong>Тести функціональності</strong></summary>

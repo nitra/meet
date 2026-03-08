@@ -2,13 +2,13 @@
 
 ## Можливість запису
 
-- Запис доступний лише якщо налаштовано змінну **NEXT_PUBLIC_LK_RECORD_ENDPOINT** (наприклад, `/api/record/start` для старту).
-- У **Settings** з’являється вкладка «Recording» з кнопкою увімкнути/вимкнути запис.
+- Запис доступний лише якщо налаштовано змінну **VITE_LK_RECORD_ENDPOINT** (базовий URL, наприклад `http://localhost:8080/api/record`).
+- У **SettingsMenu.vue** з’являється вкладка «Запис» з кнопкою «Почати»/«Зупинити» запис.
 
 ## Старт запису (API)
 
-- **GET** запит на ендпоінт старту запису (наприклад, `/api/record/start`) з query-параметром **roomName**.
-- Реалізація використовує **EgressClient** з `livekit-server-sdk`:
+- Клієнт робить запит на ендпоінт старту запису (наприклад, `{VITE_LK_RECORD_ENDPOINT}/start`) з query-параметром **roomName**.
+- Реалізація на бекенді (`run/next/src/routes/record-start.js`) використовує **EgressClient** з `livekit-server-sdk`:
   - Перевіряє, чи вже є активний egress для цієї кімнати; якщо так — повертає 409.
   - Створює **Room Composite Egress**: один відеофайл (layout типу `speaker`) з усіма учасниками.
   - Вихід — **EncodedFileOutput** з завантаженням у **S3** (потрібні змінні: S3_KEY_ID, S3_KEY_SECRET, S3_BUCKET, S3_ENDPOINT, S3_REGION).
@@ -18,11 +18,11 @@
 
 ## Зупинка запису (API)
 
-- Окремий ендпоінт (наприклад, **/api/record/stop**) приймає **roomName** (або egress ID) і зупиняє активний egress для цієї кімнати через EgressClient.
+- Окремий ендпоінт (наприклад, **{VITE_LK_RECORD_ENDPOINT}/stop**) приймає **roomName** (або egress ID); реалізація в `run/next/src/routes/record-stop.js` зупиняє активний egress через EgressClient.
 
 ## Індикатор запису
 
-- Компонент **RecordingIndicator** показує в UI, що зустріч записується (використовується стан запису з контексту LiveKit / `useIsRecording`).
+- Компонент **RecordingIndicator.vue** показує в UI, що зустріч записується (стан з композабла **useIsRecording**).
 
 <details>
 <summary><strong>Тести функціональності</strong></summary>

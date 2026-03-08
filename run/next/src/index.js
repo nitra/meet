@@ -2,7 +2,7 @@ import { handleConnectionDetails } from './routes/connection-details.js'
 import { handleRecordStart } from './routes/record-start.js'
 import { handleRecordStop } from './routes/record-stop.js'
 
-const PORT = parseInt(process.env.PORT ?? '3001', 10)
+const PORT = parseInt(process.env.PORT ?? '8080', 10)
 
 function corsHeaders(origin) {
   return {

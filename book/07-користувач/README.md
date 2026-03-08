@@ -2,37 +2,33 @@
 
 ## Швидкі клавіші (KeyboardShortcuts)
 
-Компонент **KeyboardShortcuts** підписується на `keydown` і надає:
+Компонент **KeyboardShortcuts.vue** підписується на події клавіатури (через **tinykeys**) і надає:
 
 - **Cmd/Ctrl + Shift + A** — перемикання мікрофона (toggle)
 - **Cmd/Ctrl + Shift + V** — перемикання камери (toggle)
 
-Використовується хук **useTrackToggle** з LiveKit Components для мікрофона та камери.
+Використовується композабл **useTrackToggle** (`site/src/composables/useTrackToggle.js`) для мікрофона та камери.
 
 ## Меню налаштувань (SettingsMenu)
 
-- Відображається в кімнаті (якщо `NEXT_PUBLIC_SHOW_SETTINGS_MENU === 'true'`).
-- Вкладки: **Media Devices** (камера, мікрофон, динамік), **Recording** (якщо задано recording endpoint).
-- **CameraSettings** / **MicrophoneSettings** — вибір пристроїв і перемикання треків.
-- Для запису: кнопка старт/стоп, індикатор обробки запиту.
+- **SettingsMenu.vue** відображається в кімнаті (якщо `VITE_SHOW_SETTINGS_MENU === 'true'`).
+- Вкладки: **Медіа** (камера, мікрофон, динаміки), **Запис** (якщо задано **VITE_LK_RECORD_ENDPOINT**).
+- **CameraSettings.vue** / **MicrophoneSettings.vue** / **MediaDeviceMenu.vue** — вибір пристроїв і перемикання треків.
+- Для запису: кнопка «Почати»/«Зупинити» запис, індикатор обробки запиту.
 
 ## PreJoin
 
-- Екран перед входом у кімнату: введення імені, перемикачі відео/аудіо.
+- Компонент **PreJoin.vue**: екран перед входом у кімнату — введення імені, перемикачі відео/аудіо.
 - За замовчуванням відео та аудіо увімкнені.
-- Після сабміту викликається API connection-details і відбувається підключення до кімнати з вибраними налаштуваннями.
-
-## Чат та посилання
-
-- Використовується **formatChatMessageLinks** з LiveKit Components для відображення повідомлень чату з клікабельними посиланнями.
+- Після сабміту **LiveKitRoom.vue** викликає API connection-details і підключає до кімнати через **ConferenceBlock.vue** з вибраними налаштуваннями.
 
 ## Теми та стилі
 
-- Додаток використовує `data-lk-theme="default"` для теми LiveKit Components; стилі головної сторінки — у `Home.module.css`, меню налаштувань — у `SettingsMenu.module.css`.
+- Додаток використовує `data-lk-theme="default"` для теми LiveKit; стилі головної сторінки — `site/src/styles/Home.module.css` (підключено в `pages/index.vue`); компоненти живуть у `site/src/components/livekit/` з власними scoped-стилями.
 
 ## Дебаг (опційно)
 
-- Компонент **DebugMode** може показувати додаткову технічну інформацію в кімнаті для діагностики підключення та стану.
+- Компонент **DebugMode.vue** показує додаткову технічну інформацію в кімнаті для діагностики підключення та стану.
 
 <details>
 <summary><strong>Тести функціональності</strong></summary>

@@ -3,8 +3,8 @@
 ## Токени (JWT)
 
 - Учасник заходить у кімнату тільки з валідним **Access Token** (JWT), виданим бекендом.
-- У демо-режимі токен видає API **connection-details**: використовуються `LIVEKIT_API_KEY` та `LIVEKIT_API_SECRET`, задається TTL (наприклад, 5 хвилин), права на `roomJoin`, `canPublish`, `canSubscribe`, `canPublishData`.
-- **Identity** учасника формується як `participantName__randomPostfix`; postfix зберігається в cookie, щоб повторні заходи в ту саму кімнату мали стабільний identity.
+- У демо-режимі токен видає API **connection-details** (реалізація в `run/next/src/routes/connection-details.js`): використовуються `LIVEKIT_API_KEY` та `LIVEKIT_API_SECRET`, TTL 5 хвилин, права на `roomJoin`, `canPublish`, `canSubscribe`, `canPublishData`.
+- **Identity** учасника формується як `participantName__randomPostfix`; postfix зберігається в cookie (`random-participant-postfix`), щоб повторні заходи в ту саму кімнату мали стабільний identity.
 
 ## Регіони (LiveKit Cloud)
 

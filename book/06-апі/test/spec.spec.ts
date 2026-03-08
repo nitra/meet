@@ -1,10 +1,10 @@
 /**
  * Розділ 6. API та бекенд — connection-details, record start/stop.
  */
-import { test, expect } from '@playwright/test'
+import { expect, test } from '@playwright/test'
 
 const _BASE = process.env.PLAYWRIGHT_BASE_URL ?? 'http://localhost:5173'
-const BASE_API = process.env.PLAYWRIGHT_API_URL ?? 'http://localhost:3001'
+const BASE_API = process.env.PLAYWRIGHT_API_URL ?? 'http://localhost:8080'
 
 // ANCHOR: api_tests
 test.describe('06-api: API та бекенд', () => {

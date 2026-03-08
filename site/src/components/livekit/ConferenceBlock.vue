@@ -38,7 +38,7 @@ const roomOptions = computed(() => {
       publishDefaults: {
         videoSimulcastLayers: [VideoPresets.h540, VideoPresets.h216],
         red: true,
-        videoCodec: 'vp9'
+        videoCodec: 'h265' // HEVC, апаратне кодування на MacBook M1
       },
       adaptiveStream: { pixelDensity: 'screen' },
       dynacast: true,
@@ -56,7 +56,7 @@ const roomOptions = computed(() => {
         ? [VideoPresets.h1080, VideoPresets.h720]
         : [VideoPresets.h540, VideoPresets.h216],
       red: true,
-      videoCodec: 'vp9'
+      videoCodec: 'h265' // HEVC, апаратне кодування на MacBook M1
     },
     audioCaptureDefaults: { deviceId: props.userChoices.audioDeviceId },
     adaptiveStream: true,

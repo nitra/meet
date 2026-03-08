@@ -30,7 +30,7 @@ export default defineConfig({
         },
         {
           command: 'bun run dev:api',
-          url: 'http://localhost:3001/api/connection-details',
+          url: 'http://localhost:8080/api/connection-details',
           name: 'API',
           reuseExistingServer: !process.env.CI,
           timeout: 60_000

@@ -12,19 +12,19 @@
 
 ## Меню налаштувань (Settings)
 
-Меню налаштувань (`SettingsMenu`) доступне в кімнаті (якщо увімкнено через `NEXT_PUBLIC_SHOW_SETTINGS_MENU`). Воно об’єднує:
+Меню налаштувань (**SettingsMenu.vue**) доступне в кімнаті (якщо увімкнено через `VITE_SHOW_SETTINGS_MENU === 'true'`). Воно об’єднує:
 
-- **Медіа-пристрої** — камера, мікрофон, динамік (перемикачі та вибір пристроїв)
-- **Запис** — кнопка старт/стоп запису (якщо налаштовано `NEXT_PUBLIC_LK_RECORD_ENDPOINT`)
+- **Медіа-пристрої** — камера, мікрофон, динамік (перемикачі та вибір пристроїв через **CameraSettings.vue**, **MicrophoneSettings.vue**, **MediaDeviceMenu.vue**)
+- **Запис** — кнопка старт/стоп запису (якщо налаштовано **VITE_LK_RECORD_ENDPOINT**)
 
-Підменю медіа побудовані на компонентах **CameraSettings** та **MicrophoneSettings**, які дають вибір пристроїв і перемикання треків (камера/мікрофон).
+Підменю медіа побудовані на компонентах **CameraSettings.vue**, **MicrophoneSettings.vue** та **MediaDeviceMenu.vue**, які дають вибір пристроїв і перемикання треків (камера/мікрофон).
 
 ## Шумозаглушення (Krisp)
 
-Підтримується **Enhanced Noise Cancellation** через пакет `@livekit/krisp-noise-filter` та композабл `useKrispNoiseFilter` (у проєкті: `src/composables/useKrispNoiseFilter.js`). У **MicrophoneSettings** користувач бачить кнопку «Enable / Disable Enhanced Noise Cancellation»; стан фільтра зберігається через `setNoiseFilterEnabled`.
+Підтримується **Enhanced Noise Cancellation** через пакет `@livekit/krisp-noise-filter` та композабл `useKrispNoiseFilter` (у проєкті: `site/src/composables/useKrispNoiseFilter.js`). У **MicrophoneSettings** користувач бачить кнопку «Enable / Disable Enhanced Noise Cancellation»; стан фільтра зберігається через `setNoiseFilterEnabled`.
 
 - **Якість:** на пристроях з обмеженими ресурсами використовується `quality: 'low'`, на інших — `quality: 'medium'`.
-- **Low-power пристрої** — це пристрої з кількістю логічних ядер CPU менше 6 (`navigator.hardwareConcurrency < 6`). Визначення в `lib/client-utils.ts` (`isLowPowerDevice()`). На таких пристроях Krisp за замовчуванням **вимкнений**; на решті — **увімкнений**.
+- **Low-power пристрої** — це пристрої з кількістю логічних ядер CPU менше 6 (`navigator.hardwareConcurrency < 6`). Визначення в `site/src/lib/client-utils.js` (`isLowPowerDevice()`). На таких пристроях Krisp за замовчуванням **вимкнений**; на решті — **увімкнений**.
 - Опції фільтра: буфер переповнення 100 ms, скидання буфера 200 ms; при скиданні буфера виводиться попередження в консоль (версії ≥ 0.3.2 можуть автоматично вимкнути фільтр).
 
 ## Перемикання треків у кімнаті
@@ -34,8 +34,8 @@
 
 ## Кодеки та якість
 
-- Відео завжди публікується з кодеком **VP9**; для аудіо увімкнено **RED** (redundant encoding) для кращої стійкості до втрат пакетів.
-- На сторінці кімнати підтримується параметр **hq** (вища якість) через query.
+- Відео публікується з кодеком **H.265** (HEVC) для апаратного кодування на MacBook M1 (задано в **ConferenceBlock.vue** через `publishDefaults.videoCodec: 'h265'`); для аудіо увімкнено **RED** (redundant encoding).
+- На сторінці кімнати підтримується параметр **hq** (вища якість) через query (`?hq=true`).
 
 ## Оптимізація
 
