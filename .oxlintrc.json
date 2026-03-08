@@ -367,9 +367,6 @@
     "react": {
       "version": "18"
     },
-    "next": {
-      "rootDir": []
-    },
     "jsdoc": {
       "ignorePrivate": false,
       "ignoreInternal": false,

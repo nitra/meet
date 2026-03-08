@@ -14,7 +14,7 @@
 # З кореня репозиторію
 bun run dev:api
 
-# Або з папки next
+# Або з папки run/next
 bun run dev
 ```
 
