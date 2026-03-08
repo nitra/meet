@@ -1,3 +1,4 @@
+/** Логіка збігається з site/src/lib/getLiveKitURL.js — при змінах оновлювати обидва. */
 export function getLiveKitURL(projectUrl, region) {
   const url = new URL(projectUrl)
   if (region && url.hostname.includes('livekit.cloud')) {

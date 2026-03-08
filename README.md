@@ -25,6 +25,5 @@ Steps to get a local dev setup up and running:
 
 1. Run `bun install` to install all dependencies (корінь і пакет `site/`).
 2. Copy `site/.env.example` to `site/.env.local` and set the required environment variables.
-3. If `site/public/` is empty, copy assets: `cp -R public/* site/public/`.
-4. Run `bun dev` to start the Vite dev server and open [http://localhost:5173](http://localhost:5173).
-5. Start development 🎉
+3. Run `bun dev` to start the Vite dev server and open [http://localhost:5173](http://localhost:5173).
+4. Start development 🎉
